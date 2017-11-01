@@ -4,11 +4,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="couponConsumer" class="com.hoomsun.dubbo.util.mq.CouponConsumer" name="couponConsumer"/>
-    <bean id="investerConsumer" class="com.hoomsun.dubbo.util.mq.InvesterConsumer" name="investerConsumer"/>
+    <bean id="investerConsumer" class="InvesterConsumer" name="investerConsumer"/>
 
     <rabbit:listener-container connection-factory="mqConnectionFactory" acknowledge="manual">
-        <rabbit:listener ref="couponConsumer" queue-names="${rule_queue_coupon_name}" />
         <rabbit:listener ref="investerConsumer" queue-names="${rule_queue_invester_name}" />
     </rabbit:listener-container>
 </beans>
