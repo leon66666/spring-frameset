@@ -1,0 +1,7 @@
+*.cmd linguist-language=java
+*.xml linguist-language=java
+*.css linguist-language=java
+*.html linguist-language=java
+*.png linguist-language=java
+*.jpg linguist-language=java
+*.js linguist-language=java
