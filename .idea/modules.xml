@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/spring-amqp/spring-amqp.iml" filepath="$PROJECT_DIR$/spring-amqp/spring-amqp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-amqp-consumer/spring-amqp.iml" filepath="$PROJECT_DIR$/spring-amqp-consumer/spring-amqp.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-core/spring-core.iml" filepath="$PROJECT_DIR$/spring-core/spring-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-parent.iml" filepath="$PROJECT_DIR$/spring-parent.iml" />
     </modules>
