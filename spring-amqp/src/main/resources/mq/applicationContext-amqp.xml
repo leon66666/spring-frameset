@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<rabbit:connection-factory id="mqConnectionFactory" username="${mq_username}" password="${mq_password}"  addresses="${mq_addresses}" virtual-host="push" connection-timeout="10000"/>
+
+	<rabbit:template id="amqpTemplate" connection-factory="mqConnectionFactory" exchange="${rule_exchange_name}" message-converter="jsonMessageConverter"/>
+	<bean id="jsonMessageConverter"
+		  class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter"></bean>
+
+	<rabbit:admin connection-factory="mqConnectionFactory" />
+
+	<rabbit:queue id="ruleQueue" name="${rule_queue_name}" durable="true" auto-delete="false" exclusive="false">
+		<rabbit:queue-arguments>
+			<entry key="x-ha-policy" value="all"/>
+		</rabbit:queue-arguments>
+	</rabbit:queue>
+
+	<rabbit:queue id="couponQueue" name="${rule_queue_coupon_name}" durable="true" auto-delete="false" exclusive="false">
+		<rabbit:queue-arguments>
+			<entry key="x-ha-policy" value="all"/>
+		</rabbit:queue-arguments>
+	</rabbit:queue>
+
+	<rabbit:queue id="investerQueue" name="${rule_queue_invester_name}" durable="true" auto-delete="false" exclusive="false">
+		<rabbit:queue-arguments>
+			<entry key="x-ha-policy" value="all"/>
+		</rabbit:queue-arguments>
+	</rabbit:queue>
+
+	<rabbit:topic-exchange name="${rule_exchange_name}">
+		<rabbit:bindings>
+			<rabbit:binding pattern="${rule_queue_result_coupon_key}" queue="couponQueue"></rabbit:binding>
+			<rabbit:binding pattern="${rule_queue_result_invester_key}" queue="investerQueue"></rabbit:binding>
+			<rabbit:binding pattern="${rule_queue_result_key}" queue="couponQueue"></rabbit:binding>
+			<rabbit:binding pattern="${rule_queue_result_key}" queue="investerQueue"></rabbit:binding>
+		</rabbit:bindings>
+	</rabbit:topic-exchange>
+
+	<import resource="classpath:mq/amqp-consumer.xml"/>
+</beans>
