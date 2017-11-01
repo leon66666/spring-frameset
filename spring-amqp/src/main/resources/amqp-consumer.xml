@@ -4,9 +4,22 @@
        xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="investerConsumer" class="InvesterConsumer" name="investerConsumer"/>
-
-    <rabbit:listener-container connection-factory="mqConnectionFactory" acknowledge="manual">
-        <rabbit:listener ref="investerConsumer" queue-names="${rule_queue_invester_name}" />
+    <!-- 消费者 监听配置-->
+    <!-- The acknowledge mode: "auto", "manual", or "none".-->
+    <!-- auto -->
+    <rabbit:listener-container connection-factory="mqConnectionFactory"
+                               acknowledge="auto" concurrency="1"
+                               message-converter="jsonMessageConverter" prefetch="1">
+        <!-- 一个监听器可以同时监听多个队列中的消息
+           -->
+        <rabbit:listener ref="investerConsumer" queues="aa,bb" method="onMessage"/>
+        <rabbit:listener ref="investerConsumer" queues="ff" method="onMessage"/>
+    </rabbit:listener-container>
+    <!-- manual -->
+    <rabbit:listener-container connection-factory="mqConnectionFactory"
+                               acknowledge="manual" concurrency="1"
+                               message-converter="jsonMessageConverter" prefetch="1">
+        <rabbit:listener ref="investerConsumer" queues="ee" method="onMessage"/>
+        <rabbit:listener ref="investerConsumer" queues="cc" method="onMessage"/>
     </rabbit:listener-container>
 </beans>

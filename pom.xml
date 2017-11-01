@@ -10,7 +10,7 @@
     <version>1.0</version>
     <modules>
         <module>spring-amqp</module>
-        <module>spring-service</module>
+        <module>spring-core</module>
     </modules>
 
     <properties>

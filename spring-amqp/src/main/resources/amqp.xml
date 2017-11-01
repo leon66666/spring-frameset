@@ -8,8 +8,6 @@
     http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
     <description>rabbitmq 连接服务配置</description>
 
-    <import resource="classpath:spring.xml"/>
-
     <!-- 连接配置 -->
     <rabbit:connection-factory id="mqConnectionFactory" host="${mq.host}"
                                username="${mq.username}"
@@ -89,28 +87,4 @@
     <rabbit:queue id="queue5" durable="true" auto-delete="false" name="ee" exclusive="false"/>
 
     <rabbit:queue id="queue6" durable="true" auto-delete="false" name="ff" exclusive="false"/>
-
-
-    <!-- 消费者 监听配置-->
-    <!-- The acknowledge mode: "auto", "manual", or "none".-->
-    <!-- auto -->
-    <rabbit:listener-container connection-factory="mqConnectionFactory"
-                               acknowledge="auto" concurrency="1"
-                               message-converter="jsonMessageConverter" prefetch="1">
-        <!-- 一个监听器可以同时监听多个队列中的消息
-           -->
-        <rabbit:listener ref="mulitiQueueListener" queues="aa,bb" method="onMessage"/>
-        <rabbit:listener ref="oneQueueListener" queues="ff" method="onMessage"/>
-    </rabbit:listener-container>
-    <!-- manual -->
-    <rabbit:listener-container connection-factory="mqConnectionFactory"
-                               acknowledge="manual" concurrency="1"
-                               message-converter="jsonMessageConverter" prefetch="1">
-        <rabbit:listener ref="sameQueueListener1" queues="ee" method="onMessage"/>
-        <rabbit:listener ref="sameQueueListener2" queues="cc" method="onMessage"/>
-    </rabbit:listener-container>
-
-    <rabbit:listener-container connection-factory="mqConnectionFactory" acknowledge="manual">
-        <rabbit:listener ref="investerConsumer" queue-names="${rule_queue_invester_name}"/>
-    </rabbit:listener-container>
 </beans>
