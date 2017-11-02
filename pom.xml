@@ -38,7 +38,7 @@
         <joda-time.version>2.9.9</joda-time.version>
         <guava.version>21.0</guava.version>
         <poi.version>3.6</poi.version>
-        <fastjson.version>1.1.38</fastjson.version>
+        <fastjson.version>1.2.31</fastjson.version>
     </properties>
 
     <dependencies>
@@ -64,7 +64,26 @@
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-smile</artifactId>
+            <version>2.8.6</version>
+        </dependency>
         <!--log-->
         <dependency>
             <groupId>dom4j</groupId>
@@ -291,19 +310,6 @@
             <id>central</id>
             <name>Central Repository</name>
             <url>http://central.maven.org/maven2/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>sonatype</id>
-            <name>Sonatype Releases Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/releases/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
