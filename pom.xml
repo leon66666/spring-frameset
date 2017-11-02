@@ -10,8 +10,8 @@
     <version>1.0</version>
     <modules>
         <module>spring-core</module>
-        <module>spring-amqp-consumer</module>
         <module>spring-amqp-producer</module>
+        <module>spring-amqp-consumer</module>
     </modules>
 
     <properties>
