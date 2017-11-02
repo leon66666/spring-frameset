@@ -307,32 +307,6 @@
 
     <repositories>
         <repository>
-            <id>central</id>
-            <name>Central Repository</name>
-            <url>http://central.maven.org/maven2/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>apache</id>
-            <name>Apache Releases Repository</name>
-            <url>https://repository.apache.org/content/repositories/releases/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <layout>default</layout>
-        </repository>
-        <repository>
             <id>hxb</id>
             <name>Maven of hoomsun.com</name>
             <url>http://nexus.hoomxb.com:7069/nexus/content/groups/public</url>

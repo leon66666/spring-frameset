@@ -63,7 +63,7 @@
 
     <!-- fanout 类型 交换机 -->
     <!-- 消息直接发送到所有绑定此交换机的队列中 -->
-    <rabbit:fanout-exchange name="fanout-exchange" auto-delete="false" durable="true">
+    <rabbit:fanout-exchange id="fanout-exchange" name="zf-fanout-exchange" auto-delete="false" durable="true">
         <rabbit:bindings>
             <rabbit:binding queue="aa"></rabbit:binding>
             <rabbit:binding queue="bb"></rabbit:binding>

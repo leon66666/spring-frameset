@@ -13,6 +13,6 @@ public class InvesterConsumer extends BaseConsumer {
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
         System.out.println("invester");
-        ackForSuccess(channel, message, message.getMessageProperties().getConsumerTag());
+//        ackForSuccess(channel, message, message.getMessageProperties().getConsumerTag());
     }
 }
