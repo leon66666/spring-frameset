@@ -9,8 +9,9 @@
     <packaging>pom</packaging>
     <version>1.0</version>
     <modules>
-        <module>spring-amqp-consumer</module>
         <module>spring-core</module>
+        <module>spring-amqp-consumer</module>
+        <module>spring-amqp-producer</module>
     </modules>
 
     <properties>
