@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import wangzhongqiu.spring.core.amqp.BaseProducter;
 import wangzhongqiu.spring.core.amqp.ConsumerMessageDTO;
 
-public class RuleEventCouponProducer extends BaseProducter<ConsumerMessageDTO> {
+public class CommonProducer extends BaseProducter<ConsumerMessageDTO> {
 
-    private Logger log = LoggerFactory.getLogger(RuleEventCouponProducer.class);
+    private Logger log = LoggerFactory.getLogger(CommonProducer.class);
 
     @Override
     protected void init() {

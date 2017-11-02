@@ -9,8 +9,6 @@
 
     <import resource="classpath:spring-core.xml"/>
     <import resource="classpath:amqp.xml"/>
-
     <context:annotation-config/>
     <context:component-scan base-package="wangzhongqiu.spring.amqp"/>
-
 </beans>

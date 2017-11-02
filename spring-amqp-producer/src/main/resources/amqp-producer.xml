@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="ruleEventCouponProducer" class="wangzhongqiu.spring.amqp.RuleEventCouponProducer" name="ruleEventCouponProducer">
+    <bean id="ruleEventCouponProducer" class="wangzhongqiu.spring.amqp.CommonProducer" name="ruleEventCouponProducer">
         <property name="routingKey" value="ff"/>
         <property name="baseAmqpTemplate" ref="noExChangeTemplate"/>
     </bean>
