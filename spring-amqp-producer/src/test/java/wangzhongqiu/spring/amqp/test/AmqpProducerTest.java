@@ -11,7 +11,7 @@ import wangzhongqiu.spring.core.amqp.ConsumerMessageDTO;
  */
 public class AmqpProducerTest {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-amqp.xml");
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-amqp-producer.xml");
         final CommonProducer commonProducer = applicationContext.getBean(CommonProducer.class);
         ConsumerMessageDTO consumerMessageDTO = new ConsumerMessageDTO();
         commonProducer.send(consumerMessageDTO);
