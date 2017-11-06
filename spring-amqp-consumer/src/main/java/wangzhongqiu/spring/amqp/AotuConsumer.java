@@ -12,7 +12,6 @@ import wangzhongqiu.spring.core.amqp.BaseConsumer;
 public class AotuConsumer extends BaseConsumer {
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
-        System.out.println("invester");
-        ackForSuccess(channel, message, message.getMessageProperties().getConsumerTag());
+        System.out.println("AotuConsumer receive");
     }
 }

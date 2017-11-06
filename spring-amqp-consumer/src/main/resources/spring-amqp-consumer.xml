@@ -18,6 +18,7 @@
 
     <import resource="classpath:spring-core.xml"/>
     <bean id="investerConsumer" class="wangzhongqiu.spring.amqp.InvesterConsumer" name="investerConsumer"/>
+    <bean id="aotuConsumer" class="wangzhongqiu.spring.amqp.AotuConsumer" name="aotuConsumer"/>
     <!-- 连接配置 -->
     <rabbit:connection-factory id="mqConnectionFactory" host="${mq.host}"
                                username="${mq.username}"
@@ -29,56 +30,6 @@
     <!-- 消息对象json转换类 -->
     <bean id="jsonMessageConverter"
           class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter"/>
-
-    <!-- spring template声明-->
-    <!-- 指定 默认交换机,填写名称,而不是定义的交换机的ID-->
-    <rabbit:template exchange="zf-direct-exchange" id="directExChangeTemplate"
-                     connection-factory="mqConnectionFactory"
-                     message-converter="jsonMessageConverter"/>
-    <!-- 未指定 默认交换机 -->
-    <rabbit:template id="noExChangeTemplate"
-                     connection-factory="mqConnectionFactory"
-                     message-converter="jsonMessageConverter"/>
-
-    <!--交换机配置
-      name="zf-direct-exchange",name是交换机的名称
-      auto-delete:交换机使用完成自动删除
-      durable：交换机持久化
-    -->
-    <!-- direct类型 交换机-->
-    <rabbit:direct-exchange id="direct-exchange" name="zf-direct-exchange" auto-delete="false" durable="true">
-        <rabbit:bindings>
-            <!-- queue 可以指定队列名称 或者指定id的队列,指定名称更为清晰-->
-            <!-- 消息发送时的routingKey与key值做完全匹配-->
-            <!--<rabbit:binding queue="queue1" key="zf_direct_queue"></rabbit:binding>-->
-            <rabbit:binding queue="aa" key="zf_direct_queue"></rabbit:binding>
-            <!-- 一个交换机绑定多个队列，key可以相同,可以不同-->
-            <rabbit:binding queue="bb" key="zf_direct_queue"></rabbit:binding>
-            <rabbit:binding queue="cc" key="zf_direct2_queue"></rabbit:binding>
-        </rabbit:bindings>
-    </rabbit:direct-exchange>
-
-    <!-- topic类型 交换机-->
-    <rabbit:topic-exchange id="topic-exchange" name="zf-topic-exchange" durable="true" auto-delete="false">
-        <rabbit:bindings>
-            <!-- 消息发送时的routingKey与pattern做模糊匹配
-               *表示一个内容 不多不少,
-               #表示0个或多个内容: topic.# 可以匹配topic.,topic.a,topic.b.c
-               -->
-            <rabbit:binding queue="dd" pattern="*.topic.*"></rabbit:binding>
-            <rabbit:binding queue="ee" pattern="topic.#"></rabbit:binding>
-            <rabbit:binding queue="ff" pattern="*.topic"></rabbit:binding>
-        </rabbit:bindings>
-    </rabbit:topic-exchange>
-
-    <!-- fanout 类型 交换机 -->
-    <!-- 消息直接发送到所有绑定此交换机的队列中 -->
-    <rabbit:fanout-exchange name="zf-fanout-exchange" auto-delete="false" durable="true">
-        <rabbit:bindings>
-            <rabbit:binding queue="aa"></rabbit:binding>
-            <rabbit:binding queue="bb"></rabbit:binding>
-        </rabbit:bindings>
-    </rabbit:fanout-exchange>
 
     <!--消息队列配置
       name="aa",name是消息队列的名称,发送消息时是无法直接指定发送到哪个队列中的
@@ -96,17 +47,17 @@
     <!-- 消费者 监听配置-->
     <!-- The acknowledge mode: "auto", "manual", or "none".-->
     <!-- auto -->
-    <!--<rabbit:listener-container connection-factory="mqConnectionFactory"
+    <rabbit:listener-container connection-factory="mqConnectionFactory"
                                acknowledge="auto" concurrency="1"
                                message-converter="jsonMessageConverter" prefetch="1">
-        &lt;!&ndash; 一个监听器可以同时监听多个队列中的消息&ndash;&gt;
-        <rabbit:listener ref="aotuConsumer" queues="aa,bb" method="onMessage"/>
-        <rabbit:listener ref="aotuConsumer" queues="cc" method="onMessage"/>
-    </rabbit:listener-container>-->
+        <!-- 一个监听器可以同时监听多个队列中的消息-->
+        <rabbit:listener ref="aotuConsumer" queues="aa,bb,cc" method="onMessage"/>
+    </rabbit:listener-container>
     <!-- manual -->
     <rabbit:listener-container connection-factory="mqConnectionFactory"
                                acknowledge="manual" concurrency="1"
                                message-converter="jsonMessageConverter" prefetch="1">
-        <rabbit:listener ref="investerConsumer" queues="ff" method="onMessage"/>
+        <!-- 一个监听器可以同时监听多个队列中的消息-->
+        <rabbit:listener ref="investerConsumer" queues="dd,ee,ff" method="onMessage"/>
     </rabbit:listener-container>
 </beans>

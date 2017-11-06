@@ -10,6 +10,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class AmqpConsumerTest {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-amqp-consumer.xml");
-        System.out.println("111");
+        System.out.println("启动成功");
     }
 }

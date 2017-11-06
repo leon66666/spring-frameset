@@ -10,10 +10,16 @@ import wangzhongqiu.spring.core.amqp.ConsumerMessageDTO;
  * @date 2017/11/2.
  */
 public class AmqpProducerTest {
+    public static int num = 0;
+
     public static void main(String[] args) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-amqp-producer.xml");
         final CommonProducer commonProducer = applicationContext.getBean(CommonProducer.class);
-        ConsumerMessageDTO consumerMessageDTO = new ConsumerMessageDTO();
-        commonProducer.send(consumerMessageDTO);
+        for (int i = 0; i < 100; i++) {
+            ConsumerMessageDTO consumerMessageDTO = new ConsumerMessageDTO();
+            commonProducer.send(consumerMessageDTO);
+            num++;
+            System.out.println("send success,total=" + num);
+        }
     }
 }
