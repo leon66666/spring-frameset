@@ -18,7 +18,7 @@
 
     <import resource="classpath:spring-core.xml"/>
     <bean id="commonProducer" class="wangzhongqiu.spring.amqp.CommonProducer" name="commonProducer">
-        <property name="routingKey" value="direct_queue"/>
+        <property name="routingKey" value="manual_direct_queue"/>
         <property name="baseAmqpTemplate" ref="directExChangeTemplate"/>
     </bean>
 
@@ -58,10 +58,10 @@
             <!-- queue 可以指定队列名称 或者指定id的队列,指定名称更为清晰-->
             <!-- 消息发送时的routingKey与key值做完全匹配-->
             <!--<rabbit:binding queue="queue1" key="zf_direct_queue"></rabbit:binding>-->
-            <rabbit:binding queue="aa" key="direct_queue"></rabbit:binding>
+            <rabbit:binding queue="aa" key="auto_direct_queue"></rabbit:binding>
             <!-- 一个交换机绑定多个队列，key可以相同,可以不同-->
-            <rabbit:binding queue="ee" key="direct_queue"></rabbit:binding>
-            <rabbit:binding queue="ff" key="direct_queue_2"></rabbit:binding>
+            <rabbit:binding queue="ee" key="manual_direct_queue"></rabbit:binding>
+            <rabbit:binding queue="ff" key="manual_direct_queue_2"></rabbit:binding>
         </rabbit:bindings>
     </rabbit:direct-exchange>
 
@@ -84,6 +84,8 @@
         <rabbit:bindings>
             <rabbit:binding queue="aa"></rabbit:binding>
             <rabbit:binding queue="bb"></rabbit:binding>
+            <rabbit:binding queue="ee"></rabbit:binding>
+            <rabbit:binding queue="ff"></rabbit:binding>
         </rabbit:bindings>
     </rabbit:fanout-exchange>
 

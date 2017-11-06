@@ -8,7 +8,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import javax.annotation.PostConstruct;
 
 /**
- * @author tianye
+ * @author wangzhongqiu
  *         Created on 2017/10/30.
  * @description:
  */

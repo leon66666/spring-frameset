@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import java.io.Serializable;
 
 /**
- * @author tianye
+ * @author wangzhongqiu
  *         Created on 29/09/2017.
  * @description:
  */

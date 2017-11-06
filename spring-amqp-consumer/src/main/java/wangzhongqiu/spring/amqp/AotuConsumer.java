@@ -1,17 +1,24 @@
 package wangzhongqiu.spring.amqp;
 
-import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
-import wangzhongqiu.spring.core.amqp.BaseConsumer;
+import org.springframework.amqp.core.MessageListener;
 
 /**
- * @author tianye
+ * @author wangzhongqiu
  *         Created on 2017/10/31.
- * @description:
+ * @description:继承MessageListener, onMessage(Message message), 获取消息体并转换
  */
-public class AotuConsumer extends BaseConsumer {
+public class AotuConsumer implements MessageListener {
+    public static int num = 0;
+
     @Override
-    public void onMessage(Message message, Channel channel) throws Exception {
-        System.out.println("AotuConsumer receive");
+    public void onMessage(Message message) {
+        try {
+            Thread.sleep(1000 * 10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        num++;
+        System.out.println("AotuConsumer success,total=" + num);
     }
 }
