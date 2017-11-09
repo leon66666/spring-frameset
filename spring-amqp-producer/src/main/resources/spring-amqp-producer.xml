@@ -23,11 +23,23 @@
     </bean>
 
     <!-- 连接配置 -->
-    <rabbit:connection-factory id="mqConnectionFactory" host="${mq.host}"
+    <!--<rabbit:connection-factory id="mqConnectionFactory" host="${mq.host}"
                                username="${mq.username}"
                                password="${mq.password}"
                                port="${mq.port}"
-                               virtual-host="${mq.vhost}"/>
+                               virtual-host="${mq.vhost}"/>-->
+    <!--带有confirm的连接配置-->
+    <bean id="mqConnectionFactory"
+          class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+        <property name="host" value="${mq.host}"/>
+        <property name="port" value="${mq.port}"/>
+        <property name="virtualHost" value="${mq.vhost}"/>
+        <property name="username" value="${mq.username}"/>
+        <property name="password" value="${mq.password}"/>
+        <property name="publisherConfirms" value="true"/>
+        <property name="publisherReturns" value="true"/>
+    </bean>
+
     <rabbit:admin connection-factory="mqConnectionFactory"/>
 
     <!-- 消息对象json转换类 -->
