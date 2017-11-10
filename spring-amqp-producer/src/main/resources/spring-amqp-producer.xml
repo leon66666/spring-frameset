@@ -21,7 +21,7 @@
     <import resource="classpath:spring-core.xml"/>
 
     <bean id="commonProducer" class="wangzhongqiu.spring.amqp.CommonProducer" name="commonProducer">
-        <property name="routingKey" value="1111"/>
+        <property name="routingKey" value="manual_direct_queue"/>
         <property name="baseAmqpTemplate" ref="directExChangeTemplate"/>
     </bean>
 

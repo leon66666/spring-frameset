@@ -46,6 +46,7 @@
 
     <!-- 消费者 监听配置-->
     <!-- The acknowledge mode: "auto", "manual", or "none".-->
+    <!--多个消费者监听同一个队列，会均匀分配给各个监听者，prefetchCount设置均匀分配的个数-->
     <!-- auto -->
     <rabbit:listener-container connection-factory="mqConnectionFactory"
                                acknowledge="auto" concurrency="1"
