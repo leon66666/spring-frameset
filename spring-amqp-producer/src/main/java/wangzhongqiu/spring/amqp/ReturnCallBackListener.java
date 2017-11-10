@@ -18,5 +18,6 @@ public class ReturnCallBackListener implements RabbitTemplate.ReturnCallback {
     @Override
     public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
         log.info("收到回调");
+        log.info("return--message:" + new String(message.getBody()) + ",replyCode:" + replyCode + ",replyText:" + replyText + ",exchange:" + exchange + ",routingKey:" + routingKey);
     }
 }
