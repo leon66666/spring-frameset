@@ -18,7 +18,7 @@
 
     <import resource="classpath:spring-core.xml"/>
     <bean id="commonProducer" class="wangzhongqiu.spring.amqp.CommonProducer" name="commonProducer">
-        <property name="routingKey" value="manual_direct_queue"/>
+        <property name="routingKey" value="1111"/>
         <property name="baseAmqpTemplate" ref="directExChangeTemplate"/>
     </bean>
 
@@ -47,7 +47,7 @@
           class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter"/>
 
     <!-- spring template声明-->
-    <!-- 指定 默认交换机,填写名称,而不是定义的交换机的ID-->
+    <!-- exchange:指定交换机,填写名称,而不是定义的交换机的ID-->
     <rabbit:template id="directExChangeTemplate" exchange="direct-exchange"
                      connection-factory="mqConnectionFactory"
                      message-converter="jsonMessageConverter"/>
