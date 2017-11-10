@@ -15,8 +15,11 @@
        http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
 	   http://www.springframework.org/schema/beans
 	   http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <context:annotation-config/>
+    <context:component-scan base-package="wangzhongqiu.spring.amqp"/>
 
     <import resource="classpath:spring-core.xml"/>
+
     <bean id="commonProducer" class="wangzhongqiu.spring.amqp.CommonProducer" name="commonProducer">
         <property name="routingKey" value="1111"/>
         <property name="baseAmqpTemplate" ref="directExChangeTemplate"/>
@@ -48,8 +51,13 @@
 
     <!-- spring template声明-->
     <!-- exchange:指定交换机,填写名称,而不是定义的交换机的ID-->
-    <rabbit:template id="directExChangeTemplate" exchange="direct-exchange"
+    <!-- confirm-callback：消息确认监听器-->
+    <!-- return-callback：消息发送失败返回监听器-->
+    <rabbit:template id="directExChangeTemplate"
+                     exchange="direct-exchange"
                      connection-factory="mqConnectionFactory"
+                     confirm-callback="confirmCallBackListener"
+                     return-callback="returnCallBackListener"
                      message-converter="jsonMessageConverter"/>
     <!-- 未指定 默认交换机 -->
     <!--DirectExchange是RabbitMQ Broker的默认Exchange，它有一个特别的属性对一些简单的应用来说是非常有用的，
