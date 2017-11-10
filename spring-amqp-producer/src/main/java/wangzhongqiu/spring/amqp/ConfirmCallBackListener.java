@@ -17,6 +17,6 @@ public class ConfirmCallBackListener implements RabbitTemplate.ConfirmCallback {
 
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-        log.info("收到回调");
+        log.info("收到回调，成功发送到broker");
     }
 }
