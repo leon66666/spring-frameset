@@ -21,7 +21,7 @@
     <import resource="classpath:spring-core.xml"/>
 
     <bean id="commonProducer" class="wangzhongqiu.spring.amqp.CommonProducer" name="commonProducer">
-        <property name="routingKey" value="111"/>
+        <property name="routingKey" value="manual_direct_queue"/>
         <property name="baseAmqpTemplate" ref="directExChangeTemplate"/>
     </bean>
 
@@ -94,9 +94,9 @@
                *表示一个内容 不多不少,
                #表示0个或多个内容: topic.# 可以匹配topic.,topic.a,topic.b.c
                -->
-            <rabbit:binding queue="dd" pattern="*.topic.*"></rabbit:binding>
-            <rabbit:binding queue="ee" pattern="topic.#"></rabbit:binding>
-            <rabbit:binding queue="ff" pattern="*.topic"></rabbit:binding>
+            <rabbit:binding queue="cc" pattern="*.topic.*"></rabbit:binding>
+            <rabbit:binding queue="dd" pattern="topic.#"></rabbit:binding>
+            <rabbit:binding queue="ee" pattern="*.topic"></rabbit:binding>
         </rabbit:bindings>
     </rabbit:topic-exchange>
 
@@ -125,37 +125,48 @@
       exclusive：排他性,如果设置,其他用户看不见,但是此用户链接断开后，rabbitmq会删除此队列，无视是否持久化
      -->
     <rabbit:queue durable="true" auto-delete="false" name="aa" exclusive="false">
+
         <rabbit:queue-arguments>
-            <entry key="x-message-ttl" value="5000" value-type="java.lang.Long"/>
-            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
+            <entry key="x-message-ttl">
+                <value  type="java.lang.Long">10000</value>
+            </entry>
+            <entry key="x-dead-letter-exchange" value="amqpExchange"/>
             <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
         </rabbit:queue-arguments>
     </rabbit:queue>
     <rabbit:queue durable="true" auto-delete="false" name="bb" exclusive="false">
         <rabbit:queue-arguments>
-            <entry key="x-message-ttl" value="5000" value-type="java.lang.Long"/>
-            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
+            <entry key="x-message-ttl">
+                <value  type="java.lang.Long">10000</value>
+            </entry>
+            <entry key="x-dead-letter-exchange" value="amqpExchange"/>
             <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
         </rabbit:queue-arguments>
     </rabbit:queue>
     <rabbit:queue durable="true" auto-delete="false" name="cc" exclusive="false">
         <rabbit:queue-arguments>
-            <entry key="x-message-ttl" value="5000" value-type="java.lang.Long"/>
-            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
+            <entry key="x-message-ttl">
+                <value  type="java.lang.Long">10000</value>
+            </entry>
+            <entry key="x-dead-letter-exchange" value="amqpExchange"/>
             <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
         </rabbit:queue-arguments>
     </rabbit:queue>
     <rabbit:queue durable="true" auto-delete="false" name="dd" exclusive="false">
         <rabbit:queue-arguments>
-            <entry key="x-message-ttl" value="5000" value-type="java.lang.Long"/>
-            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
+            <entry key="x-message-ttl">
+                <value  type="java.lang.Long">10000</value>
+            </entry>
+            <entry key="x-dead-letter-exchange" value="amqpExchange"/>
             <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
         </rabbit:queue-arguments>
     </rabbit:queue>
     <rabbit:queue durable="true" auto-delete="false" name="ee" exclusive="false">
         <rabbit:queue-arguments>
-            <entry key="x-message-ttl" value="5000" value-type="java.lang.Long"/>
-            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
+            <entry key="x-message-ttl">
+                <value  type="java.lang.Long">10000</value>
+            </entry>
+            <entry key="x-dead-letter-exchange" value="amqpExchange"/>
             <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
         </rabbit:queue-arguments>
     </rabbit:queue>
