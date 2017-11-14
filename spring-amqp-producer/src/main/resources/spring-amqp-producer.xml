@@ -53,7 +53,7 @@
     <!-- exchange:指定交换机,填写名称,而不是定义的交换机的ID-->
     <!-- confirm-callback：消息确认监听器-->
     <!-- return-callback：消息发送失败返回监听器-->
-    <!---->
+    <!-- mandatory-expression：标志位，和return-callback配合使用必须设置为true-->
     <rabbit:template id="directExChangeTemplate"
                      exchange="direct-exchange"
                      connection-factory="mqConnectionFactory"
@@ -82,8 +82,8 @@
             <!--<rabbit:binding queue="queue1" key="zf_direct_queue"></rabbit:binding>-->
             <rabbit:binding queue="aa" key="auto_direct_queue"></rabbit:binding>
             <!-- 一个交换机绑定多个队列，key可以相同,可以不同-->
-            <rabbit:binding queue="ee" key="manual_direct_queue"></rabbit:binding>
-            <rabbit:binding queue="ff" key="manual_direct_queue_2"></rabbit:binding>
+            <rabbit:binding queue="dd" key="manual_direct_queue"></rabbit:binding>
+            <rabbit:binding queue="ee" key="manual_direct_queue_2"></rabbit:binding>
         </rabbit:bindings>
     </rabbit:direct-exchange>
 
@@ -107,9 +107,16 @@
             <rabbit:binding queue="aa"></rabbit:binding>
             <rabbit:binding queue="bb"></rabbit:binding>
             <rabbit:binding queue="ee"></rabbit:binding>
-            <rabbit:binding queue="ff"></rabbit:binding>
         </rabbit:bindings>
     </rabbit:fanout-exchange>
+
+    <!--死信队列:exchange和queue配置-->
+    <rabbit:direct-exchange name="dead-letter-exchange"
+                            durable="false" auto-delete="false" id="dead-letter-exchange">
+        <rabbit:bindings>
+            <rabbit:binding queue="dead-letter-queue" key="dead-letter-queue"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
 
     <!--消息队列配置
       name="aa",name是消息队列的名称,发送消息时是无法直接指定发送到哪个队列中的
@@ -117,10 +124,40 @@
       durable：队列持久化
       exclusive：排他性,如果设置,其他用户看不见,但是此用户链接断开后，rabbitmq会删除此队列，无视是否持久化
      -->
-    <rabbit:queue id="queue1" durable="true" auto-delete="false" name="aa" exclusive="false"/>
-    <rabbit:queue id="queue2" durable="true" auto-delete="false" name="bb" exclusive="false"/>
-    <rabbit:queue id="queue3" durable="true" auto-delete="false" name="cc" exclusive="false"/>
-    <rabbit:queue id="queue4" durable="true" auto-delete="false" name="dd" exclusive="false"/>
-    <rabbit:queue id="queue5" durable="true" auto-delete="false" name="ee" exclusive="false"/>
-    <rabbit:queue id="queue6" durable="true" auto-delete="false" name="ff" exclusive="false"/>
+    <rabbit:queue durable="true" auto-delete="false" name="aa" exclusive="false">
+        <rabbit:queue-arguments>
+            <entry key="x-message-ttl" value="5000" value-type="java.lang.Long"/>
+            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
+            <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
+        </rabbit:queue-arguments>
+    </rabbit:queue>
+    <rabbit:queue durable="true" auto-delete="false" name="bb" exclusive="false">
+        <rabbit:queue-arguments>
+            <entry key="x-message-ttl" value="5000" value-type="java.lang.Long"/>
+            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
+            <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
+        </rabbit:queue-arguments>
+    </rabbit:queue>
+    <rabbit:queue durable="true" auto-delete="false" name="cc" exclusive="false">
+        <rabbit:queue-arguments>
+            <entry key="x-message-ttl" value="5000" value-type="java.lang.Long"/>
+            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
+            <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
+        </rabbit:queue-arguments>
+    </rabbit:queue>
+    <rabbit:queue durable="true" auto-delete="false" name="dd" exclusive="false">
+        <rabbit:queue-arguments>
+            <entry key="x-message-ttl" value="5000" value-type="java.lang.Long"/>
+            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
+            <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
+        </rabbit:queue-arguments>
+    </rabbit:queue>
+    <rabbit:queue durable="true" auto-delete="false" name="ee" exclusive="false">
+        <rabbit:queue-arguments>
+            <entry key="x-message-ttl" value="5000" value-type="java.lang.Long"/>
+            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
+            <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
+        </rabbit:queue-arguments>
+    </rabbit:queue>
+    <rabbit:queue durable="true" auto-delete="false" name="dead-letter-queue" exclusive="false"/>
 </beans>
