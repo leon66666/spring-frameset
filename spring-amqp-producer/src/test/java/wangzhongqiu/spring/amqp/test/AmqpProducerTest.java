@@ -15,7 +15,7 @@ public class AmqpProducerTest {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-amqp-producer.xml");
         final CommonProducer commonProducer = applicationContext.getBean(CommonProducer.class);
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1; i++) {
             ConsumerMessageDTO consumerMessageDTO = new ConsumerMessageDTO();
             commonProducer.send(consumerMessageDTO);
             num++;

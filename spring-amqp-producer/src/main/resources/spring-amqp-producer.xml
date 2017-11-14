@@ -21,7 +21,7 @@
     <import resource="classpath:spring-core.xml"/>
 
     <bean id="commonProducer" class="wangzhongqiu.spring.amqp.CommonProducer" name="commonProducer">
-        <property name="routingKey" value="manual_direct_queue"/>
+        <property name="routingKey" value="111"/>
         <property name="baseAmqpTemplate" ref="directExChangeTemplate"/>
     </bean>
 
@@ -53,9 +53,11 @@
     <!-- exchange:指定交换机,填写名称,而不是定义的交换机的ID-->
     <!-- confirm-callback：消息确认监听器-->
     <!-- return-callback：消息发送失败返回监听器-->
+    <!---->
     <rabbit:template id="directExChangeTemplate"
                      exchange="direct-exchange"
                      connection-factory="mqConnectionFactory"
+                     mandatory-expression="true"
                      confirm-callback="confirmCallBackListener"
                      return-callback="returnCallBackListener"
                      message-converter="jsonMessageConverter"/>
