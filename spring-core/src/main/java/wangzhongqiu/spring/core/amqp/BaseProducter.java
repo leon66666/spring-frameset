@@ -3,6 +3,9 @@ package wangzhongqiu.spring.core.amqp;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import javax.annotation.PostConstruct;
@@ -24,7 +27,6 @@ public abstract class BaseProducter<T> {
     protected abstract void init();
 
     /**
-     *
      * @param rule
      * @param <M>
      */
@@ -32,6 +34,22 @@ public abstract class BaseProducter<T> {
         try {
             ConsumerMessageDTO message = new ConsumerMessageDTO(rule);
             baseAmqpTemplate.convertAndSend(routingKey, message);
+            log.info("send:" + JSONObject.toJSONString(message));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public <M extends T> void sendWithPriority(M rule, final Integer priority) {
+        try {
+            ConsumerMessageDTO message = new ConsumerMessageDTO(rule);
+            baseAmqpTemplate.convertAndSend(routingKey, message, new MessagePostProcessor() {
+                @Override
+                public Message postProcessMessage(Message message) throws AmqpException {
+                    message.getMessageProperties().setPriority(priority);
+                    return message;
+                }
+            });
             log.info("send:" + JSONObject.toJSONString(message));
         } catch (Exception e) {
             e.printStackTrace();

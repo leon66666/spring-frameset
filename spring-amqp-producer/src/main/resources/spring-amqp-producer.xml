@@ -160,8 +160,12 @@
             <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
         </rabbit:queue-arguments>
     </rabbit:queue>
+    <!--队列优先级-->
     <rabbit:queue durable="true" auto-delete="false" name="ee" exclusive="false">
         <rabbit:queue-arguments>
+            <entry key="x-max-priority">
+                <value type="java.lang.Integer">10</value>
+            </entry>
             <entry key="x-message-ttl">
                 <value type="java.lang.Long">10000</value>
             </entry>
