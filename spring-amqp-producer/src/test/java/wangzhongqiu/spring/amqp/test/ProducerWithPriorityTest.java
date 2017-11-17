@@ -17,6 +17,7 @@ public class ProducerWithPriorityTest {
         final CommonProducer commonProducer = applicationContext.getBean(CommonProducer.class);
         for (int i = 0; i < 10; i++) {
             ConsumerMessageDTO consumerMessageDTO = new ConsumerMessageDTO();
+            consumerMessageDTO.setJsonStr(String.valueOf(i));
             final int priority = num;
             commonProducer.sendWithPriority(consumerMessageDTO, priority);
             num++;

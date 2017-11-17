@@ -12,6 +12,8 @@
         <module>spring-core</module>
         <module>spring-amqp-producer</module>
         <module>spring-amqp-consumer</module>
+        <module>spring-dubbo-consumer</module>
+        <module>spring-dubbo-provider</module>
     </modules>
 
     <properties>

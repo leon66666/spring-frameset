@@ -20,6 +20,7 @@ public class InvesterConsumer extends BaseConsumer {
 //        Thread.sleep(1000 * 10);
         String msg = new String(message.getBody(), "UTF-8");
         ConsumerMessageDTO consumerMessageDTO = JSONObject.parseObject(msg, ConsumerMessageDTO.class);
+        System.out.println(consumerMessageDTO.getJsonStr());
         ackForSuccess(channel, message, message.getMessageProperties().getConsumerTag());
         num++;
         System.out.println("InvesterConsumer success,total=" + num);

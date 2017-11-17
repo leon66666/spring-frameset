@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/spring-amqp-consumer/spring-amqp-consumer.iml" filepath="$PROJECT_DIR$/spring-amqp-consumer/spring-amqp-consumer.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-amqp-producer/spring-amqp-producer.iml" filepath="$PROJECT_DIR$/spring-amqp-producer/spring-amqp-producer.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-core/spring-core.iml" filepath="$PROJECT_DIR$/spring-core/spring-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-dubbo-consumer/spring-dubbo-consumer.iml" filepath="$PROJECT_DIR$/spring-dubbo-consumer/spring-dubbo-consumer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-dubbo-provider/spring-dubbo-provider.iml" filepath="$PROJECT_DIR$/spring-dubbo-provider/spring-dubbo-provider.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-frameset.iml" filepath="$PROJECT_DIR$/spring-frameset.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-parent.iml" filepath="$PROJECT_DIR$/spring-parent.iml" />
     </modules>

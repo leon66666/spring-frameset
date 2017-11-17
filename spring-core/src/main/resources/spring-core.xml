@@ -12,5 +12,6 @@
 
     <context:property-placeholder location="classpath:rabbitmq.properties"/>
     <context:property-placeholder location="classpath:log4j.properties"/>
+    <context:property-placeholder location="classpath:dubbo.properties"/>
 </beans>
 

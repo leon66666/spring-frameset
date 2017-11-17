@@ -21,7 +21,7 @@
     <import resource="classpath:spring-core.xml"/>
 
     <bean id="commonProducer" class="wangzhongqiu.spring.amqp.CommonProducer" name="commonProducer">
-        <property name="routingKey" value="manual_direct_queue"/>
+        <property name="routingKey" value="manual_direct_queue_2"/>
         <property name="baseAmqpTemplate" ref="directExChangeTemplate"/>
     </bean>
 
@@ -160,17 +160,12 @@
             <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
         </rabbit:queue-arguments>
     </rabbit:queue>
-    <!--队列优先级-->
+    <!--优先级队列,队列的未被消费的消息，按照优先级高级先后被消费-->
     <rabbit:queue durable="true" auto-delete="false" name="ee" exclusive="false">
         <rabbit:queue-arguments>
             <entry key="x-max-priority">
                 <value type="java.lang.Integer">10</value>
             </entry>
-            <entry key="x-message-ttl">
-                <value type="java.lang.Long">10000</value>
-            </entry>
-            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
-            <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
         </rabbit:queue-arguments>
     </rabbit:queue>
     <rabbit:queue durable="true" auto-delete="false" name="dead-letter-queue" exclusive="false"/>
