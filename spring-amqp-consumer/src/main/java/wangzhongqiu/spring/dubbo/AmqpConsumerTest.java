@@ -1,4 +1,4 @@
-package wangzhongqiu.spring.amqp.test;
+package wangzhongqiu.spring.dubbo;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

@@ -16,9 +16,6 @@
        http://code.alibabatech.com/schema/dubbo
        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <context:annotation-config/>
-    <context:component-scan base-package="wangzhongqiu.spring.core"/>
-
     <import resource="classpath:spring-core.xml"/>
 
     <!-- 提供方应用信息，用于计算依赖关系 -->
