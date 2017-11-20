@@ -1,4 +1,4 @@
-package wangzhongqiu.spring.core.service;
+package wangzhongqiu.spring.dubbo;
 
 /**
  * @author wangzhongqiu
