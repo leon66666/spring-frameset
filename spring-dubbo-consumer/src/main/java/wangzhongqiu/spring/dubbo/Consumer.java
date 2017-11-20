@@ -10,7 +10,7 @@ import wangzhongqiu.spring.core.service.TestService;
  */
 public class Consumer {
     public static void main(String[] args) throws Exception {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-dubbo-consumer.xml");
         TestService testService = (TestService) context.getBean("testService");
         testService.println("hello");
     }

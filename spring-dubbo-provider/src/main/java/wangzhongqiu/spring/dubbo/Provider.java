@@ -8,10 +8,9 @@ import java.util.concurrent.locks.LockSupport;
 /**
  * @author wangzhongqiu
  */
-public class Application {
-
+public class Provider {
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-dubbo-provider.xml");
         LockSupport.park();
     }
 }
