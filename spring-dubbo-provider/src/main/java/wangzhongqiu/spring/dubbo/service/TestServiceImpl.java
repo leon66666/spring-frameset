@@ -1,4 +1,4 @@
-package wangzhongqiu.spring.dubbo;
+package wangzhongqiu.spring.dubbo.service;
 
 import wangzhongqiu.spring.core.service.TestService;
 
