@@ -1,5 +1,7 @@
 package wangzhongqiu.spring.dubbo;
 
+import wangzhongqiu.spring.core.service.TestService;
+
 /**
  * @author wangzhongqiu
  * @date 2017/11/20.

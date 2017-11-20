@@ -2,16 +2,16 @@ package wangzhongqiu.spring.dubbo;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.concurrent.locks.LockSupport;
+import wangzhongqiu.spring.core.service.TestService;
 
 /**
  * @author wangzhongqiu
+ * @date 2017/11/20.
  */
-public class Application {
-
-    public static void main(String[] args) {
+public class Consumer {
+    public static void main(String[] args) throws Exception {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
-        LockSupport.park();
+        TestService testService = (TestService) context.getBean("testService");
+        testService.println("hello");
     }
 }

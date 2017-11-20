@@ -16,6 +16,6 @@
     <dubbo:registry address="${dubbo_registry_address}"/>
 
     <!-- 生成远程服务代理 -->
-    <dubbo:reference interface="wangzhongqiu.spring.core.service.TestServiceImpl" id="testService" async="true" timeout="100000"/>
+    <dubbo:reference interface="wangzhongqiu.spring.core.service.TestService" id="testService" async="true" timeout="100000"/>
 
 </beans>
