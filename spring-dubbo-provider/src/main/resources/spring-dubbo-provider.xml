@@ -22,7 +22,7 @@
     <dubbo:application name="dubbo-provider1"/>
 
     <!-- 使用zookeeper注册中心暴露发现服务地址 -->
-    <dubbo:registry address="${dubbo_registry_address}"/>
+    <dubbo:registry address="${dubbo.registry.address}"/>
 
     <!-- 用dubbo协议在20880端口暴露服务 -->
     <dubbo:protocol name="dubbo" port="20880"/>
