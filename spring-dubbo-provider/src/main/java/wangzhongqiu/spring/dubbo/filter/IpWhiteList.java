@@ -1,5 +1,7 @@
 package wangzhongqiu.spring.dubbo.filter;
 
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +9,10 @@ import java.util.List;
  * @author wangzhongqiu
  * @date 2017/11/20.
  */
+@Service
 public class IpWhiteList {
-    public static ArrayList<String> ipWhiteList;
-    public static Boolean enabled;
+    public static ArrayList<String> ipWhiteList = new ArrayList<>();
+    public static Boolean enabled = true;
 
     static {
         ipWhiteList.add("192.168.1.189");

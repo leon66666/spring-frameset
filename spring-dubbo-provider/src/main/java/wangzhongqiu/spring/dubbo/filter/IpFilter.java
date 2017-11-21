@@ -9,7 +9,7 @@ public class IpFilter implements Filter {
 
     private IpWhiteList ipWhiteList;
 
-    //dubbo通过setter方式自动注入
+    //dubbo通过setter方式自动注入,不能通过注解自动注入
     public void setIpWhiteList(IpWhiteList ipWhiteList) {
         this.ipWhiteList = ipWhiteList;
     }
@@ -17,12 +17,12 @@ public class IpFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         if (!ipWhiteList.isEnabled()) {
-            logger.debug("白名单禁用");
+            logger.info("白名单禁用");
             return invoker.invoke(invocation);
         }
 
         String clientIp = RpcContext.getContext().getRemoteHost();
-        logger.debug("访问ip为{}", clientIp);
+        logger.info("访问ip为{}", clientIp);
         if (ipWhiteList.isAllowed(clientIp)) {
             return invoker.invoke(invocation);
         } else {

@@ -17,6 +17,15 @@
        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <import resource="classpath:spring-core.xml"/>
+    <context:annotation-config/>
+    <context:component-scan base-package="wangzhongqiu.spring.dubbo"/>
+
+    <bean id="ipFilter" class="wangzhongqiu.spring.dubbo.filter.IpFilter">
+        <!-- 以下代码跟Student类中的set方法相关 -->
+        <!-- name就写Student中被注入变量的名称 -->
+        <!-- ref代表spring会按照course为模板去new一个course并赋值到course中 -->
+        <property name="ipWhiteList" ref="ipWhiteList"></property>
+    </bean>
 
     <!-- 提供方应用信息，用于计算依赖关系 -->
     <dubbo:application name="dubbo-provider1"/>
@@ -27,8 +36,12 @@
     <!-- 用dubbo协议在20880端口暴露服务 -->
     <dubbo:protocol name="dubbo" port="20880"/>
 
+    <!--filter 设置provider的过滤器-->
+    <dubbo:provider filter="ipFilter"/>
+
     <!-- 声明需要暴露的服务接口 -->
     <dubbo:service interface="wangzhongqiu.spring.core.service.TestService" ref="testService" async="true"/>
+
     <!-- 和本地bean一样实现服务 -->
     <bean id="testService" class="wangzhongqiu.spring.dubbo.service.TestServiceImpl"/>
 </beans>
