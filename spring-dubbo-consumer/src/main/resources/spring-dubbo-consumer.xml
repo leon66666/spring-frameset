@@ -18,8 +18,8 @@
     <!-- 声明远程服务代理 -->
     <!--check 启动时检查依赖的服务是否可用。默认为true-->
     <!--init 是否需要饥饿加载，默认false延迟加载-->
-    <!--url 服务提供者地址，直连，跳过注册中心-->
+    <!--url 服务提供者地址，直连，跳过注册中心--><!--url="dubbo://192.168.1.189:20880"-->
     <dubbo:reference interface="wangzhongqiu.spring.core.service.TestService" id="testService" async="true" timeout="10000" check="false"
-                     init="true" url="dubbo://192.168.1.189:20880"/>
+                     init="true"/>
 
 </beans>
