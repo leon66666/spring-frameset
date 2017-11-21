@@ -21,7 +21,7 @@
     <import resource="classpath:spring-core.xml"/>
 
     <bean id="commonProducer" class="wangzhongqiu.spring.amqp.CommonProducer" name="commonProducer">
-        <property name="routingKey" value="manual_direct_queue_2"/>
+        <property name="routingKey" value="topic.1"/>
         <property name="baseAmqpTemplate" ref="directExChangeTemplate"/>
     </bean>
 
@@ -69,6 +69,10 @@
                      connection-factory="mqConnectionFactory"
                      message-converter="jsonMessageConverter"/>
 
+    <rabbit:template id="topicExChangeTemplate"
+                     exchange="topic-exchange"
+                     connection-factory="mqConnectionFactory"
+                     message-converter="jsonMessageConverter"/>
     <!--交换机配置
       name="zf-direct-exchange",name是交换机的名称
       auto-delete:交换机使用完成自动删除
