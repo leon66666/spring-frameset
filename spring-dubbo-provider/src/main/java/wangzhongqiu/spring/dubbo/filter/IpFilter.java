@@ -17,7 +17,7 @@ public class IpFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         if (!ipWhiteList.isEnabled()) {
-            logger.info("白名单禁用");
+            logger.info("白名单功能禁用");
             return invoker.invoke(invocation);
         }
 
@@ -26,6 +26,7 @@ public class IpFilter implements Filter {
         if (ipWhiteList.isAllowed(clientIp)) {
             return invoker.invoke(invocation);
         } else {
+            logger.info("ip【" + clientIp + "】禁止访问");
             return new RpcResult();
         }
     }

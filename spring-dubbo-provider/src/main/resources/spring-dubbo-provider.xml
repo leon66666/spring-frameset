@@ -31,7 +31,8 @@
     <dubbo:application name="dubbo-provider1"/>
 
     <!-- 使用zookeeper注册中心暴露发现服务地址 -->
-    <dubbo:registry address="${dubbo.registry.address}"/>
+    <!--register 启动的时候是否往zk注册服务，自己开发期间不能被别人调用到设置为false，默认为true-->
+    <dubbo:registry address="${dubbo.registry.address}" register="true"/>
 
     <!-- 用dubbo协议在20880端口暴露服务 -->
     <dubbo:protocol name="dubbo" port="20880"/>
