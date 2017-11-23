@@ -22,6 +22,41 @@
             <artifactId>jedis</artifactId>
             <version>${jedis_version}</version>
         </dependency>
-
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <env>dev</env>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test27</id>
+            <properties>
+                <env>test27</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>test28</id>
+            <properties>
+                <env>test28</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>release</id>
+            <properties>
+                <env>release</env>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <filters>
+            <filter>../env/${env}.properties</filter>
+        </filters>
+    </build>
 </project>

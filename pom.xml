@@ -777,6 +777,24 @@
         <filters>
             <filter>../env/${env}.properties</filter>
         </filters>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>mapper/*</exclude>
+                    <exclude>excel/*</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*mapper/*</include>
+                    <include>*excel/*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -810,37 +828,22 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>hxb</id>
-            <name>Maven of hoomsun.com</name>
-            <url>http://nexus.hoomxb.com:7069/nexus/content/groups/public</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-                <checksumPolicy>warn</checksumPolicy>
-            </snapshots>
-            <layout>default</layout>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <name>Release Maven Repository</name>
-            <url>http://nexus.hoomxb.com:7069/nexus/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>Snapshots Maven Repository</name>
-            <url>http://nexus.hoomxb.com:7069/nexus/content/repositories/snapshots</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
-    </distributionManagement>
-
+    <!--maven 私服-->
+    <!--    <repositories>
+            <repository>
+                <id>hxb</id>
+                <name>Maven of hoomsun.com</name>
+                <url>http://nexus.hoomxb.com:7069/nexus/content/groups/public</url>
+                <releases>
+                    <enabled>true</enabled>
+                    <updatePolicy>always</updatePolicy>
+                </releases>
+                <snapshots>
+                    <enabled>true</enabled>
+                    <updatePolicy>always</updatePolicy>
+                    <checksumPolicy>warn</checksumPolicy>
+                </snapshots>
+                <layout>default</layout>
+            </repository>
+        </repositories>-->
 </project>

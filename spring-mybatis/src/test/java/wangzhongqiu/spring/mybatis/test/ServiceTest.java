@@ -19,7 +19,7 @@ public class ServiceTest {
     LearnService learnService;
 
     @Test
-    public void testRepayUnprocessBorrowRepayTaskIds() throws Exception {
+    public void test() throws Exception {
         try {
             Long id = 999L;
             LearnResouce learnResouce = learnService.queryLearnResouceById(id);
