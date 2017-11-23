@@ -1,4 +1,4 @@
-package wangzhongqiu.spring.mybatis.utils;
+package wangzhongqiu.spring.mybatis.datasource;
 
 public enum AvailableDataSources {
     READ() {

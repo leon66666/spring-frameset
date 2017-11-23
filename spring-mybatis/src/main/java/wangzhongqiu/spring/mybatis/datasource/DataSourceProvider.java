@@ -1,4 +1,4 @@
-package wangzhongqiu.spring.mybatis.utils;
+package wangzhongqiu.spring.mybatis.datasource;
 
 public class DataSourceProvider {
     private static final ThreadLocal<AvailableDataSources> dataSourceHolder = new ThreadLocal<AvailableDataSources>();

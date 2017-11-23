@@ -2,8 +2,8 @@ package wangzhongqiu.spring.mybatis.dao;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
-import wangzhongqiu.springboot.mybatis.domain.LearnResouce;
-import wangzhongqiu.springboot.mybatis.tools.StringUtil;
+import wangzhongqiu.spring.mybatis.entity.LearnResouce;
+import wangzhongqiu.spring.mybatis.utils.StringUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -38,26 +38,26 @@ public interface LearnDao {
 
     class LearnSqlBuilder {
         public String queryLearnResouceByParams(final Map<String, Object> params) {
-            StringBuffer sql =new StringBuffer();
+            StringBuffer sql = new StringBuffer();
             sql.append("select * from learn_resource where 1=1");
-            if(!StringUtil.isNull((String)params.get("author"))){
-                sql.append(" and author like '%").append((String)params.get("author")).append("%'");
+            if (!StringUtil.isNull((String) params.get("author"))) {
+                sql.append(" and author like '%").append((String) params.get("author")).append("%'");
             }
-            if(!StringUtil.isNull((String)params.get("title"))){
-                sql.append(" and title like '%").append((String)params.get("title")).append("%'");
+            if (!StringUtil.isNull((String) params.get("title"))) {
+                sql.append(" and title like '%").append((String) params.get("title")).append("%'");
             }
-            System.out.println("查询sql=="+sql.toString());
+            System.out.println("查询sql==" + sql.toString());
             return sql.toString();
         }
 
         //删除的方法
-        public String deleteByids(@Param("ids") final String[] ids){
-            StringBuffer sql =new StringBuffer();
+        public String deleteByids(@Param("ids") final String[] ids) {
+            StringBuffer sql = new StringBuffer();
             sql.append("DELETE FROM learn_resource WHERE id in(");
-            for (int i=0;i<ids.length;i++){
-                if(i==ids.length-1){
+            for (int i = 0; i < ids.length; i++) {
+                if (i == ids.length - 1) {
                     sql.append(ids[i]);
-                }else{
+                } else {
                     sql.append(ids[i]).append(",");
                 }
             }

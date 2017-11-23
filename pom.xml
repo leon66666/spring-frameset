@@ -67,7 +67,7 @@
         <asm_version>4.2</asm_version>
         <mysql_connector_java_version>5.1.18</mysql_connector_java_version>
         <dubbo_version>2.5.3</dubbo_version>
-        <mybatis_version>3.2.6</mybatis_version>
+        <mybatis_version>3.4.4</mybatis_version>
         <mybatis_ehcache_version>1.0.0</mybatis_ehcache_version>
         <mybatis_generator_core_version>1.3.2</mybatis_generator_core_version>
         <mybatis_spring_version>1.3.0</mybatis_spring_version>

@@ -1,4 +1,4 @@
-package wangzhongqiu.spring.mybatis.utils;
+package wangzhongqiu.spring.mybatis.datasource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
