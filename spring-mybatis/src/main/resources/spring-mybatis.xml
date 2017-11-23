@@ -6,9 +6,9 @@
 		http://www.springframework.org/schema/tx
  		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
-    <bean id="dataSource" class="wangzhongqiu.spring.mybatis.utils.DataSourceRouter">
+    <bean id="dataSource" class="wangzhongqiu.spring.mybatis.datasource.DataSourceRouter">
         <property name="targetDataSources">
-            <map key-type="wangzhongqiu.spring.mybatis.utils.AvailableDataSources">
+            <map key-type="wangzhongqiu.spring.mybatis.datasource.AvailableDataSources">
                 <entry key="READ" value-ref="dataSourceSlave"/>
                 <entry key="WRITE" value-ref="dataSourceMaster"/>
             </map>
@@ -113,7 +113,7 @@
 
     <!-- mapper bean -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.hoomsun.crm.dao"/>
+        <property name="basePackage" value="wangzhongqiu.spring.mybatis.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 

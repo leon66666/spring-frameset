@@ -7,8 +7,8 @@
     </settings>
 
     <plugins>
-        <plugin interceptor="com.hoomsun.crm.util.orm.mybatis.plugin.OffsetLimitInterceptor">
-            <property name="dialectClass" value="com.hoomsun.crm.util.orm.dialect.MySQLDialect"/>
+        <plugin interceptor="wangzhongqiu.spring.mybatis.interceptor.OffsetLimitInterceptor">
+            <property name="dialectClass" value="wangzhongqiu.spring.mybatis.dialect.MySQLDialect"/>
         </plugin>
     </plugins>
 </configuration>

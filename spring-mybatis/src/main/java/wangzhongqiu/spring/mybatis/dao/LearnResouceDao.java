@@ -14,7 +14,7 @@ import java.util.Map;
  */
 @Component
 @Mapper
-public interface LearnDao {
+public interface LearnResouceDao {
     @Insert("insert into learn_resource(author, title,url) values(#{author},#{title},#{url})")
     int add(LearnResouce learnResouce);
 
