@@ -2,13 +2,13 @@
 <!DOCTYPE configuration   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-	<settings>
-		<setting name="logImpl" value="LOG4J"/>
-	</settings>
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
 
-	<plugins>
-		<plugin interceptor="com.hoomsun.crm.util.orm.mybatis.plugin.OffsetLimitInterceptor">
-			<property name="dialectClass" value="com.hoomsun.crm.util.orm.dialect.MySQLDialect" />
-		</plugin>
-	</plugins>
+    <plugins>
+        <plugin interceptor="com.hoomsun.crm.util.orm.mybatis.plugin.OffsetLimitInterceptor">
+            <property name="dialectClass" value="com.hoomsun.crm.util.orm.dialect.MySQLDialect"/>
+        </plugin>
+    </plugins>
 </configuration>
