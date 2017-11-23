@@ -27,7 +27,7 @@
         <!-- Myself libs -->
         <wangzhongqiu_javautils_version>1.0</wangzhongqiu_javautils_version>
         <!-- Common libs -->
-        <spring_version>4.3.10.RELEASE</spring_version>
+        <spring_version>4.1.6.RELEASE</spring_version>
         <javassist_version>3.20.0-GA</javassist_version>
         <netty_version>3.2.5.Final</netty_version>
         <mina_version>1.1.7</mina_version>
@@ -89,7 +89,7 @@
         <hibernate_core_version>4.3.4.Final</hibernate_core_version>
         <hibernate_annotations_version>3.5.6-Final</hibernate_annotations_version>
         <spring_data_redis_version>1.3.0.RELEASE</spring_data_redis_version>
-        <jedis_version>2.6.1</jedis_version>
+        <jedis_version>2.4.1</jedis_version>
         <!-- Log libs -->
         <slf4j_version>1.7.25</slf4j_version>
         <slf4j_log4j12_version>1.7.6</slf4j_log4j12_version>

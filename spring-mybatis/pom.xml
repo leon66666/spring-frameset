@@ -42,6 +42,12 @@
             <version>${jedis_version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>${commons_pool2_version}</version>
+        </dependency>
+
         <!--连接池-->
         <dependency>
             <groupId>com.alibaba</groupId>

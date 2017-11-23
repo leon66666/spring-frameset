@@ -122,11 +122,6 @@
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
           p:dataSource-ref="dataSource"/>
 
-
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource"></property>
-    </bean>
-
     <tx:annotation-driven transaction-manager="txManager"/>
 </beans>
 	
