@@ -23,6 +23,7 @@ public class ServiceTest {
         try {
             Long id = 999L;
             LearnResouce learnResouce = learnService.queryLearnResouceById(id);
+            System.out.println(learnResouce);
         } catch (Exception e) {
             e.printStackTrace();
         }
