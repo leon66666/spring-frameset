@@ -5,4 +5,5 @@ package wangzhongqiu.spring.mybatis.test;
  * @date 2017/11/23.
  */
 public class Test {
+
 }
