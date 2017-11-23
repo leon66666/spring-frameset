@@ -15,6 +15,7 @@
         <module>spring-dubbo-consumer</module>
         <module>spring-dubbo-provider</module>
         <module>spring-mybatis</module>
+        <module>spring-redis</module>
     </modules>
 
     <properties>

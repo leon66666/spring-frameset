@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/spring-frameset.iml" filepath="$PROJECT_DIR$/spring-frameset.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-mybatis/spring-mybatis.iml" filepath="$PROJECT_DIR$/spring-mybatis/spring-mybatis.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-parent.iml" filepath="$PROJECT_DIR$/spring-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-redis/spring-redis.iml" filepath="$PROJECT_DIR$/spring-redis/spring-redis.iml" />
     </modules>
   </component>
 </project>

@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:context="http://www.springframework.org/schema/context"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<context:annotation-config />
+    <context:annotation-config/>
 
-	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-		<property name="maxTotal" value="${redis.config.maxTotal}" />
-		<property name="maxIdle" value="${redis.config.maxIdle}" />
-		<property name="maxWaitMillis" value="${redis.config.maxWaitMillis}" />
-		<property name="testOnBorrow" value="${redis.config.testOnBorrow}" />
-	</bean>
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="${redis.config.maxTotal}"/>
+        <property name="maxIdle" value="${redis.config.maxIdle}"/>
+        <property name="maxWaitMillis" value="${redis.config.maxWaitMillis}"/>
+        <property name="testOnBorrow" value="${redis.config.testOnBorrow}"/>
+    </bean>
 
-	<bean id="cachePool" class="redis.clients.jedis.JedisPool">
-		<constructor-arg index="0" ref="jedisPoolConfig" />
-		<constructor-arg index="1" value="${cachePool.url}" />
-		<constructor-arg index="2" value="${cachePool.port}" />
-		<constructor-arg index="3" value="${cachePool.timeout}" />
-		<constructor-arg index="4" value="${cachePool.auth}" />
-		<constructor-arg index="5" value="${cashePool.selectDB}" />
-	</bean>
+    <bean id="cachePool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" ref="jedisPoolConfig"/>
+        <constructor-arg index="1" value="${cachePool.url}"/>
+        <constructor-arg index="2" value="${cachePool.port}"/>
+        <constructor-arg index="3" value="${cachePool.timeout}"/>
+        <constructor-arg index="4" value="${cachePool.auth}"/>
+        <constructor-arg index="5" value="${cashePool.selectDB}"/>
+    </bean>
 
-	<bean id="redisCache" class="com.hoomsun.service.redis.RedisUtil" >
-		<constructor-arg index="0" ref="cachePool"/>
-	</bean>
+    <bean id="redisCache" class="wangzhongqiu.spring.redis.RedisUtil">
+        <constructor-arg index="0" ref="cachePool"/>
+    </bean>
 
-	<bean id="businessPool" class="redis.clients.jedis.JedisPool" primary="true">
-		<constructor-arg index="0" ref="jedisPoolConfig" />
-		<constructor-arg index="1" value="${servicePool.url}" />
-		<constructor-arg index="2" value="${servicePool.port}" />
-		<constructor-arg index="3" value="${servicePool.timeout}" />
-		<constructor-arg index="4" value="${servicePool.auth}" />
-		<constructor-arg index="5" value="${servicePool.selectDB}" />
-	</bean>
+    <bean id="businessPool" class="redis.clients.jedis.JedisPool" primary="true">
+        <constructor-arg index="0" ref="jedisPoolConfig"/>
+        <constructor-arg index="1" value="${servicePool.url}"/>
+        <constructor-arg index="2" value="${servicePool.port}"/>
+        <constructor-arg index="3" value="${servicePool.timeout}"/>
+        <constructor-arg index="4" value="${servicePool.auth}"/>
+        <constructor-arg index="5" value="${servicePool.selectDB}"/>
+    </bean>
 
 
-	<bean id="redisBusiness" class="com.hoomsun.service.redis.RedisUtil" >
-		<constructor-arg index="0" ref="businessPool"/>
-	</bean>
+    <bean id="redisBusiness" class="wangzhongqiu.spring.redis.RedisUtil">
+        <constructor-arg index="0" ref="businessPool"/>
+    </bean>
 
-	<bean id="sessionPool" class="redis.clients.jedis.JedisPool">
-		<constructor-arg index="0" ref="jedisPoolConfig" />
-		<constructor-arg index="1" value="${sessionPool.url}" />
-		<constructor-arg index="2" value="${sessionPool.port}" />
-		<constructor-arg index="3" value="${sessionPool.timeout}" />
-		<constructor-arg index="4" value="${sessionPool.auth}" />
-		<constructor-arg index="5" value="${sessionPool.selectDB}" />
-	</bean>
+    <bean id="sessionPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" ref="jedisPoolConfig"/>
+        <constructor-arg index="1" value="${sessionPool.url}"/>
+        <constructor-arg index="2" value="${sessionPool.port}"/>
+        <constructor-arg index="3" value="${sessionPool.timeout}"/>
+        <constructor-arg index="4" value="${sessionPool.auth}"/>
+        <constructor-arg index="5" value="${sessionPool.selectDB}"/>
+    </bean>
 
-	<bean id="redisSession" class="com.hoomsun.service.redis.RedisUtil" >
-		<constructor-arg index="0" ref="sessionPool"/>
-	</bean>
+    <bean id="redisSession" class="wangzhongqiu.spring.redis.RedisUtil">
+        <constructor-arg index="0" ref="sessionPool"/>
+    </bean>
 
-	<bean id="redisService" class="com.hoomsun.service.redis.RedisService">
-		<constructor-arg index="0" ref="redisBusiness"/>
-		<constructor-arg index="1" ref="redisCache"/>
-		<constructor-arg index="2" ref="redisSession"/>
-	</bean>
+    <bean id="redisService" class="wangzhongqiu.spring.redis.RedisService">
+        <constructor-arg index="0" ref="redisBusiness"/>
+        <constructor-arg index="1" ref="redisCache"/>
+        <constructor-arg index="2" ref="redisSession"/>
+    </bean>
 
 </beans>
