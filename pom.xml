@@ -783,6 +783,7 @@
                 <excludes>
                     <exclude>mapper/*</exclude>
                     <exclude>excel/*</exclude>
+                    <exclude>sql/*</exclude>
                 </excludes>
                 <filtering>true</filtering>
             </resource>
@@ -791,6 +792,7 @@
                 <includes>
                     <include>*mapper/*</include>
                     <include>*excel/*</include>
+                    <include>*sql/*</include>
                 </includes>
                 <filtering>false</filtering>
             </resource>
