@@ -172,27 +172,5 @@
             <artifactId>spring-jms</artifactId>
             <version>${spring_version}</version>
         </dependency>
-        <!-- mybaits -->
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>${mybatis_version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-ehcache</artifactId>
-            <version>${mybatis_ehcache_version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis.generator</groupId>
-            <artifactId>mybatis-generator-core</artifactId>
-            <version>${mybatis_generator_core_version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>${mybatis_spring_version}</version>
-        </dependency>
     </dependencies>
-
 </project>
