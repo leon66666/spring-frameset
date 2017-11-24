@@ -1,16 +1,15 @@
 package wangzhongqiu.spring.redis;
 
+import org.apache.commons.io.IOUtils;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.exceptions.JedisConnectionException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
-
-import org.apache.commons.io.IOUtils;
-
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.exceptions.JedisConnectionException;
 
 public class RedisManager {
 
