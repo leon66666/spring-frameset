@@ -14,9 +14,6 @@
 	   http://www.springframework.org/schema/context
 	   http://www.springframework.org/schema/context/spring-context.xsd
 		">
-
-    <!-- 引入属性文件 -->
-    <!--<context:property-placeholder location="classpath:jdbc.properties" />-->
     <!-- 自动扫描（自动注入） -->
     <context:component-scan base-package="wangzhongqiu.spring.mybatis">
         <context:exclude-filter type="annotation"
