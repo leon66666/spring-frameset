@@ -14,8 +14,5 @@
 
     <context:annotation-config/>
     <context:component-scan base-package="wangzhongqiu.spring.core"/>
-
-    <context:property-placeholder location="classpath:dev.properties"/>
-
 </beans>
 
