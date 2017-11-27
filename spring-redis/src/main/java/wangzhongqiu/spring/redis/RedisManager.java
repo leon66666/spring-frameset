@@ -16,13 +16,13 @@ public class RedisManager {
     private JedisPool pool;
 
     private RedisLockFactory locksmith = new RedisLockFactory();
-    
+
     private HashMap<String, String> scripts = new HashMap<String, String>();
 
     public RedisManager(JedisPool pool) {
         this.pool = pool;
     }
-    
+
     public String loadScript(String name) throws IOException {
         if (scripts.get(name) == null) {
             InputStream is = RedisManager.class.getResourceAsStream("/redis-scripts/" + name + ".lua");
@@ -30,7 +30,7 @@ public class RedisManager {
         }
         return scripts.get(name);
     }
-    
+
     public <T> T request(RedisCallback<T> callback) {
         Jedis jedis = pool.getResource();
         try {

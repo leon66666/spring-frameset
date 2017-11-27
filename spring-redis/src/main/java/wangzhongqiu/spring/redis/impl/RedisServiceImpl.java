@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Pipeline;
+import wangzhongqiu.spring.core.exception.base.RedisException;
+import wangzhongqiu.spring.redis.*;
+import wangzhongqiu.spring.redis.constant.Constants;
+import wangzhongqiu.spring.redis.constant.SupervisionConfig;
+import zhongqiu.javautils.StringUtil;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -22,7 +27,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Redis业务类
  */
 @Service
-public class RedisServiceImpl implements RedisService {
+public class RedisServiceImpl implements RedisCommonService {
 
     private static Logger logger = LoggerFactory.getLogger(RedisServiceImpl.class);
 
@@ -42,7 +47,6 @@ public class RedisServiceImpl implements RedisService {
      * Redis连接
      *
      * @return
-     * @throws RedisConnectException
      */
     private Jedis connect(JedisPool pool) throws RedisConnectException {
         Jedis jedis = null;
@@ -160,6 +164,7 @@ public class RedisServiceImpl implements RedisService {
      * @param value
      * @return
      */
+    @Override
     public String set(String key, String value) {
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value)) {
             return null;
@@ -193,6 +198,7 @@ public class RedisServiceImpl implements RedisService {
      * @param expireSeconds
      * @return
      */
+    @Override
     public String setex(String key, String value, int expireSeconds) {
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value)) {
             return null;
@@ -219,6 +225,7 @@ public class RedisServiceImpl implements RedisService {
         return null;
     }
 
+    @Override
     public void setStr(String keyPrefix, String key, String value, int expireSeconds) {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -249,6 +256,7 @@ public class RedisServiceImpl implements RedisService {
      * @param expireSeconds
      * @return
      */
+    @Override
     public String setexNoContinue(String key, String value, int expireSeconds) {
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value)) {
             return null;
@@ -277,6 +285,7 @@ public class RedisServiceImpl implements RedisService {
         return null;
     }
 
+    @Override
     public void setObj(String keyPrefix, String key, Serializable value, int expireSeconds) {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -297,6 +306,8 @@ public class RedisServiceImpl implements RedisService {
             }
         }
     }
+
+    @Override
     public void setObj(String keyPrefix, String key, Serializable value) {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -318,6 +329,7 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
+    @Override
     public Serializable getObj(String keyPrefix, String key) {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -329,9 +341,9 @@ public class RedisServiceImpl implements RedisService {
             // jedis.select(DBIndex);
 
             byte[] bytes = jedis.get((keyPrefix + key).getBytes(strCharset));
-            if (null == bytes)
+            if (null == bytes) {
                 return null;
-            else {
+            } else {
                 Serializable obj = StringUtil.deserialize(bytes);
                 return obj;
             }
@@ -349,6 +361,7 @@ public class RedisServiceImpl implements RedisService {
     /**
      * setStr过期时间永久
      */
+    @Override
     public void setStrAndPersist(String key, String value) {
         JedisPool pool = choosePool(key);
         Jedis jedis = null;
@@ -369,6 +382,7 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
+    @Override
     public String getStr(String keyPrefix, String key) {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -391,6 +405,7 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
+    @Override
     public void setList(String keyPrefix, String key, List<String> keys, int expireSeconds) {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -446,6 +461,7 @@ public class RedisServiceImpl implements RedisService {
 //        return list;
 //    }
 
+    @Override
     public void mset(String keyPrefix, List<String> keys, List<Serializable> values) throws RedisConnectException {
         JedisPool pool = choosePool(keyPrefix);
         Jedis jedis = null;
@@ -476,6 +492,7 @@ public class RedisServiceImpl implements RedisService {
 
     }
 
+    @Override
     public List<String> mget(String keyPrefix, List<String> keys) {
         JedisPool pool = choosePool(keyPrefix);
         Jedis jedis = null;
@@ -505,6 +522,7 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
+    @Override
     public void lset(String keyPrefix, String key, List<Serializable> values) throws RedisConnectException {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -530,6 +548,7 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
+    @Override
     public Long lrem(String keyPrefix, String key, long count, String value) throws RedisConnectException {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -552,6 +571,7 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
+    @Override
     public List<String> lrange(String keyPrefix, String key, int start, int end) {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -608,6 +628,7 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
+    @Override
     public Map<String, String> hgetAll(String keyPrefix, String key) {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -639,6 +660,7 @@ public class RedisServiceImpl implements RedisService {
      * @param field
      * @return
      */
+    @Override
     public String hget(String key, String field) {
         JedisPool pool = choosePool(key);
         Jedis jedis = null;
@@ -660,6 +682,7 @@ public class RedisServiceImpl implements RedisService {
         return result;
     }
 
+    @Override
     public void del(String keyPrefix, String key) {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -684,6 +707,7 @@ public class RedisServiceImpl implements RedisService {
     /**
      * 获取自动扫描标记字段，isChecking。
      */
+    @Override
     public boolean getIsCheckingOfAutomatedLoanService() {
         try {
             String key = Constants.REDIS_KEY_IS_CHECKING;
@@ -821,6 +845,7 @@ public class RedisServiceImpl implements RedisService {
      * @param field
      * @param value
      */
+    @Override
     public void hsetNoSerialize(String key, String field, String value) {
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(field) || StringUtils.isEmpty(value)) {
             return;
@@ -852,6 +877,7 @@ public class RedisServiceImpl implements RedisService {
      * @param field
      * @return
      */
+    @Override
     public String hgetNoSerialize(String key, String field) {
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(field)) {
             return null;
@@ -883,6 +909,7 @@ public class RedisServiceImpl implements RedisService {
      * @param key
      * @param field
      */
+    @Override
     public Long hdel(String key, String field) {
         return hdel(key, new String[]{field});
     }
@@ -893,6 +920,7 @@ public class RedisServiceImpl implements RedisService {
      * @param key
      * @param fields
      */
+    @Override
     public Long hdel(String key, String[] fields) {
         if (StringUtil.isEmpty(key) || StringUtil.isEmpty(fields)) {
             return null;
@@ -944,8 +972,9 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public void delSet(Set<String> set) {
-        if (null == set || set.size() == 0)
+        if (null == set || set.size() == 0) {
             return;
+        }
         JedisPool pool = choosePool(set.iterator().next());
         Jedis jedis = null;
         boolean connectionBroken = false;
@@ -955,8 +984,9 @@ public class RedisServiceImpl implements RedisService {
             if (jedis == null) {
                 return;
             }
-            for (String str : set)
+            for (String str : set) {
                 jedis.del(str);
+            }
         } catch (Exception e) {
             logger.error("删除失败：", e);
             connectionBroken = JedisUtils.handleJedisException(e, pool);
@@ -1310,6 +1340,7 @@ public class RedisServiceImpl implements RedisService {
      * @return true     等价于set
      * false    有key值
      */
+    @Override
     public boolean setnx(String key, String value) {
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value)) {
             return false;
@@ -1367,6 +1398,7 @@ public class RedisServiceImpl implements RedisService {
      * @param key
      * @return
      */
+    @Override
     public Long hlen(String key) {
         if (StringUtils.isEmpty(key)) {
             return null;
@@ -1398,6 +1430,7 @@ public class RedisServiceImpl implements RedisService {
      * @param key
      * @return
      */
+    @Override
     public Set<String> hkeys(String key) {
         if (StringUtils.isEmpty(key)) {
             return null;
@@ -1430,6 +1463,7 @@ public class RedisServiceImpl implements RedisService {
      * @param member 成员
      * @return true:存在  false:不存在
      */
+    @Override
     public boolean sismember(String key, String member) {
         if (StringUtils.isEmpty(key)) {
             return false;
@@ -1458,9 +1492,10 @@ public class RedisServiceImpl implements RedisService {
     /**
      * 返回Set中全部数据
      *
-     * @param key    Set的Key
+     * @param key Set的Key
      * @return
      */
+    @Override
     public Set<String> smembers(String key) {
         if (StringUtils.isEmpty(key)) {
             return null;
@@ -1491,6 +1526,7 @@ public class RedisServiceImpl implements RedisService {
      *
      * @return
      */
+    @Override
     public String info() {
         JedisPool pool = choosePool("");
         Jedis jedis = null;
@@ -1540,6 +1576,7 @@ public class RedisServiceImpl implements RedisService {
     /**
      * 设置异常
      */
+    @Override
     public void setException(String message) {
         if (SupervisionConfig.ESCROW_DEV_MODE) {
             String errorPercent = get(Constants.ESCROW_TEST_ERROR_PERCENT);
@@ -1556,6 +1593,7 @@ public class RedisServiceImpl implements RedisService {
     /**
      * 设置每个业务的异常测试代码
      */
+    @Override
     public void setEachBizException(String redisKey, String errorMessage) {
         if (SupervisionConfig.ESCROW_DEV_MODE) {
             String errorPercent = hgetNoSerialize(Constants.ESCROW_TEST_ERROR_PERCENT, redisKey);
@@ -1632,6 +1670,7 @@ public class RedisServiceImpl implements RedisService {
      * @param values 值数组
      * @return 操作成功数量
      */
+    @Override
     public Long sadd(String key, String[] values) {
         if (StringUtils.isEmpty(key) || null == values) {
             return null;
@@ -1695,6 +1734,7 @@ public class RedisServiceImpl implements RedisService {
      * @param values 值数组
      * @return 操作成功数量
      */
+    @Override
     public Long srem(String key, String[] values) {
         if (StringUtils.isEmpty(key) || null == values) {
             return null;
@@ -1745,6 +1785,7 @@ public class RedisServiceImpl implements RedisService {
         }
         return null;
     }
+
     @Override
     public String getTransAndRepay(String key) {
         if (StringUtils.isEmpty(key)) {
@@ -1805,11 +1846,13 @@ public class RedisServiceImpl implements RedisService {
 
     /**
      * setnx和expire在一个事务
+     *
      * @param key
      * @param value
-     * @param seconds
+     * @param expire
      * @return 成功或失败
      */
+    @Override
     public boolean setnxAndExpire(final String key, final String value, final int expire) {
         // 累加某个标的在Redis中的的投标金额,使用Lua脚本来完成更新操作,目的是保证操作的原子性
         // 返回3种结果:1-累加成功后,标的已经完成的金额 2-insufficient(投资金额累加后,超出了标的总金额) 3-missvalue(不存在该标的投资金额数据)
@@ -1851,9 +1894,9 @@ public class RedisServiceImpl implements RedisService {
             if (jedis == null) {
                 return false;
             }
-            jedis.expire(key,expire);
-            Long result=jedis.setnx(key, value);
-            return  result== 1;
+            jedis.expire(key, expire);
+            Long result = jedis.setnx(key, value);
+            return result == 1;
         } catch (Exception e) {
             logger.error("设置失败：", e);
             connectionBroken = JedisUtils.handleJedisException(e, pool);

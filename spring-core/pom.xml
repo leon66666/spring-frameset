@@ -13,6 +13,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>wangzhongqiu</groupId>
+            <artifactId>javautils</artifactId>
+            <version>${wangzhongqiu_javautils_version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.rabbitmq</groupId>
             <artifactId>amqp-client</artifactId>
             <version>${amqp_client_version}</version>
@@ -88,7 +94,16 @@
             <artifactId>commons-dbcp</artifactId>
             <version>${commons_dbcp_version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>${commons_configuration_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons_io_version}</version>
+        </dependency>
         <!--servlet-->
         <dependency>
             <groupId>javax.servlet</groupId>

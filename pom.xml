@@ -118,7 +118,8 @@
         <commons_pool_version>1.6</commons_pool_version>
         <commons_pool2_version>2.2</commons_pool2_version>
         <commons_proxy_version>1.0</commons_proxy_version>
-
+        <commons_configuration_version>1.6</commons_configuration_version>
+        <geronimo_javamail_1.4_spec_version>1.7.1</geronimo_javamail_1.4_spec_version>
         <!-- Test libs -->
         <junit_version>4.12</junit_version>
         <easymock_version>3.4</easymock_version>
@@ -287,6 +288,16 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-proxy</artifactId>
                 <version>${commons_proxy_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>${commons_configuration_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-javamail_1.4_spec</artifactId>
+                <version>${geronimo_javamail_1.4_spec_version}</version>
             </dependency>
 
             <!-- 连接池 -->

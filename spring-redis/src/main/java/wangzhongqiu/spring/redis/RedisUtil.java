@@ -148,6 +148,7 @@ public class RedisUtil implements Redis {
      * @param value
      * @return
      */
+    @Override
     public String set(String key, String value) {
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value)) {
             return null;
@@ -181,6 +182,7 @@ public class RedisUtil implements Redis {
      * @param expireSeconds
      * @return
      */
+    @Override
     public String setex(String key, String value, int expireSeconds) {
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value)) {
             return null;
@@ -207,6 +209,7 @@ public class RedisUtil implements Redis {
         return null;
     }
 
+    @Override
     public void mset(String keyPrefix, List<String> keys, List<Serializable> values) throws RedisConnectException {
         JedisPool pool = choosePool(keyPrefix);
         Jedis jedis = null;
@@ -237,6 +240,7 @@ public class RedisUtil implements Redis {
 
     }
 
+    @Override
     public List<String> mget(String keyPrefix, List<String> keys) {
         JedisPool pool = choosePool(keyPrefix);
         Jedis jedis = null;
@@ -266,6 +270,7 @@ public class RedisUtil implements Redis {
         }
     }
 
+    @Override
     public void lset(String keyPrefix, String key, List<Serializable> values) throws RedisConnectException {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -291,6 +296,7 @@ public class RedisUtil implements Redis {
         }
     }
 
+    @Override
     public Long lrem(String keyPrefix, String key, long count, String value) throws RedisConnectException {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -313,6 +319,7 @@ public class RedisUtil implements Redis {
         }
     }
 
+    @Override
     public List<String> lrange(String keyPrefix, String key, int start, int end) {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -342,6 +349,7 @@ public class RedisUtil implements Redis {
         }
     }
 
+    @Override
     public Map<String, String> hgetAll(String keyPrefix, String key) {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -373,6 +381,7 @@ public class RedisUtil implements Redis {
      * @param field
      * @return
      */
+    @Override
     public String hget(String key, String field) {
         JedisPool pool = choosePool(key);
         Jedis jedis = null;
@@ -394,6 +403,7 @@ public class RedisUtil implements Redis {
         return result;
     }
 
+    @Override
     public void del(String keyPrefix, String key) {
         JedisPool pool = choosePool(keyPrefix + key);
         Jedis jedis = null;
@@ -423,6 +433,7 @@ public class RedisUtil implements Redis {
      * @param field
      * @param value
      */
+    @Override
     public void hset(String key, String field, String value) {
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(field) || StringUtils.isEmpty(value)) {
             return;
@@ -453,6 +464,7 @@ public class RedisUtil implements Redis {
      * @param key
      * @param field
      */
+    @Override
     public Long hdel(String key, String field) {
         return hdel(key, new String[]{field});
     }
@@ -463,6 +475,7 @@ public class RedisUtil implements Redis {
      * @param key
      * @param fields
      */
+    @Override
     public Long hdel(String key, String[] fields) {
         if (StringUtil.isEmpty(key) || StringUtil.isEmpty(fields)) {
             return null;
@@ -821,6 +834,7 @@ public class RedisUtil implements Redis {
      * @return true     等价于set
      * false    有key值
      */
+    @Override
     public boolean setnx(String key, String value) {
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value)) {
             return false;
@@ -878,6 +892,7 @@ public class RedisUtil implements Redis {
      * @param key
      * @return
      */
+    @Override
     public Long hlen(String key) {
         if (StringUtils.isEmpty(key)) {
             return null;
@@ -909,6 +924,7 @@ public class RedisUtil implements Redis {
      * @param key
      * @return
      */
+    @Override
     public Set<String> hkeys(String key) {
         if (StringUtils.isEmpty(key)) {
             return null;
@@ -941,6 +957,7 @@ public class RedisUtil implements Redis {
      * @param member 成员
      * @return true:存在  false:不存在
      */
+    @Override
     public boolean sismember(String key, String member) {
         if (StringUtils.isEmpty(key)) {
             return false;
@@ -972,6 +989,7 @@ public class RedisUtil implements Redis {
      * @param key Set的Key
      * @return
      */
+    @Override
     public Set<String> smembers(String key) {
         if (StringUtils.isEmpty(key)) {
             return null;
@@ -1002,6 +1020,7 @@ public class RedisUtil implements Redis {
      *
      * @return
      */
+    @Override
     public String info() {
         JedisPool pool = choosePool("");
         Jedis jedis = null;
@@ -1070,6 +1089,7 @@ public class RedisUtil implements Redis {
      * @param values 值数组
      * @return 操作成功数量
      */
+    @Override
     public Long sadd(String key, String[] values) {
         if (StringUtils.isEmpty(key) || null == values) {
             return null;
@@ -1133,6 +1153,7 @@ public class RedisUtil implements Redis {
      * @param values 值数组
      * @return 操作成功数量
      */
+    @Override
     public Long srem(String key, String[] values) {
         if (StringUtils.isEmpty(key) || null == values) {
             return null;
