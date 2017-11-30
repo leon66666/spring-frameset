@@ -1,4 +1,4 @@
-package wangzhongqiu.spring.redis.impl;
+package wangzhongqiu.spring.redis.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Pipeline;
+import wangzhongqiu.spring.core.exception.RedisConnectException;
 import wangzhongqiu.spring.core.exception.base.RedisException;
 import wangzhongqiu.spring.redis.*;
 import wangzhongqiu.spring.redis.constant.Constants;
 import wangzhongqiu.spring.redis.constant.SupervisionConfig;
+import wangzhongqiu.spring.redis.service.RedisCommonService;
 import wangzhongqiu.spring.redis.utils.JedisUtils;
 import zhongqiu.javautils.StringUtil;
 
@@ -25,9 +27,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Redis业务类。servicePool
  */
 @Service
-public class RedisServiceImpl implements RedisCommonService {
+public class RedisCommonServiceImpl implements RedisCommonService {
 
-    private static Logger logger = LoggerFactory.getLogger(RedisServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(RedisCommonServiceImpl.class);
 
     private final static String strCharset = "UTF-8";
 

@@ -1,4 +1,4 @@
-package wangzhongqiu.spring.redis;
+package wangzhongqiu.spring.redis.utils;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

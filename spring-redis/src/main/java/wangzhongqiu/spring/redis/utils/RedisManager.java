@@ -1,4 +1,4 @@
-package wangzhongqiu.spring.redis;
+package wangzhongqiu.spring.redis.utils;
 
 import org.apache.commons.io.IOUtils;
 import redis.clients.jedis.Jedis;

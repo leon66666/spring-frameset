@@ -1,6 +1,7 @@
-package wangzhongqiu.spring.redis;
+package wangzhongqiu.spring.redis.service;
 
 import org.apache.commons.logging.Log;
+import wangzhongqiu.spring.core.exception.RedisConnectException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -227,7 +228,6 @@ public interface RedisCommonService {
      *
      * @param key
      * @param field
-     * @param value
      */
     public Long hdel(String key, String field);
 
@@ -235,8 +235,7 @@ public interface RedisCommonService {
      * 删除hash的一个值
      *
      * @param key
-     * @param field
-     * @param value
+     * @param fields
      * @return
      */
     public Long hdel(String key, String[] fields);
@@ -259,7 +258,7 @@ public interface RedisCommonService {
     /**
      * 查看redis值的类型
      *
-     * @param substring
+     * @param key
      * @return
      */
     public String type(String key);
@@ -347,7 +346,7 @@ public interface RedisCommonService {
      *
      * @param key
      * @param value
-     * @param seconds
+     * @param expire
      * @return
      */
     public boolean setnxAndExpire(final String key, final String value, final int expire);
