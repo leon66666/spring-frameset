@@ -38,5 +38,11 @@
             <artifactId>geronimo-javamail_1.4_spec</artifactId>
             <version>${geronimo_javamail_1.4_spec_version}</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
