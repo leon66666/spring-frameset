@@ -36,6 +36,7 @@ public interface RedisCommonService {
 
     /**
      * 根据key和field获取value
+     *
      * @param key
      * @param field
      * @return
@@ -60,9 +61,13 @@ public interface RedisCommonService {
      * @return
      */
     public String setex(String key, String value, int expireSeconds);
+
     public String setexNoContinue(String key, String value, int expireSeconds);
+
     public void setObj(String keyPrefix, String key, Serializable value, int expireSeconds);
+
     public void setObj(String keyPrefix, String key, Serializable value);
+
     public Serializable getObj(String keyPrefix, String key);
 
 
@@ -77,12 +82,12 @@ public interface RedisCommonService {
 
     public void setList(String keyPrefix, String key, List<String> keys, int expireSeconds);
 
-//    public List<String> getList(String keyPrefix, String key);
+    public List<String> getList(String keyPrefix, String key);
 
     /**
      * Redis中的lindex命令, 从List中获取某个Index的值
      *
-     * @param key 列表的Key
+     * @param key   列表的Key
      * @param index 索引值,如果是正数,从左向右数;如果是负数,从右向左数
      * @return 返回值
      */
@@ -90,6 +95,7 @@ public interface RedisCommonService {
 
     /**
      * Redis中的lpush命令,从左向右往List中放数据
+     *
      * @param key 列表的Key
      * @param val
      * @return
@@ -99,6 +105,7 @@ public interface RedisCommonService {
 
     /**
      * Redis中的rpush命令, 从右向左往List中放数据
+     *
      * @param key
      * @param val
      */
@@ -106,6 +113,7 @@ public interface RedisCommonService {
 
     /**
      * Redis中的rpop命令,从右往左从List中取数据,取出数据后,List中的数据删掉
+     *
      * @param key 列表的Key
      * @return
      * @throws RedisConnectException
@@ -114,6 +122,7 @@ public interface RedisCommonService {
 
     /**
      * 根据参数 count 的值，移除列表中与参数 value 相等的元素
+     *
      * @param keyPrefix
      * @param key
      * @param count
@@ -125,6 +134,7 @@ public interface RedisCommonService {
 
     /**
      * 检查一个List中元素的个数
+     *
      * @param key
      * @return
      * @throws RedisConnectException
@@ -152,18 +162,10 @@ public interface RedisCommonService {
      */
     public boolean getIsCheckingOfAutomatedLoanService();
 
-    /**
-     * 获取凌晨清算自动扫描isChicking和多线程还款的任务调度切换
-     */
-    public boolean getIsCheckingOrBorrowRepayTask();
-
-    /**
-     * 获取凌晨清算自动扫描isChicking和数据备份的任务调度切换
-     */
-    public boolean getIsCheckingOrDBBackUpTask();
 
     /**
      * 获取自动扫描标记字段isChecking,每次间隔time秒进行重复检测,直到isChecking为false
+     *
      * @param time 每次等待的时间,单位:秒
      * @param log  日志
      * @param task 任务名称
@@ -171,23 +173,6 @@ public interface RedisCommonService {
      */
     public void waitIsCheckingOfAutomatedLoanService(long time, Log log, String task);
 
-    /**
-     * 判断是否正在运行理财计划自动退出任务
-     * @param time
-     * @param log
-     * @param task
-     */
-    public void waitIsAutoUPlanQuitJob(long time, Log log, String task);
-
-    /**
-     * 获取理财计划预定自动支付扫描标记字段，isFinancePlanReserveAutoPayment。
-     */
-    public boolean getIsFinancePlanReserveAutoPayment(Integer financePlanId);
-
-    /**
-     * 获取定投计划自动充值扫描标记字段，isAutoInvestPlanAutoRecharge。
-     */
-    public boolean getIsAutoInvestPlanAutoRecharge();
 
     /**
      * 不序列化设置Hash结构的值
@@ -207,10 +192,14 @@ public interface RedisCommonService {
      */
     public String hgetNoSerialize(String key, String field);
 
-    /** 获取集合 */
+    /**
+     * 获取集合
+     */
     public Set<String> keys(String pattern);
 
-    /** 删除集合 */
+    /**
+     * 删除集合
+     */
     public void delSet(Set<String> set);
 
     /**
@@ -226,6 +215,7 @@ public interface RedisCommonService {
 
     /**
      * 检查给定 key 是否存在
+     *
      * @param key
      * @return
      * @throws RedisConnectException
@@ -254,7 +244,6 @@ public interface RedisCommonService {
     public boolean isExist(String key) throws RedisConnectException;
 
 
-
     /**
      * 无key设置
      * 把并发交给redis
@@ -263,13 +252,13 @@ public interface RedisCommonService {
      * @param key
      * @param value
      * @return true     等价于set
-     *         false    有key值
-     * 
+     * false    有key值
      */
     public boolean setnx(String key, String value);
 
     /**
      * 查看redis值的类型
+     *
      * @param substring
      * @return
      */
@@ -277,6 +266,7 @@ public interface RedisCommonService {
 
     /**
      * 返回哈希表 key 中域的数量
+     *
      * @param key
      * @return
      */
@@ -284,6 +274,7 @@ public interface RedisCommonService {
 
     /**
      * 返回哈希表 key 中的所有域
+     *
      * @param key
      * @return
      */
@@ -291,7 +282,8 @@ public interface RedisCommonService {
 
     /**
      * 检查一个Set中是否存在member成员
-     * @param key Set的Key
+     *
+     * @param key    Set的Key
      * @param member 成员
      * @return true:存在  false:不存在
      */
@@ -300,20 +292,21 @@ public interface RedisCommonService {
     /**
      * 返回Set中全部数据
      *
-     * @param key    Set的Key
+     * @param key Set的Key
      * @return
      */
     public Set<String> smembers(String key);
 
     /**
      * 返回关于 Redis 服务器的各种信息和统计数值
+     *
      * @return
      */
     public String info();
-    
+
     /**
      * key值自增
-     * 
+     *
      * @param key
      * @return
      */
@@ -332,7 +325,7 @@ public interface RedisCommonService {
     /**
      * 往set中添加值
      *
-     * @param key 键
+     * @param key    键
      * @param values 值数组
      * @return 操作成功数量
      */
@@ -343,36 +336,15 @@ public interface RedisCommonService {
     /**
      * 删除set中指定值
      *
-     * @param key 键
+     * @param key    键
      * @param values 值数组
      * @return 操作成功数量
      */
     public Long srem(String key, String[] values);
 
     /**
-     * 获取购买债转占用锁
-     *
-     * @param key
-     * @return
-     */
-    public String getTransOnlyKey(String key);
-    /**
-     * 获取债转-还款互斥锁
-     *
-     * @param key
-     * @return
-     */
-    public String getTransAndRepay(String key);
-    /**
-     * 获取计划退出已挂出到前台的债权金额
-     *
-     * @param key
-     * @return
-     */
-    public String getPlanToWebAmount(String key);
-
-    /**
      * setnx和expire在一个事务
+     *
      * @param key
      * @param value
      * @param seconds

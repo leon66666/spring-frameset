@@ -12,19 +12,17 @@ import wangzhongqiu.spring.core.exception.base.RedisException;
 import wangzhongqiu.spring.redis.*;
 import wangzhongqiu.spring.redis.constant.Constants;
 import wangzhongqiu.spring.redis.constant.SupervisionConfig;
+import wangzhongqiu.spring.redis.utils.JedisUtils;
 import zhongqiu.javautils.StringUtil;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * Redis业务类
+ * Redis业务类。servicePool
  */
 @Service
 public class RedisServiceImpl implements RedisCommonService {
@@ -234,8 +232,6 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
-
             jedis.setex(keyPrefix + key, expireSeconds, value);
         } catch (Exception e) {
             e.printStackTrace();
@@ -294,7 +290,6 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
             byte[] vb = StringUtil.serialize(value);
             jedis.setex((keyPrefix + key).getBytes(strCharset), expireSeconds, vb);
         } catch (Exception e) {
@@ -338,8 +333,6 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
-
             byte[] bytes = jedis.get((keyPrefix + key).getBytes(strCharset));
             if (null == bytes) {
                 return null;
@@ -391,8 +384,6 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
-
             return jedis.get(keyPrefix + key);
         } catch (Exception e) {
             e.printStackTrace();
@@ -414,8 +405,6 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
-
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             DataOutputStream out = new DataOutputStream(baos);
             for (String element : keys) {
@@ -433,33 +422,35 @@ public class RedisServiceImpl implements RedisCommonService {
         }
     }
 
-//    public List<String> getList(String keyPrefix, String key) {
-//        Jedis jedis = null;
-
-//        List<String> list = new ArrayList<String>();
-//        try {
-//            jedis = pool.getResource();
-//            jedis.connect();
-//            // jedis.select(DBIndex);
-//
-//            byte[] bytes = jedis.get((keyPrefix + key).getBytes(strCharset));
-//            if (null == bytes)
-//                return null;
-//
-//            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-//            DataInputStream in = new DataInputStream(bais);
-//            while (in.available() > 0) {
-//                String element = in.readUTF();
-//                list.add(element);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (jedis != null)
-//                JedisUtils.closeResource(jedis, connectionBroken, pool);
-//        }
-//        return list;
-//    }
+    @Override
+    public List<String> getList(String keyPrefix, String key) {
+        JedisPool pool = choosePool(keyPrefix + key);
+        Jedis jedis = null;
+        boolean connectionBroken = false;
+        List<String> list = new ArrayList<String>();
+        try {
+            jedis = pool.getResource();
+            jedis.connect();
+            byte[] bytes = jedis.get((keyPrefix + key).getBytes(strCharset));
+            if (null == bytes) {
+                return null;
+            }
+            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+            DataInputStream in = new DataInputStream(bais);
+            while (in.available() > 0) {
+                String element = in.readUTF();
+                list.add(element);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            connectionBroken = JedisUtils.handleJedisException(e, pool);
+        } finally {
+            if (jedis != null) {
+                JedisUtils.closeResource(jedis, connectionBroken, pool);
+            }
+        }
+        return list;
+    }
 
     @Override
     public void mset(String keyPrefix, List<String> keys, List<Serializable> values) throws RedisConnectException {
@@ -470,16 +461,12 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
-
             List<String> s = new ArrayList<String>();
             for (int i = 0, j = keys.size(); i < j; i++) {
                 s.add(keyPrefix + keys.get(i));
                 s.add(new String(StringUtil.serialize(values.get(i)), strCharset));
             }
-
             jedis.mset((String[]) s.toArray(new String[0]));
-
         } catch (Exception e) {
             logger.error("mset失败[" + keyPrefix + "]：" + e.getMessage(), e);
             connectionBroken = JedisUtils.handleJedisException(e, pool);
@@ -501,15 +488,11 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
-
             List<String> s = new ArrayList<String>();
             for (String key : keys) {
                 s.add(keyPrefix + key);
             }
-
             List<String> os = jedis.mget((String[]) s.toArray(new String[0]));
-
             return os;
         } catch (Exception e) {
             e.printStackTrace();
@@ -531,8 +514,6 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
-
             byte[] k = (keyPrefix + key).getBytes(strCharset);
             for (int i = 0, j = values.size(); i < j; i++) {
                 jedis.lset(k, i, StringUtil.serialize(values.get(i)));
@@ -557,8 +538,6 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
-
             return jedis.lrem(keyPrefix + key, count, value);
         } catch (Exception e) {
             logger.error("redis设置值失败：", e);
@@ -580,8 +559,6 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
-
             byte[] k = (keyPrefix + key).getBytes(strCharset);
             List<byte[]> bb = jedis.lrange(k, start, end);
 
@@ -610,7 +587,6 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-
             List<String> bb = jedis.lrange(key, start, end);
             List<String> objs = new CopyOnWriteArrayList<String>();
             for (int i = 0, j = bb.size(); i < j; i++) {
@@ -637,8 +613,6 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
-
             Map<String, String> result = jedis.hgetAll(keyPrefix + key);
 
             return result;
@@ -691,8 +665,6 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
-
             jedis.del(keyPrefix + key);
         } catch (Exception e) {
             e.printStackTrace();
@@ -712,11 +684,9 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             String key = Constants.REDIS_KEY_IS_CHECKING;
             String value = get(key);
-            // 如果为空 ，返回false
             if (StringUtils.isEmpty(value)) {
                 return false;
             }
-
             if ("1".equals(value)) {
                 return true;
             } else if ("0".equals(value)) {
@@ -726,115 +696,6 @@ public class RedisServiceImpl implements RedisCommonService {
             logger.error("Exception from RedisServiceImpl - isCheckingOfAutomatedLoanService. ", e);
             return false;
         }
-
-        // "1" 或 "0"以外的值return false
-        return false;
-    }
-
-    /**
-     * 获取凌晨清算自动扫描isChicking和多线程还款的任务调度切换
-     */
-    @Override
-    public boolean getIsCheckingOrBorrowRepayTask() {
-        try {
-            String key = Constants.REDIS_KEY_IS_CHECKING_AND_BORROW_REPAY_TASK_SWITCH;
-            String value = get(key);
-            // 如果为空 ，返回false
-            if (StringUtils.isEmpty(value)) {
-                return false;
-            }
-
-            if ("1".equals(value)) {
-                return true;
-            } else if ("0".equals(value)) {
-                return false;
-            }
-        } catch (Exception e) {
-            logger.error("Exception from RedisServiceImpl - isCheckingOfAutomatedLoanService. ", e);
-            return false;
-        }
-
-        // "1" 或 "0"以外的值return false
-        return false;
-    }
-
-    /**
-     * 获取是否正在执行退出理财计划job
-     */
-    public boolean getIsAutoUPlanQuitJob() {
-        try {
-            String key = Constants.AUTO_UPLAN_QUIT_JOB_STATE;
-            String value = get(key);
-            // 如果为空 ，返回false
-            if (StringUtils.isEmpty(value)) {
-                return false;
-            }
-
-            if ("1".equals(value)) {
-                return true;
-            } else if ("0".equals(value)) {
-                return false;
-            }
-        } catch (Exception e) {
-            logger.error("Exception from RedisServiceImpl - isCheckingOfAutomatedLoanService. ", e);
-            return false;
-        }
-
-        // "1" 或 "0"以外的值return false
-        return false;
-    }
-
-    /**
-     * 获取理财计划预定自动支付扫描标记字段，isFinancePlanReserveAutoPayment。
-     */
-    @Override
-    public boolean getIsFinancePlanReserveAutoPayment(Integer financePlanId) {
-        try {
-            String key = Constants.REDIS_KEY_IS_FINANCE_PLAN_RESERVE_AUTO_PAYMENT + "_" + financePlanId;
-            String value = get(key);
-            // 如果为空 ，返回false
-            if (StringUtils.isEmpty(value)) {
-                return false;
-            }
-
-            if ("1".equals(value)) {
-                return true;
-            } else if ("0".equals(value)) {
-                return false;
-            }
-        } catch (Exception e) {
-            logger.error("Exception from RedisServiceImpl - getIsFinancePlanReserveAutoPayment. ", e);
-            return false;
-        }
-
-        // "1" 或 "0"以外的值return false
-        return false;
-    }
-
-    /**
-     * 获取定投计划自动充值扫描标记字段，isAutoInvestPlanRechargeRemind。
-     */
-    @Override
-    public boolean getIsAutoInvestPlanAutoRecharge() {
-        try {
-            String key = Constants.REDIS_KEY_IS_AUTO_INVEST_PLAN_RECHARGE_REMIND;
-            String value = get(key);
-            // 如果为空 ，返回false
-            if (StringUtils.isEmpty(value)) {
-                return false;
-            }
-
-            if ("1".equals(value)) {
-                return true;
-            } else if ("0".equals(value)) {
-                return false;
-            }
-        } catch (Exception e) {
-            logger.error("Exception from RedisServiceImpl - getIsAutoInvestPlanAutoRecharge. ", e);
-            return false;
-        }
-
-        // "1" 或 "0"以外的值return false
         return false;
     }
 
@@ -956,8 +817,6 @@ public class RedisServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
-
             set = jedis.keys(pattern);
         } catch (Exception e) {
             e.printStackTrace();
@@ -1044,7 +903,6 @@ public class RedisServiceImpl implements RedisCommonService {
 
         long result = 0;
         try {
-            // 连接
             jedis = connect(pool);
             if (jedis == null) {
                 return false;
@@ -1100,14 +958,11 @@ public class RedisServiceImpl implements RedisCommonService {
         JedisPool pool = choosePool(key);
         Jedis jedis = null;
         boolean connectionBroken = false;
-
-
         try {
             jedis = connect(pool);
             if (jedis == null) {
                 return "";
             }
-
             return jedis.lindex(key, index);
         } catch (RedisConnectException e) {
             logger.error("连接redis失败：", e);
@@ -1132,14 +987,11 @@ public class RedisServiceImpl implements RedisCommonService {
         JedisPool pool = choosePool(key);
         Jedis jedis = null;
         boolean connectionBroken = false;
-
-
         try {
             jedis = connect(pool);
             if (jedis == null) {
                 return -1;
             }
-
             return jedis.lpush(key, val);
         } catch (RedisConnectException e) {
             logger.error("连接redis失败：", e);
@@ -1165,14 +1017,11 @@ public class RedisServiceImpl implements RedisCommonService {
         JedisPool pool = choosePool(key);
         Jedis jedis = null;
         boolean connectionBroken = false;
-
-
         try {
             jedis = connect(pool);
             if (jedis == null) {
                 return -1;
             }
-
             return jedis.rpush(key, val);
         } catch (RedisConnectException e) {
             logger.error("连接redis失败：", e);
@@ -1189,7 +1038,6 @@ public class RedisServiceImpl implements RedisCommonService {
         }
     }
 
-
     @Override
     public String rpop(String key) throws RedisConnectException {
         if (StringUtils.isEmpty(key)) {
@@ -1198,14 +1046,11 @@ public class RedisServiceImpl implements RedisCommonService {
         JedisPool pool = choosePool(key);
         Jedis jedis = null;
         boolean connectionBroken = false;
-
-
         try {
             jedis = connect(pool);
             if (jedis == null) {
                 return "";
             }
-
             return jedis.rpop(key);
         } catch (RedisConnectException e) {
             logger.error("连接redis失败：", e);
@@ -1230,14 +1075,11 @@ public class RedisServiceImpl implements RedisCommonService {
         JedisPool pool = choosePool(key);
         Jedis jedis = null;
         boolean connectionBroken = false;
-
-
         try {
             jedis = connect(pool);
             if (jedis == null) {
                 return 0;
             }
-
             return jedis.llen(key);
         } catch (RedisConnectException e) {
             logger.error("连接redis失败：", e);
@@ -1254,14 +1096,6 @@ public class RedisServiceImpl implements RedisCommonService {
         }
     }
 
-    private void returnResource(Jedis jedis, JedisPool pool) {
-        try {
-            pool.returnResource(jedis);
-        } catch (Exception ex) {
-            logger.error("归还Redis连接出错:" + ex.getMessage(), ex);
-        }
-    }
-
     @Override
     public Boolean exists(String key) throws RedisConnectException {
         if (StringUtils.isEmpty(key)) {
@@ -1270,14 +1104,11 @@ public class RedisServiceImpl implements RedisCommonService {
         JedisPool pool = choosePool(key);
         Jedis jedis = null;
         boolean connectionBroken = false;
-
-
         try {
             jedis = connect(pool);
             if (jedis == null) {
                 return null;
             }
-
             return jedis.exists(key);
         } catch (RedisConnectException e) {
             logger.error("连接redis失败：", e);
@@ -1311,22 +1142,6 @@ public class RedisServiceImpl implements RedisCommonService {
         } while (isChecking);
     }
 
-    @Override
-    public void waitIsAutoUPlanQuitJob(long time, Log log, String task) {
-        boolean flag = true;
-        do {
-            flag = getIsAutoUPlanQuitJob();
-            if (flag) {
-                log.info("正在进行AutoUPlanQuitJob，睡眠" + time + "秒后再运行:" + task);
-                try {
-                    Thread.sleep(time * 1000);
-                } catch (InterruptedException e) {
-                    log.error("interrupted", e);
-                    e.printStackTrace();
-                }
-            }
-        } while (flag);
-    }
 
     /**
      * 无key设置
@@ -1549,30 +1364,6 @@ public class RedisServiceImpl implements RedisCommonService {
         return null;
     }
 
-    @Override
-    public boolean getIsCheckingOrDBBackUpTask() {
-        try {
-            String key = Constants.REDIS_KEY_IS_CHECKING_AND_DB_BACKUP_SWITCH;
-            String value = get(key);
-            // 如果为空 ，返回false
-            if (StringUtils.isEmpty(value)) {
-                return false;
-            }
-
-            if ("1".equals(value)) {
-                return true;
-            } else if ("0".equals(value)) {
-                return false;
-            }
-        } catch (Exception e) {
-            logger.error("Exception from RedisServiceImpl - getIsCheckingOrDBBackUpTask. ", e);
-            return false;
-        }
-
-        // "1" 或 "0"以外的值return false
-        return false;
-    }
-
     /**
      * 设置异常
      */
@@ -1758,90 +1549,6 @@ public class RedisServiceImpl implements RedisCommonService {
             }
         }
         return 0L;
-    }
-
-    @Override
-    public String getTransOnlyKey(String key) {
-        if (StringUtils.isEmpty(key)) {
-            return "no";
-        }
-        JedisPool pool = choosePool(key);
-        Jedis jedis = null;
-        boolean connectionBroken = false;
-
-        try {
-            jedis = connect(pool);
-            if (jedis == null) {
-                return "no";
-            }
-            return jedis.get(key);
-        } catch (Exception e) {
-            logger.error("获取失败：", e);
-            connectionBroken = JedisUtils.handleJedisException(e, pool);
-        } finally {
-            if (jedis != null) {
-                JedisUtils.closeResource(jedis, connectionBroken, pool);
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public String getTransAndRepay(String key) {
-        if (StringUtils.isEmpty(key)) {
-            return "no";
-        }
-        JedisPool pool = choosePool(key);
-        Jedis jedis = null;
-        boolean connectionBroken = false;
-
-        try {
-            jedis = connect(pool);
-            if (jedis == null) {
-                return "no";
-            }
-            return jedis.get(key);
-        } catch (Exception e) {
-            logger.error("获取失败：", e);
-            connectionBroken = JedisUtils.handleJedisException(e, pool);
-        } finally {
-            if (jedis != null) {
-                JedisUtils.closeResource(jedis, connectionBroken, pool);
-            }
-        }
-        return null;
-    }
-
-    /**
-     * 获取计划退出已挂出到前台的债权金额
-     *
-     * @param key
-     * @return
-     */
-    @Override
-    public String getPlanToWebAmount(String key) {
-        if (StringUtils.isEmpty(key)) {
-            return "no";
-        }
-        JedisPool pool = choosePool(key);
-        Jedis jedis = null;
-        boolean connectionBroken = false;
-
-        try {
-            jedis = connect(pool);
-            if (jedis == null) {
-                return "no";
-            }
-            return jedis.get(key);
-        } catch (Exception e) {
-            logger.error("获取失败：", e);
-            connectionBroken = JedisUtils.handleJedisException(e, pool);
-        } finally {
-            if (jedis != null) {
-                JedisUtils.closeResource(jedis, connectionBroken, pool);
-            }
-        }
-        return null;
     }
 
     /**
