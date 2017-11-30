@@ -10,11 +10,12 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Pipeline;
 import wangzhongqiu.spring.core.exception.RedisConnectException;
 import wangzhongqiu.spring.core.exception.base.RedisException;
-import wangzhongqiu.spring.redis.*;
 import wangzhongqiu.spring.redis.constant.Constants;
 import wangzhongqiu.spring.redis.constant.SupervisionConfig;
 import wangzhongqiu.spring.redis.service.RedisCommonService;
 import wangzhongqiu.spring.redis.utils.JedisUtils;
+import wangzhongqiu.spring.redis.utils.RedisCallback;
+import wangzhongqiu.spring.redis.utils.RedisManager;
 import zhongqiu.javautils.StringUtil;
 
 import javax.annotation.PostConstruct;

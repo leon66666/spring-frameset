@@ -1,12 +1,12 @@
 package wangzhongqiu.spring.redis.utils;
 
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Transaction;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.Transaction;
 
 public class RedisLockFactory {
 
