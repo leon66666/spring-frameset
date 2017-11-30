@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/cache
+     http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <cache:annotation-driven/>
+    <context:component-scan base-package="wangzhongqiu.spring.redis.cache"/>
+
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="100"/>
+        <property name="maxTotal" value="5000"/>
+        <property name="maxWaitMillis" value="5000"/>
+        <property name="testOnBorrow" value="false"/>
+    </bean>
+
+    <bean id="connectionFactory"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="poolConfig" ref="poolConfig"/>
+        <property name="port" value="6379"/>
+        <property name="hostName" value="rediscache.hoomxb.com"/>
+        <property name="password" value="HoomSun1"/>
+        <property name="timeout" value="5000"/>
+        <property name="database" value="1"/>
+    </bean>
+
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+    </bean>
+
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <bean class="wangzhongqiu.spring.redis.cache.RedisCacheConnectionFactory">
+                    <property name="redisTemplate" ref="redisTemplate"/>
+                    <property name="name" value="default"/>
+                    <property name="timeout" value="300"/>
+                </bean>
+                <bean class="wangzhongqiu.spring.redis.cache.RedisCacheConnectionFactory">
+                    <property name="redisTemplate" ref="redisTemplate"/>
+                    <property name="name" value="mutable"/>
+                    <property name="timeout" value="5"/>
+                </bean>
+                <bean class="wangzhongqiu.spring.redis.cache.RedisCacheConnectionFactory">
+                    <property name="redisTemplate" ref="redisTemplate"/>
+                    <property name="name" value="durable"/>
+                    <property name="timeout" value="0"/>
+                </bean>
+            </set>
+        </property>
+    </bean>
+</beans>
