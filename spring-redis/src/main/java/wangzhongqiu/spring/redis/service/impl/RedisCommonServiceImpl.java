@@ -62,6 +62,35 @@ public class RedisCommonServiceImpl implements RedisCommonService {
     }
 
     /**
+     * 自选择jedis pool
+     *
+     * @param key
+     * @return
+     */
+    private JedisPool choosePool(String key) {
+//		JedisPool pool = servicePool;
+//		try {
+//			switch (Constants.sharding(key)) {
+//			case COMMON:
+//				pool = servicePool;
+//				break;
+//			case LOANTRANSFER:
+//				pool = loanTransferPool;
+//				break;
+//			case UPLAN_LOAN:
+//				pool = loanPool;
+//				break;
+//			default:
+//				pool = servicePool;
+//				break;
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+        return servicePool;
+    }
+
+    /**
      * 追加
      *
      * @param key
@@ -314,7 +343,6 @@ public class RedisCommonServiceImpl implements RedisCommonService {
         try {
             jedis = pool.getResource();
             jedis.connect();
-            // jedis.select(DBIndex);
             byte[] vb = StringUtil.serialize(value);
             jedis.set((keyPrefix + key).getBytes(strCharset), vb);
         } catch (Exception e) {
@@ -453,59 +481,6 @@ public class RedisCommonServiceImpl implements RedisCommonService {
             }
         }
         return list;
-    }
-
-    @Override
-    public void mset(String keyPrefix, List<String> keys, List<Serializable> values) throws RedisConnectException {
-        JedisPool pool = choosePool(keyPrefix);
-        Jedis jedis = null;
-        boolean connectionBroken = false;
-
-        try {
-            jedis = pool.getResource();
-            jedis.connect();
-            List<String> s = new ArrayList<String>();
-            for (int i = 0, j = keys.size(); i < j; i++) {
-                s.add(keyPrefix + keys.get(i));
-                s.add(new String(StringUtil.serialize(values.get(i)), strCharset));
-            }
-            jedis.mset((String[]) s.toArray(new String[0]));
-        } catch (Exception e) {
-            logger.error("mset失败[" + keyPrefix + "]：" + e.getMessage(), e);
-            connectionBroken = JedisUtils.handleJedisException(e, pool);
-            throw new RedisConnectException("mset失败[" + keyPrefix + "]：" + e.getMessage(), e);
-        } finally {
-            if (jedis != null) {
-                JedisUtils.closeResource(jedis, connectionBroken, pool);
-            }
-        }
-
-    }
-
-    @Override
-    public List<String> mget(String keyPrefix, List<String> keys) {
-        JedisPool pool = choosePool(keyPrefix);
-        Jedis jedis = null;
-        boolean connectionBroken = false;
-
-        try {
-            jedis = pool.getResource();
-            jedis.connect();
-            List<String> s = new ArrayList<String>();
-            for (String key : keys) {
-                s.add(keyPrefix + key);
-            }
-            List<String> os = jedis.mget((String[]) s.toArray(new String[0]));
-            return os;
-        } catch (Exception e) {
-            e.printStackTrace();
-            connectionBroken = JedisUtils.handleJedisException(e, pool);
-            return null;
-        } finally {
-            if (jedis != null) {
-                JedisUtils.closeResource(jedis, connectionBroken, pool);
-            }
-        }
     }
 
     @Override
@@ -657,6 +632,59 @@ public class RedisCommonServiceImpl implements RedisCommonService {
             }
         }
         return result;
+    }
+
+    @Override
+    public void mset(String keyPrefix, List<String> keys, List<Serializable> values) throws RedisConnectException {
+        JedisPool pool = choosePool(keyPrefix);
+        Jedis jedis = null;
+        boolean connectionBroken = false;
+
+        try {
+            jedis = pool.getResource();
+            jedis.connect();
+            List<String> s = new ArrayList<String>();
+            for (int i = 0, j = keys.size(); i < j; i++) {
+                s.add(keyPrefix + keys.get(i));
+                s.add(new String(StringUtil.serialize(values.get(i)), strCharset));
+            }
+            jedis.mset((String[]) s.toArray(new String[0]));
+        } catch (Exception e) {
+            logger.error("mset失败[" + keyPrefix + "]：" + e.getMessage(), e);
+            connectionBroken = JedisUtils.handleJedisException(e, pool);
+            throw new RedisConnectException("mset失败[" + keyPrefix + "]：" + e.getMessage(), e);
+        } finally {
+            if (jedis != null) {
+                JedisUtils.closeResource(jedis, connectionBroken, pool);
+            }
+        }
+
+    }
+
+    @Override
+    public List<String> mget(String keyPrefix, List<String> keys) {
+        JedisPool pool = choosePool(keyPrefix);
+        Jedis jedis = null;
+        boolean connectionBroken = false;
+
+        try {
+            jedis = pool.getResource();
+            jedis.connect();
+            List<String> s = new ArrayList<String>();
+            for (String key : keys) {
+                s.add(keyPrefix + key);
+            }
+            List<String> os = jedis.mget((String[]) s.toArray(new String[0]));
+            return os;
+        } catch (Exception e) {
+            e.printStackTrace();
+            connectionBroken = JedisUtils.handleJedisException(e, pool);
+            return null;
+        } finally {
+            if (jedis != null) {
+                JedisUtils.closeResource(jedis, connectionBroken, pool);
+            }
+        }
     }
 
     @Override
@@ -1427,36 +1455,6 @@ public class RedisCommonServiceImpl implements RedisCommonService {
         return null;
     }
 
-
-    /**
-     * 自选择jedis pool
-     *
-     * @param key
-     * @return
-     */
-    private JedisPool choosePool(String key) {
-//		JedisPool pool = servicePool;
-//		try {
-//			switch (Constants.sharding(key)) {
-//			case COMMON:
-//				pool = servicePool;
-//				break;
-//			case LOANTRANSFER:
-//				pool = loanTransferPool;
-//				break;
-//			case UPLAN_LOAN:
-//				pool = loanPool;
-//				break;
-//			default:
-//				pool = servicePool;
-//				break;
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-        return servicePool;
-    }
-
     /**
      * 往set中添加值
      *
@@ -1481,6 +1479,39 @@ public class RedisCommonServiceImpl implements RedisCommonService {
             return jedis.sadd(key, values);
         } catch (Exception e) {
             logger.error("往set中添加值失败：", e);
+            connectionBroken = JedisUtils.handleJedisException(e, pool);
+        } finally {
+            if (jedis != null) {
+                JedisUtils.closeResource(jedis, connectionBroken, pool);
+            }
+        }
+        return 0L;
+    }
+
+    /**
+     * 删除set中指定值
+     *
+     * @param key    键
+     * @param values 值数组
+     * @return 操作成功数量
+     */
+    @Override
+    public Long srem(String key, String[] values) {
+        if (StringUtils.isEmpty(key) || null == values) {
+            return null;
+        }
+        JedisPool pool = choosePool(key);
+        Jedis jedis = null;
+        boolean connectionBroken = false;
+
+        try {
+            jedis = connect(pool);
+            if (jedis == null) {
+                return null;
+            }
+            return jedis.srem(key, values);
+        } catch (Exception e) {
+            logger.error("删除set中指定值失败：", e);
             connectionBroken = JedisUtils.handleJedisException(e, pool);
         } finally {
             if (jedis != null) {
@@ -1519,39 +1550,6 @@ public class RedisCommonServiceImpl implements RedisCommonService {
             }
         }
         return false;
-    }
-
-    /**
-     * 删除set中指定值
-     *
-     * @param key    键
-     * @param values 值数组
-     * @return 操作成功数量
-     */
-    @Override
-    public Long srem(String key, String[] values) {
-        if (StringUtils.isEmpty(key) || null == values) {
-            return null;
-        }
-        JedisPool pool = choosePool(key);
-        Jedis jedis = null;
-        boolean connectionBroken = false;
-
-        try {
-            jedis = connect(pool);
-            if (jedis == null) {
-                return null;
-            }
-            return jedis.srem(key, values);
-        } catch (Exception e) {
-            logger.error("删除set中指定值失败：", e);
-            connectionBroken = JedisUtils.handleJedisException(e, pool);
-        } finally {
-            if (jedis != null) {
-                JedisUtils.closeResource(jedis, connectionBroken, pool);
-            }
-        }
-        return 0L;
     }
 
     /**
