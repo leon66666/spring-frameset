@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import wangzhongqiu.spring.redis.service.RedisCommonService;
 
 /**
  * @author wangzhongqiu
@@ -14,12 +15,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {"classpath:/spring.xml"})
 public class ServiceTest {
     @Autowired
-
+    private RedisCommonService redisCommonService;
 
     @Test
     public void test() throws Exception {
         try {
-
+            redisCommonService.set("loan:1", "1");
         } catch (Exception e) {
             e.printStackTrace();
         }
