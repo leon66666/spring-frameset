@@ -44,5 +44,4 @@
     </bean>
 
     <import resource="spring-mybatis.xml"/>
-    <import resource="redis-config.xml"/>
 </beans>
