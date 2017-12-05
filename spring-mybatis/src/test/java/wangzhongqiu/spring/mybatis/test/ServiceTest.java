@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import wangzhongqiu.spring.mybatis.cache.LearnCacheService;
 import wangzhongqiu.spring.mybatis.entity.LearnResouce;
 import wangzhongqiu.spring.mybatis.entity.User;
 import wangzhongqiu.spring.mybatis.service.LearnService;
@@ -20,14 +21,13 @@ public class ServiceTest {
     @Autowired
     LearnService learnService;
     @Autowired
-    UserService userService;
+    LearnCacheService learnCacheService;
 
     @Test
     public void test() throws Exception {
         try {
-            User user = userService.selectByPrimaryKey(111);
             Long id = 999L;
-            LearnResouce learnResouce = learnService.queryLearnResouceById(id);
+            LearnResouce learnResouce = learnCacheService.queryLearnResouceById(id);
             System.out.println(learnResouce);
         } catch (Exception e) {
             e.printStackTrace();

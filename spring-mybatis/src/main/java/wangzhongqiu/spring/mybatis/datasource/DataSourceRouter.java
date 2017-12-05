@@ -2,17 +2,17 @@ package wangzhongqiu.spring.mybatis.datasource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import wangzhongqiu.spring.redis.service.impl.RedisCommonServiceImpl;
+
+import javax.annotation.Resource;
 
 public class DataSourceRouter extends AbstractRoutingDataSource {
 
     private static Log log = LogFactory.getLog(DataSourceRouter.class);
 
-    @Autowired
-    private JedisPool pool;
+    @Resource
+    private RedisCommonServiceImpl redisCommonService;
 
     /**
      * redis的读写分离标记在每个服务器上的缓存时间间隔
@@ -37,13 +37,8 @@ public class DataSourceRouter extends AbstractRoutingDataSource {
             }
             return DataSourceProvider.getDataSource();
         }
-        Jedis jedis = null;
         try {
-            jedis = pingJedis();
-            if (jedis == null) {
-                return AvailableDataSources.WRITE;
-            }
-            Boolean masterForced = Boolean.valueOf(jedis.get("RWSplittingClosed")); // TODO
+            Boolean masterForced = Boolean.valueOf(redisCommonService.get("RWSplittingClosed")); // TODO
             RWSplittingClosed_cache = masterForced;
             RWSplittingClosed_cache_time = System.currentTimeMillis();
             if (masterForced) {
@@ -53,26 +48,6 @@ public class DataSourceRouter extends AbstractRoutingDataSource {
         } catch (Exception e) {
             log.error(e.getMessage());
             return AvailableDataSources.WRITE;
-        } finally {
-            if (jedis != null) {
-                pool.returnResource(jedis);
-            }
-        }
-    }
-
-    /**
-     * 为了减少redis压力,不再ping了
-     *
-     * @return
-     */
-    private Jedis pingJedis() {
-        try {
-            Jedis jedis = pool.getResource();
-            jedis.connect();
-            return jedis;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
     }
 }
