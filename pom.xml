@@ -16,6 +16,7 @@
         <module>spring-dubbo-provider</module>
         <module>spring-mybatis</module>
         <module>spring-redis</module>
+        <module>spring-springmvc</module>
     </modules>
 
     <properties>

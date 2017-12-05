@@ -11,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/spring-mybatis/spring-mybatis.iml" filepath="$PROJECT_DIR$/spring-mybatis/spring-mybatis.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-parent.iml" filepath="$PROJECT_DIR$/spring-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-redis/spring-redis.iml" filepath="$PROJECT_DIR$/spring-redis/spring-redis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-springmvc/spring-springmvc.iml" filepath="$PROJECT_DIR$/spring-springmvc/spring-springmvc.iml" />
     </modules>
   </component>
 </project>
