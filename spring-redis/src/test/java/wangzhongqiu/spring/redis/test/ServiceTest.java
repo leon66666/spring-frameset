@@ -12,7 +12,7 @@ import wangzhongqiu.spring.redis.service.RedisCommonService;
  * @date 2017/11/30.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/spring.xml"})
+@ContextConfiguration(locations = {"classpath:/spring-redis.xml"})
 public class ServiceTest {
     @Autowired
     private RedisCommonService redisCommonService;

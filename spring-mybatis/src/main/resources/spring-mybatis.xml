@@ -1,127 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-		http://www.springframework.org/schema/tx
- 		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+	   http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/cache
+	   http://www.springframework.org/schema/cache/spring-cache.xsd
+	   http://www.springframework.org/schema/context
+	   http://www.springframework.org/schema/context/spring-context.xsd
+		">
+    <!-- 自动扫描（自动注入） -->
+    <context:component-scan base-package="wangzhongqiu.spring.mybatis">
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
 
-    <bean id="dataSource" class="wangzhongqiu.spring.mybatis.datasource.DataSourceRouter">
-        <property name="targetDataSources">
-            <map key-type="wangzhongqiu.spring.mybatis.datasource.AvailableDataSources">
-                <entry key="READ" value-ref="dataSourceSlave"/>
-                <entry key="WRITE" value-ref="dataSourceMaster"/>
-            </map>
-        </property>
-        <property name="defaultTargetDataSource" ref="dataSourceMaster"></property>
-    </bean>
 
-    <bean id="dataSourceMaster" class="com.alibaba.druid.pool.DruidDataSource"
-          init-method="init" destroy-method="close">
-        <property name="driverClassName">
-            <value>${db_driver}</value>
-        </property>
-        <property name="url">
-            <value>${write_db_url}</value>
-        </property>
-        <property name="username">
-            <value>${write_db_username}</value>
-        </property>
-        <property name="password">
-            <value>${write_db_password}</value>
-        </property>
-        <!-- 连接池最大使用连接数 -->
-        <property name="maxActive">
-            <value>${db_max_active}</value>
-        </property>
-        <!-- 初始化连接大小 -->
-        <property name="initialSize">
-            <value>${db_initial_size}</value>
-        </property>
-        <!-- 获取连接最大等待时间 -->
-        <property name="maxWait">
-            <value>${db_max_wait}</value>
-        </property>
-        <!-- 连接池最小空闲 -->
-        <property name="minIdle">
-            <value>${db_min_idle}</value>
-        </property>
-        <!-- 自动清除无用连接 -->
-        <property name="removeAbandoned">
-            <value>true</value>
-        </property>
-        <!-- 清除无用连接的等待时间 -->
-        <property name="removeAbandonedTimeout">
-            <value>18000</value>
-        </property>
-        <!-- 关闭abanded连接时输出错误日志 -->
-        <property name="logAbandoned" value="true"/>
-        <!-- 连接属性 -->
-        <property name="connectionProperties">
-            <value>clientEncoding=UTF-8</value>
+    <!-- 启用缓存注解功能 -->
+    <cache:annotation-driven cache-manager="cacheManager"
+                             proxy-target-class="true"/>
+
+    <!-- generic cache manager -->
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <bean
+                        class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+                        p:name="default"/>
+                <bean
+                        class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+                        p:name="dictCache"/>
+                <bean
+                        class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+                        p:name="sysParamCache"/>
+            </set>
         </property>
     </bean>
-
-    <bean id="dataSourceSlave" class="com.alibaba.druid.pool.DruidDataSource"
-          init-method="init" destroy-method="close">
-        <property name="driverClassName">
-            <value>${db_driver}</value>
-        </property>
-        <property name="url">
-            <value>${read_db_url}</value>
-        </property>
-        <property name="username">
-            <value>${read_db_username}</value>
-        </property>
-        <property name="password">
-            <value>${read_db_password}</value>
-        </property>
-        <!-- 连接池最大使用连接数 -->
-        <property name="maxActive">
-            <value>${db_max_active}</value>
-        </property>
-        <!-- 初始化连接大小 -->
-        <property name="initialSize">
-            <value>${db_initial_size}</value>
-        </property>
-        <!-- 获取连接最大等待时间 -->
-        <property name="maxWait">
-            <value>${db_max_wait}</value>
-        </property>
-        <!-- 连接池最小空闲 -->
-        <property name="minIdle">
-            <value>${db_min_idle}</value>
-        </property>
-        <!-- 连接属性 -->
-        <property name="connectionProperties">
-            <value>clientEncoding=UTF-8</value>
-        </property>
-        <!-- 超过时间限制是否回收 -->
-        <property name="removeAbandoned" value="true"/>
-        <!-- 超时时间；单位为秒。180秒=3分钟 -->
-        <property name="removeAbandonedTimeout" value="180"/>
-        <!-- 关闭abanded连接时输出错误日志 -->
-        <property name="logAbandoned" value="true"/>
-    </bean>
-
-    <!-- Mybatis配置 -->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
-        <!--<property name="configLocation" value="classpath:mybatis-config.xml"/>-->
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <!-- mapper bean -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="wangzhongqiu.spring.mybatis.dao"/>
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-    </bean>
-
-    <!-- 配置事务，注解方式 -->
-    <bean id="txManager"
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-          p:dataSource-ref="dataSource"/>
-
-    <tx:annotation-driven transaction-manager="txManager"/>
+    <import resource="spring-mybatis-config.xml"/>
+    <import resource="spring-redis.xml"/>
 </beans>
-	

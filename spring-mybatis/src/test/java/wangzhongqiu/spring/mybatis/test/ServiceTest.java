@@ -7,16 +7,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import wangzhongqiu.spring.mybatis.cache.LearnCacheService;
 import wangzhongqiu.spring.mybatis.entity.LearnResouce;
-import wangzhongqiu.spring.mybatis.entity.User;
 import wangzhongqiu.spring.mybatis.service.LearnService;
-import wangzhongqiu.spring.mybatis.service.UserService;
 
 /**
  * @author wangzhongqiu
  * @date 2017/11/23.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/spring.xml"})
+@ContextConfiguration(locations = {"classpath:/spring-mybatis.xml"})
 public class ServiceTest {
     @Autowired
     LearnService learnService;
