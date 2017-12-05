@@ -27,6 +27,8 @@ public class ServiceTest {
             Long id = 999L;
             LearnResouce learnResouce = learnCacheService.queryLearnResouceById(id);
             System.out.println(learnResouce);
+            LearnResouce learnResouce1 = learnService.queryLearnResouceById(id);
+            System.out.println(learnResouce1);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,9 +1,11 @@
 package wangzhongqiu.spring.mybatis.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by tengj on 2017/3/7.
  */
-public class LearnResouce {
+public class LearnResouce implements Serializable {
     private Long id;
     private String author;
     private String title;

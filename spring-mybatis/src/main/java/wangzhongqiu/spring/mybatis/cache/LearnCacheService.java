@@ -19,5 +19,4 @@ public class LearnCacheService {
     public LearnResouce queryLearnResouceById(Long id) {
         return this.learnService.queryLearnResouceById(id);
     }
-
 }
