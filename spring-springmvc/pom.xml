@@ -17,5 +17,15 @@
             <artifactId>spring-mybatis</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectjrt_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectjweaver_version}</version>
+        </dependency>
     </dependencies>
 </project>

@@ -93,11 +93,6 @@
         <servlet-name>springMVC</servlet-name>
     </filter-mapping>
 
-
-
-
-
-
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -107,13 +102,15 @@
     <listener>
         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener>
+
     <!-- 7天过期 -->
     <session-config>
         <session-timeout>10080</session-timeout>
     </session-config>
+
     <servlet>
         <servlet-name>ImageServlet</servlet-name>
-        <servlet-class>com.hoomsun.mobile.servlet.ImageServlet</servlet-class>
+        <servlet-class>wangzhongqiu.spring.springmvc.servlet.ImageServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ImageServlet</servlet-name>
@@ -124,7 +121,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath*:spring/spring-controller.xml</param-value>
+            <param-value>classpath*:spring-controller.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -132,6 +129,7 @@
         <servlet-name>springMVC</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
