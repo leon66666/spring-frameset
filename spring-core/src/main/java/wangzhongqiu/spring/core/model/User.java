@@ -4,6 +4,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import java.util.Date;
+import java.util.EnumSet;
 
 /**
  * 用户对象
@@ -302,6 +303,10 @@ public class User implements java.io.Serializable, Cloneable {
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException();
         }
+    }
+
+    public EnumSet<UserRole> getRoles() {
+        return null;
     }
 
     @Override

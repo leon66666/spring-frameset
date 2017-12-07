@@ -91,6 +91,7 @@
         <hibernate_annotations_version>3.5.6-Final</hibernate_annotations_version>
         <spring_data_redis_version>1.3.0.RELEASE</spring_data_redis_version>
         <jedis_version>2.4.1</jedis_version>
+        <org_springframework_security_version>3.2.3.RELEASE</org_springframework_security_version>
         <!-- Log libs -->
         <slf4j_version>1.7.25</slf4j_version>
         <slf4j_log4j12_version>1.7.6</slf4j_log4j12_version>
@@ -606,6 +607,16 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jms</artifactId>
                 <version>${spring_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-taglibs</artifactId>
+                <version>${org_springframework_security_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${org_springframework_security_version}</version>
             </dependency>
             <!-- mybaits -->
             <dependency>
