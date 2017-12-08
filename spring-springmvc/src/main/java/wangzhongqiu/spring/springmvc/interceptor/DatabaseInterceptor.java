@@ -1,12 +1,12 @@
 package wangzhongqiu.spring.springmvc.interceptor;
 
-import com.hoomsun.common.ReadOnlyDataSource;
-import com.hoomsun.dao.DataSourceProvider;
-import com.hoomsun.framework.context.interceptor.Interceptor;
-import com.hoomsun.util.AvailableDataSources;
+import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import wangzhongqiu.spring.mybatis.annotation.ReadOnlyDataSource;
+import wangzhongqiu.spring.mybatis.datasource.AvailableDataSources;
+import wangzhongqiu.spring.mybatis.datasource.DataSourceProvider;
 
 import java.lang.reflect.Method;
 
@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
  * 只读库选择
  * @author luzongwei
  */
-public class DatabaseInterceptor implements Interceptor {
+public class DatabaseInterceptor implements MethodInterceptor {
 
     private static final Logger DB_INC_LOG = LoggerFactory.getLogger(DatabaseInterceptor.class);
 //    @Resource

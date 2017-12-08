@@ -6,7 +6,6 @@ import wangzhongqiu.spring.core.model.SecurityUser;
 import wangzhongqiu.spring.core.model.User;
 import wangzhongqiu.spring.core.utils.RequestUtil;
 import wangzhongqiu.spring.springmvc.utils.LandingLog4Statistics;
-import wangzhongqiu.spring.springmvc.vo.MobileJsonResultVo;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -23,7 +22,7 @@ public class AfterLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         response.setContentType("application/json;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-        out.println(MobileJsonResultVo.buildSuccessVo().toJson());
+//        out.println(MobileJsonResultVo.buildSuccessVo().toJson());
         out.flush();
         String remoteIp = RequestUtil.getRemoteIPAddress(request);
         User user = null;

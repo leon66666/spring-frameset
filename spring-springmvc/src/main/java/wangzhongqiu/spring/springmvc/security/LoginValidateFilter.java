@@ -6,7 +6,6 @@ package wangzhongqiu.spring.springmvc.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import wangzhongqiu.spring.springmvc.vo.MobileJsonResultVo;
 import zhongqiu.javautils.StringUtil;
 
 import javax.servlet.*;
@@ -44,7 +43,7 @@ public class LoginValidateFilter extends HttpServlet implements Filter {
             response.setContentType("application/json;charset=UTF-8");
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();
-            out.println(MobileJsonResultVo.buildErrorVo(1003).toJson());
+//            out.println(MobileJsonResultVo.buildErrorVo(1003).toJson());
             out.flush();
             return;
         }
@@ -59,7 +58,7 @@ public class LoginValidateFilter extends HttpServlet implements Filter {
                 response.setContentType("application/json;charset=UTF-8");
                 response.setCharacterEncoding("UTF-8");
                 PrintWriter out = response.getWriter();
-                out.println(MobileJsonResultVo.buildErrorVo(3201).toJson());
+//                out.println(MobileJsonResultVo.buildErrorVo(3201).toJson());
                 out.flush();
                 return;
             }

@@ -1,13 +1,13 @@
 package wangzhongqiu.spring.springmvc.interceptor;
 
-import com.hoomsun.common.Constants;
-import com.hoomsun.mobile.controller.BaseController;
-import com.hoomsun.util.StringUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import wangzhongqiu.spring.core.constants.Constants;
+import wangzhongqiu.spring.springmvc.controller.BaseController;
+import zhongqiu.javautils.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

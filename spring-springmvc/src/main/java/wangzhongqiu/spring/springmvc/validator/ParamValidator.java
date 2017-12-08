@@ -1,7 +1,7 @@
 package wangzhongqiu.spring.springmvc.validator;
 
-import com.hoomsun.framework.service.CallbackResult;
-import com.hoomsun.mobile.annotation.ParamCheck;
+import wangzhongqiu.spring.core.utils.CallbackResult;
+import wangzhongqiu.spring.springmvc.annotation.ParamCheck;
 
 /**
  * Interface for parameter validator 

@@ -1,15 +1,14 @@
 package wangzhongqiu.spring.springmvc.interceptor;
 
-import com.hoomsun.common.Constants;
-import com.hoomsun.exception.RedisConnectException;
-import com.hoomsun.service.cache.RedisService;
-import com.hoomsun.service.cache.SyncRedisService;
-import com.hoomsun.util.RequestUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import wangzhongqiu.spring.core.constants.Constants;
+import wangzhongqiu.spring.core.exception.RedisConnectException;
+import wangzhongqiu.spring.core.utils.RequestUtil;
+import wangzhongqiu.spring.redis.service.RedisCommonService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +29,7 @@ public class UserActivityMonitorInterceptor extends HandlerInterceptorAdapter {
     private static final Log UAM_LOG = LogFactory.getLog(UserActivityMonitorInterceptor.class);
 
     @Autowired
-    private RedisService redisService;
+    private RedisCommonService redisService;
     @Autowired
     private SyncRedisService syncRedisService;
 
@@ -57,7 +56,7 @@ public class UserActivityMonitorInterceptor extends HandlerInterceptorAdapter {
                 String ifExist = syncRedisService.getValue(key);
                 if (ifExist == null) {
                     redisService.expire(key, MAX_ACTIVE_INTERVAL);
-                }else {
+                } else {
                     Long counter = syncRedisService.incrBy(key, 1);
                     if (counter != null && counter > MAX_ALLOW_REFRESH_TIMES) {
                         // 这段代码是为了防止过了getValue后在incrBy之前过期, 导致出现过期时间为永远不过期的低概率事件而写的
