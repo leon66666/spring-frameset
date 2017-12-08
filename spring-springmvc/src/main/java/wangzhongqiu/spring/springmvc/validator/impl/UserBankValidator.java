@@ -1,14 +1,14 @@
 package wangzhongqiu.spring.springmvc.validator.impl;
 
-import com.hoomsun.framework.service.CallbackResult;
-import com.hoomsun.mobile.annotation.Validator;
-import com.hoomsun.mobile.validator.BaseCommonValidator;
-import com.hoomsun.mobile.validator.ValidateContext;
+import wangzhongqiu.spring.core.utils.CallbackResult;
+import wangzhongqiu.spring.springmvc.annotation.Validator;
+import wangzhongqiu.spring.springmvc.validator.BaseCommonValidator;
+import wangzhongqiu.spring.springmvc.validator.ValidateContext;
 
 @Validator("userBankValidator")
 public class UserBankValidator extends BaseCommonValidator {
 
-    
+
     @Override
     public CallbackResult validate(ValidateContext context) throws Exception {
 //
