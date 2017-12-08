@@ -21,9 +21,9 @@ public class HasCashPasswordValidator extends BaseCommonValidator {
     @Override
     public CallbackResult validate(ValidateContext context) throws Exception {
         User user = this.getUser(context);
-        if (null != user) {
-            user = userService.getUserById(user.getUserId());
-        }
+/*        if (null != user) {
+            user = userService.selectByPrimaryKey(user.getUserId());
+        }*/
         if (null != user && !user.hasCashPassword()) {
             return CallbackResultUtil.wrapFailure(RequestStatusEnum.HAS_NOT_CASH_PASSWORD);
         }

@@ -1,35 +1,27 @@
 package wangzhongqiu.spring.springmvc.validator.impl;
 
-import com.hoomsun.framework.service.CallbackResult;
-import com.hoomsun.framework.service.util.CallbackResultUtil;
-import com.hoomsun.mobile.annotation.Validator;
-import com.hoomsun.mobile.enums.RequestStatusEnum;
-import com.hoomsun.mobile.service.impl.MobileServicePoolCacheService;
-import com.hoomsun.mobile.validator.BaseCommonValidator;
-import com.hoomsun.mobile.validator.ValidateContext;
+import wangzhongqiu.spring.core.utils.CallbackResult;
+import wangzhongqiu.spring.core.utils.CallbackResultUtil;
+import wangzhongqiu.spring.redis.service.RedisCommonService;
+import wangzhongqiu.spring.springmvc.annotation.Validator;
+import wangzhongqiu.spring.springmvc.enums.RequestStatusEnum;
+import wangzhongqiu.spring.springmvc.validator.BaseCommonValidator;
+import wangzhongqiu.spring.springmvc.validator.ValidateContext;
 
 import javax.annotation.Resource;
 
-/**
- * 
- * @Titile: IsCheckingValidator
- * 
- * @Description: <br>
- * <br>
- * 
- * 
- */
 @Validator("systemCountingValidator")
 public class SystemCountingValidator extends BaseCommonValidator {
 
     @Resource
-    MobileServicePoolCacheService redisService;
+    RedisCommonService redisService;
 
     @Override
     public CallbackResult validate(ValidateContext context) throws Exception {
 
-        if(redisService.getIsCheckingOfAutomatedLoanService())
+        if(redisService.getIsCheckingOfAutomatedLoanService()) {
             return CallbackResultUtil.wrapFailure(RequestStatusEnum.SYS_COUNTING);
+        }
         return CallbackResult.success();
     }
 }

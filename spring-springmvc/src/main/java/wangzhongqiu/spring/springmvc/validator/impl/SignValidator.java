@@ -1,24 +1,18 @@
 package wangzhongqiu.spring.springmvc.validator.impl;
 
-import com.hoomsun.framework.service.CallbackResult;
-import com.hoomsun.framework.service.util.CallbackResultUtil;
-import com.hoomsun.mobile.annotation.Validator;
-import com.hoomsun.mobile.common.CommonUtils;
-import com.hoomsun.mobile.enums.RequestStatusEnum;
-import com.hoomsun.mobile.validator.BaseCommonValidator;
-import com.hoomsun.mobile.validator.ValidateContext;
+
+import wangzhongqiu.spring.core.utils.CallbackResult;
+import wangzhongqiu.spring.core.utils.CallbackResultUtil;
+import wangzhongqiu.spring.springmvc.annotation.Validator;
+import wangzhongqiu.spring.springmvc.enums.RequestStatusEnum;
+import wangzhongqiu.spring.springmvc.validator.BaseCommonValidator;
+import wangzhongqiu.spring.springmvc.validator.ValidateContext;
 
 @Validator("signValidator")
 public class SignValidator extends BaseCommonValidator {
 
     @Override
-    public CallbackResult validate(ValidateContext context) throws Exception{
-       
-        
-        if (!CommonUtils.checkSign(context)) {
-            return CallbackResultUtil.wrapFailure(RequestStatusEnum.INVALID_SIGN);
-        }
-        
+    public CallbackResult validate(ValidateContext context) throws Exception {
         return CallbackResult.success();
     }
 }
