@@ -9,8 +9,6 @@ import org.apache.commons.logging.LogFactory;
 import wangzhongqiu.spring.core.model.User;
 import wangzhongqiu.spring.core.utils.RequestUtil;
 import wangzhongqiu.spring.springmvc.utils.ContextTools;
-import wangzhongqiu.spring.springmvc.vo.JsonResultVo;
-import wangzhongqiu.spring.springmvc.vo.MobileJsonResultVo;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -21,21 +19,19 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 防多次刷新的filter
- *
- * 
  */
 public class AntiRefreshTooFastFilter implements Filter {
     private static Log log = LogFactory.getLog(AntiRefreshTooFastFilter.class);
 
     // 高频率访问url
-    private static String[] HIGH_FREQUENCY_ACCESS_URL = { "usersecurityinfo", "userpointlog",
+    private static String[] HIGH_FREQUENCY_ACCESS_URL = {"usersecurityinfo", "userpointlog",
             "userinvestinfo", "userloanlist", "userfinanceplanlist", "userbackaccount",
             "loanlenderpage", "loanindex", "financeindex", "prersvplandetail",
-            "financeplanlist", "financeplandetail", "prebuyplandetail" };
+            "financeplanlist", "financeplandetail", "prebuyplandetail"};
 
     // 低频率访问url
-    private static String[] LOW_FREQUENCY_ACCESS_URL = { "feedback", "register",
-            "uploaduseravatar", "updateuseravatar" };
+    private static String[] LOW_FREQUENCY_ACCESS_URL = {"feedback", "register",
+            "uploaduseravatar", "updateuseravatar"};
 
     /**
      * 在REFRESH_INTERVAL时间内只能刷新MAX_ALLOW_REFRESH_TIMES次
@@ -148,11 +144,11 @@ public class AntiRefreshTooFastFilter implements Filter {
                     // if (accept != null && accept.indexOf("application/json")
                     // != -1) {
                     try {
-                        MobileJsonResultVo json = MobileJsonResultVo.buildSuccessVo();
+                        /*MobileJsonResultVo json = MobileJsonResultVo.buildSuccessVo();
                         json.setStatus(JsonResultVo.ERROR);
                         json.setMessage("您的操作过于频繁，请稍后再试");
                         response.setContentType("text/html;charset=UTF-8");
-                        response.getWriter().write(json.toJson());
+                        response.getWriter().write(json.toJson());*/
                     } catch (Exception e) {
                         e.printStackTrace();
                         // log.error("Ajax请求响应刷新频繁出错：" + e.getMessage());
