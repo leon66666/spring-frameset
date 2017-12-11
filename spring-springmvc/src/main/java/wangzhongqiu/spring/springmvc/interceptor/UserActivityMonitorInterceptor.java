@@ -30,8 +30,6 @@ public class UserActivityMonitorInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
     private RedisCommonService redisService;
-    @Autowired
-    private SyncRedisService syncRedisService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -53,16 +51,16 @@ public class UserActivityMonitorInterceptor extends HandlerInterceptorAdapter {
                 }
                 String key = Constants.USER_ACTIVITY_MONITOR + DELIMITER + userId + DELIMITER + path;
                 String ip = RequestUtil.getRemoteIPAddress(request);
-                String ifExist = syncRedisService.getValue(key);
+                String ifExist = redisService.get(key);
                 if (ifExist == null) {
                     redisService.expire(key, MAX_ACTIVE_INTERVAL);
                 } else {
-                    Long counter = syncRedisService.incrBy(key, 1);
+                    Long counter = redisService.incrBy(key, 1);
                     if (counter != null && counter > MAX_ALLOW_REFRESH_TIMES) {
                         // 这段代码是为了防止过了getValue后在incrBy之前过期, 导致出现过期时间为永远不过期的低概率事件而写的
                         Long ttl = redisService.ttl(key);
                         if (ttl != null && ttl == -1L) {
-                            if (syncRedisService.getValue(key) != null) {
+                            if (redisService.get(key) != null) {
                                 redisService.expire(key, MAX_ACTIVE_INTERVAL);
                             }
                         }

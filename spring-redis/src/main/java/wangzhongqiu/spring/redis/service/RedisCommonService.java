@@ -1,6 +1,7 @@
 package wangzhongqiu.spring.redis.service;
 
 import org.apache.commons.logging.Log;
+import redis.clients.jedis.Jedis;
 import wangzhongqiu.spring.core.exception.RedisConnectException;
 
 import java.io.Serializable;
@@ -10,6 +11,15 @@ import java.util.Set;
 
 public interface RedisCommonService {
 
+    /**
+     * 以step的步长自增
+     * redis原生的原子操作
+     * @param key
+     * @param step
+     * @return 自增后的值
+     * @throws RedisConnectException
+     */
+    Long incrBy(String key, long step) throws RedisConnectException;
     /**
      * 追加
      *
@@ -353,4 +363,41 @@ public interface RedisCommonService {
 
 
     public boolean setnx(final String key, final String value, final int expire);
+
+    /**
+     * Watch回调
+     *
+     *
+     */
+    interface WatchCallback {
+
+        String doInWatch(Jedis jedis);
+
+    }
+
+    /**
+     * 加锁
+     *
+     * @param key
+     * @param expire
+     *            过期时间(单位：秒)
+     * @return
+     */
+    boolean lock(String key, Integer expire);
+
+    /**
+     * 解锁
+     *
+     * @param key
+     * @return
+     */
+    boolean unlock(String key);
+
+    /**
+     * 解锁
+     * @param key
+     * @param expire
+     * @return
+     */
+    public  boolean doLockNoContinue(String key, Integer expire);
 }

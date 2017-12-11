@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.Transaction;
 import wangzhongqiu.spring.core.exception.RedisConnectException;
 import wangzhongqiu.spring.core.exception.base.RedisException;
 import wangzhongqiu.spring.redis.constant.Constants;
@@ -21,6 +22,7 @@ import zhongqiu.javautils.StringUtil;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -31,8 +33,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class RedisCommonServiceImpl implements RedisCommonService {
 
     private static Logger logger = LoggerFactory.getLogger(RedisCommonServiceImpl.class);
-
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private final static String strCharset = "UTF-8";
+    private static final String OK = "OK";
 
     @Resource(name = "servicePool")
     private JedisPool servicePool;
@@ -89,7 +92,52 @@ public class RedisCommonServiceImpl implements RedisCommonService {
 //		}
         return servicePool;
     }
+    /**
+     * 以step的步长自增
+     * redis原生的原子操作
+     *
+     * @param key
+     * @param step
+     * @return 自增后的值
+     * @throws RedisConnectException
+     */
+    @Override
+    public Long incrBy(String key, long step) throws RedisConnectException {
+        if (StringUtils.isEmpty(key)) {
+            return null;
+        }
+        JedisPool pool = choosePool(key);
+        Jedis jedis = null;
+        boolean connectionBroken = false;
 
+        Long result = null;
+        try {
+            // 连接
+            jedis = connect(pool);
+            if (jedis == null) {
+                return null;
+            }
+            result = jedis.incrBy(key, step);
+        } catch (RedisConnectException e) {
+            logger.info("redis设置值失败：", e);
+            connectionBroken = JedisUtils.handleJedisException(e, pool);
+            throw new RedisConnectException("获取redis链接失败");
+        } catch (Exception e) {
+            logger.info("redis设置值失败：", e);
+            connectionBroken = JedisUtils.handleJedisException(e, pool);
+            throw new RedisConnectException("设置redis value失败，未知异常");
+        } finally {
+            try {
+                if (jedis != null) {
+                    JedisUtils.closeResource(jedis, connectionBroken, pool);
+                }
+            } catch (Exception e2) {
+                logger.error("pool.returnResource failed");
+                e2.printStackTrace();
+            }
+        }
+        return result;
+    }
     /**
      * 追加
      *
@@ -1616,4 +1664,171 @@ public class RedisCommonServiceImpl implements RedisCommonService {
         return false;
     }
 
+    /**
+     * 加锁
+     *
+     * @param key
+     * @param expire 过期时间(单位：秒)
+     * @return
+     */
+    public boolean doLock(String key, Integer expire) {
+        if (StringUtils.isEmpty(key)) {
+            return false;
+        }
+        JedisPool pool = choosePool(key);
+        Jedis jedis = null;
+        boolean connectionBroken = false;
+
+        try {
+            // 连接
+            jedis = connect(pool);
+            if (jedis == null) {
+                return false;
+            }
+
+            // 开启监控
+            jedis.watch(key);
+            // 开启事务
+            Transaction transaction = jedis.multi();
+            // 加锁
+            if (expire != null) {
+                transaction.set(key, dateFormat.format(new Date()), "NX", "EX", expire);
+                // 提交事务
+                List<Object> list = transaction.exec();
+                if (list != null && list.size() == 1 && (OK).equals((String) list.get(0))) {
+                    return true;
+                }
+
+            } else {
+                transaction.setnx(key, dateFormat.format(new Date()));
+                // 提交事务
+                List<Object> list = transaction.exec();
+                if (list != null && list.size() == 1 && ((Long) list.get(0)).equals(new Long(1))) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            logger.error("加锁失败：", e);
+            connectionBroken = JedisUtils.handleJedisException(e, pool);
+        } finally {
+            try {
+                if (jedis != null) {
+                    JedisUtils.closeResource(jedis, connectionBroken, pool);
+                }
+            } catch (Exception e2) {
+                logger.error("pool.returnResource failed");
+                e2.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 加锁
+     *
+     * @param key
+     * @param expire 过期时间(单位：秒)
+     * @return
+     */
+    public boolean doLockNoContinue(String key, Integer expire) {
+        if (StringUtils.isEmpty(key)) {
+            return false;
+        }
+        JedisPool pool = choosePool(key);
+        Jedis jedis = null;
+        boolean connectionBroken = false;
+
+        try {
+            jedis = connect(pool);
+            if (jedis == null) {
+                return false;
+            }
+
+            if (StringUtils.isNotBlank(jedis.get(key))) {
+                return false;
+            }
+            jedis.setex(key, expire, dateFormat.format(new Date()));
+            return true;
+        } catch (Exception e) {
+            logger.error("加锁失败：", e);
+            connectionBroken = JedisUtils.handleJedisException(e, pool);
+        } finally {
+            try {
+                if (jedis != null) {
+                    JedisUtils.closeResource(jedis, connectionBroken, pool);
+                }
+            } catch (Exception e2) {
+                logger.error("pool.returnResource failed");
+                e2.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 加锁
+     *
+     * @param key
+     * @param expire 过期时间(单位：秒)
+     * @return
+     */
+    @Override
+    public boolean lock(String key, Integer expire) {
+        return doLock(key, expire);
+    }
+
+    /**
+     * 解锁
+     *
+     * @param key
+     * @return
+     */
+    @Override
+    public boolean unlock(String key) {
+
+        if (StringUtils.isEmpty(key)) {
+            return false;
+        }
+        JedisPool pool = choosePool(key);
+        Jedis jedis = null;
+        boolean connectionBroken = false;
+
+        try {
+            // 连接
+            jedis = connect(pool);
+            if (jedis == null) {
+                return false;
+            }
+
+            // 锁不存在，返回成功
+            if (!jedis.exists(key)) {
+                return true;
+            }
+
+            // 开启监控
+            jedis.watch(key);
+            // 开启事务
+            Transaction transaction = jedis.multi();
+            // 解锁
+            transaction.del(key);
+            // 提交事务
+            List<Object> list = transaction.exec();
+            if (list != null && list.size() == 1 && ((Long) list.get(0)).equals(new Long(1))) {
+                return true;
+            }
+        } catch (Exception e) {
+            logger.error("解锁失败：", e);
+            connectionBroken = JedisUtils.handleJedisException(e, pool);
+        } finally {
+            try {
+                if (jedis != null) {
+                    JedisUtils.closeResource(jedis, connectionBroken, pool);
+                }
+            } catch (Exception e2) {
+                logger.error("pool.returnResource failed");
+                e2.printStackTrace();
+            }
+        }
+        return false;
+    }
 }
