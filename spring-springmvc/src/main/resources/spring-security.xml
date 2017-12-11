@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!-- 开启手机注释安全访问验证  jsr250-annotations="enabled" secured-annotations="enabled"-->
+    <global-method-security pre-post-annotations="enabled">
+        <!-- AspectJ pointcut expression that locates our "post" method and applies security that way
+        <protect-pointcut expression="execution(* bigbank.*Service.post*(..))" access="ROLE_TELLER"/>-->
+    </global-method-security>
+    <http use-expressions="true">
+
+        <intercept-url pattern="/account/get_mobile_code" access="permitAll" />
+        <intercept-url pattern="/account/get_mobile_code_new" access="permitAll" />
+        <intercept-url pattern="/account/verify_mobile_code" access="permitAll" />
+        <intercept-url pattern="/account/reset_password" access="permitAll" />
+        <intercept-url pattern="/account/**" access="hasAnyRole('USER','LENDER','BORROWER')" />
+        <intercept-url pattern="/lend/loanlender.action" access="hasAnyRole('USER','LENDER','BORROWER')" />
+        <intercept-url pattern="/lend/loanLenderPage.action" access="hasAnyRole('USER','LENDER','BORROWER')" />
+        <intercept-url pattern="/login/authentication*" access="hasAnyRole('USER','LENDER','BORROWER')" />
+
+        <!-- Disable web URI authorization, as we're using <global-method-security> and have @Secured the services layer instead -->
+        <intercept-url pattern="/**" access="permitAll" />
+        <!--<http-basic />-->
+
+        <form-login authentication-success-handler-ref="afterLoginSuccessHandler"  login-page="/login/noLogin.action"/>
+        <logout invalidate-session="true"  logout-url="/login/logout.action" success-handler-ref="afterLogoutSuccessHandler"/>
+
+        <!-- Uncomment to limit the number of sessions a user can have -->
+        <session-management>
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="false" expired-url="/login/logout.action"/>
+        </session-management>
+
+        <custom-filter before="FORM_LOGIN_FILTER" ref="authenticationProcessingFilter"/>
+        <custom-filter before="LOGOUT_FILTER" ref="logoutFilter"/>
+    </http>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider ref="securityAuthenticationProvider" />
+    </authentication-manager>
+
+    <beans:bean id="securityAuthenticationProvider" class="com.hoomsun.security.SecurityAuthenticationProvider">
+        <beans:property name="userDetailsService" ref="securityUserService"/>
+        <beans:property name="passwordEncoder" ref="mobilePasswordEncoder" />
+        <beans:property name="saltSource" ref="saltSource" />
+    </beans:bean>
+
+    <beans:bean id="authenticationProcessingFilter" class="com.hoomsun.service.security.VersionedUsernamePasswordAuthenticationFilter">
+        <beans:property name="filterProcessesUrl" value="/login/login.action"/>
+        <beans:property name="usernameParameter" value="username"/>
+        <beans:property name="passwordParameter" value="password"/>
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+        <beans:property name="authenticationSuccessHandler" ref="afterLoginSuccessHandler"/>
+        <beans:property name="authenticationFailureHandler" ref="afterLoginFailHandler"/>
+        <beans:property name="authenticationDetailsSource" ref="authenticationDetailsSourceImpl"/>
+        <beans:property name="postOnly">
+            <beans:value>false</beans:value>
+        </beans:property>
+        <beans:property name="isMobile">
+            <beans:value>true</beans:value>
+        </beans:property>
+    </beans:bean>
+
+    <beans:bean id="afterLoginFailHandler" class="com.hoomsun.security.AfterLoginFailHandler">
+    </beans:bean>
+
+    <beans:bean id="afterLoginSuccessHandler" class="com.hoomsun.security.AfterLoginSuccessHandler">
+        <beans:property name="defaultTargetUrl">
+            <beans:value>/</beans:value>
+        </beans:property>
+    </beans:bean>
+
+    <beans:bean id="afterLogoutSuccessHandler" class="com.hoomsun.security.AfterLogoutSuccessHandler">
+    </beans:bean>
+
+    <beans:bean id="authenticationDetailsSourceImpl" class="org.springframework.security.authentication.AuthenticationDetailsSourceImpl">
+        <beans:property name="clazz" value="com.hoomsun.security.SecurityWebAuthenticationDetails"/>
+    </beans:bean>
+
+    <beans:bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <beans:constructor-arg value="/" />
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:bean class="com.hoomsun.security.HxbLogoutHandler"/>
+            </beans:list>
+        </beans:constructor-arg>
+    </beans:bean>
+</beans:beans>

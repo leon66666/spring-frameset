@@ -11,7 +11,7 @@
 	                       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:component-scan base-package="wangzhongqiu.spring.springmvc.controller"/>
-
+    <import resource="spring-security.xml"/>
     <import resource="spring-interceptor.xml"/>
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
@@ -48,15 +48,12 @@
             <list>
                 <ref local="handlerAuthenticationInterceptor"/>
                 <ref local="checkVersionInterceptor"/>
-                <ref local="antiPluginInterceptor"/>
             </list>
         </property>
     </bean>
 
     <bean id="handlerAuthenticationInterceptor" class="wangzhongqiu.spring.springmvc.interceptor.HandleAuthenticationInterceptor"/>
     <bean id="checkVersionInterceptor" class="wangzhongqiu.spring.springmvc.interceptor.CheckVersionInterceptor"/>
-
-    <bean id="antiPluginInterceptor" class="wangzhongqiu.spring.springmvc.interceptor.AntiPluginInterceptor"/>
     <bean id="userActivityMonitorInterceptor" class="wangzhongqiu.spring.springmvc.interceptor.UserActivityMonitorInterceptor"/>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

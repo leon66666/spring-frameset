@@ -8,7 +8,7 @@
                            http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!--  Use jedis 2.2 
-    <aop:config>  
+    <aop:config>
         <aop:aspect id="serviceCacheAspect" ref="serviceCacheAspect">  
             <aop:pointcut id="serviceCachePointcut" expression="@annotation(com.hoomsun.framework.cache.annotation.RemoteCache)" />  
             <aop:around pointcut-ref="serviceCachePointcut" method="doAround"/>  
@@ -16,29 +16,19 @@
     </aop:config>  
     <bean id="serviceCacheAspect" class="com.hoomsun.service.aspect.ServiceCacheAspect" />  
     -->
-    
-   <!--  Use spring-data-redis framework (depend jedis 2.6 or above ) -->
-    <aop:config>  
-    
-    	<!-- Service 缓存通知 -->
+
+    <!--  Use spring-data-redis framework (depend jedis 2.6 or above ) -->
+    <aop:config>
+        <!-- Service 缓存通知 -->
         <!--<aop:pointcut id="serviceCachePointcut" expression="@annotation(com.hoomsun.framework.cache.annotation.RemoteCache)" />  -->
         <!--<aop:advisor pointcut-ref="serviceCachePointcut" advice-ref="cacheContextInterceptor" order="3"/>-->
-        
+
         <!-- Service 参数验证切面 -->
-        <aop:aspect id="serviceParamCheckAspect" ref="serviceParamCheckAspect" order="1">  
-            <aop:pointcut id="serviceParamCheckPointcut" expression="@annotation(com.hoomsun.mobile.annotation.ServiceParamCheck)" />  
-            <aop:around pointcut-ref="serviceParamCheckPointcut" method="doCheck"/>  
-        </aop:aspect>  
-        
-        <!-- 接口防刷切面 -->
-        <aop:aspect id="antiBrushAspect" ref="antiBrushAspect" order="2">  
-            <aop:pointcut id="antiBrushAspectPointcut" expression="@annotation(com.hoomsun.mobile.annotation.AntiBrush)" />  
-            <aop:around pointcut-ref="antiBrushAspectPointcut" method="doAround"/>  
-        </aop:aspect>  
-        
-    </aop:config>  
-   
-   <bean id="serviceParamCheckAspect" class="com.hoomsun.mobile.service.aspect.ServiceParamCheckCacheAspect"/>  
-   <bean id="antiBrushAspect" class="com.hoomsun.mobile.service.aspect.AntiBrushAspect" /> 
-   <!--<bean id="cacheContextInterceptor" class="com.hoomsun.mobile.interceptor.web.HxbCacheContextInterceptor"/>-->
+        <aop:aspect id="serviceParamCheckAspect" ref="serviceParamCheckAspect" order="1">
+            <aop:pointcut id="serviceParamCheckPointcut" expression="@annotation(wangzhongqiu.spring.springmvc.annotation.ServiceParamCheck)"/>
+            <aop:around pointcut-ref="serviceParamCheckPointcut" method="doCheck"/>
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="serviceParamCheckAspect" class="wangzhongqiu.spring.springmvc.spel.ServiceParamCheckCacheAspect"/>
 </beans>
