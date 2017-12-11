@@ -92,9 +92,8 @@
         <spring_data_redis_version>1.3.0.RELEASE</spring_data_redis_version>
         <jedis_version>2.4.1</jedis_version>
         <org_springframework_security_version>3.2.3.RELEASE</org_springframework_security_version>
-        <org_springframework_security_version>3.2.3.RELEASE</org_springframework_security_version>
-        <org_springframework_security_version>3.2.3.RELEASE</org_springframework_security_version>
-
+        <geronimo_javamail_1.4_spec_version>1.7.1</geronimo_javamail_1.4_spec_version>
+        <com_google_zxing_version>2.2</com_google_zxing_version>
         <!-- Log libs -->
         <slf4j_version>1.7.25</slf4j_version>
         <slf4j_log4j12_version>1.7.6</slf4j_log4j12_version>
@@ -124,7 +123,6 @@
         <commons_pool2_version>2.2</commons_pool2_version>
         <commons_proxy_version>1.0</commons_proxy_version>
         <commons_configuration_version>1.6</commons_configuration_version>
-        <com_google_zxing_version>2.2</com_google_zxing_version>
         <!-- Test libs -->
         <junit_version>4.12</junit_version>
         <easymock_version>3.4</easymock_version>
