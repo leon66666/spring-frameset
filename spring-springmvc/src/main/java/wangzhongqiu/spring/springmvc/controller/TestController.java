@@ -38,4 +38,19 @@ public class TestController extends BaseController {
         }
         return mm;
     }
+
+    @RequestMapping(value = "/test")
+    @ResponseBody
+    public ModelMap test() {
+        ModelMap mm = new ModelMap();
+        try {
+            mm.addAttribute("message", "success");
+            mm.addAttribute("status", "0");
+        } catch (Exception e) {
+            e.printStackTrace();
+            mm.addAttribute("message", "failure");
+            mm.addAttribute("status", "1");
+        }
+        return mm;
+    }
 }
