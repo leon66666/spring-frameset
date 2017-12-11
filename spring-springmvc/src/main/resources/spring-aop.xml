@@ -7,14 +7,14 @@
                            http://www.springframework.org/schema/aop   
                            http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <!--  Use jedis 2.2 
+    <!--  Use jedis 2.2
     <aop:config>
-        <aop:aspect id="serviceCacheAspect" ref="serviceCacheAspect">  
-            <aop:pointcut id="serviceCachePointcut" expression="@annotation(com.hoomsun.framework.cache.annotation.RemoteCache)" />  
-            <aop:around pointcut-ref="serviceCachePointcut" method="doAround"/>  
-        </aop:aspect>  
-    </aop:config>  
-    <bean id="serviceCacheAspect" class="com.hoomsun.service.aspect.ServiceCacheAspect" />  
+        <aop:aspect id="serviceCacheAspect" ref="serviceCacheAspect">
+            <aop:pointcut id="serviceCachePointcut" expression="@annotation(com.hoomsun.framework.cache.annotation.RemoteCache)" />
+            <aop:around pointcut-ref="serviceCachePointcut" method="doAround"/>
+        </aop:aspect>
+    </aop:config>
+    <bean id="serviceCacheAspect" class="com.hoomsun.service.aspect.ServiceCacheAspect" />
     -->
 
     <!--  Use spring-data-redis framework (depend jedis 2.6 or above ) -->
