@@ -11,9 +11,9 @@
 	                       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:component-scan base-package="wangzhongqiu.spring.springmvc.controller"/>
-    <import resource="spring-security.xml"/>
-    <import resource="spring-interceptor.xml"/>
-    <import resource="spring-aop.xml"/>
+    <!--    <import resource="spring-security.xml"/>
+        <import resource="spring-interceptor.xml"/>
+        <import resource="spring-aop.xml"/>-->
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
