@@ -1,6 +1,5 @@
 package wangzhongqiu.spring.springmvc.controller;
 
-import com.hoomsun.util.QRCodeUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import wangzhongqiu.spring.mybatis.annotation.ReadOnlyDataSource;
 import wangzhongqiu.spring.springmvc.annotation.Maintain;
+import wangzhongqiu.spring.springmvc.utils.QRCodeUtil;
 import wangzhongqiu.spring.springmvc.utils.WeixinUtil;
 
 import javax.servlet.http.HttpServletRequest;

@@ -27,5 +27,16 @@
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectjweaver_version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>client</artifactId>
+            <version>${com_google_zxing_version}</version>
+            <classifier>client</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>${com_google_zxing_version}</version>
+        </dependency>
     </dependencies>
 </project>
