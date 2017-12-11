@@ -8,7 +8,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import wangzhongqiu.spring.core.constants.Constants;
 import wangzhongqiu.spring.core.exception.RedisConnectException;
 import wangzhongqiu.spring.core.utils.RequestUtil;
-import wangzhongqiu.spring.redis.service.RedisCommonService;
+import wangzhongqiu.spring.redis.service.impl.RedisCommonServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +29,7 @@ public class UserActivityMonitorInterceptor extends HandlerInterceptorAdapter {
     private static final Log UAM_LOG = LogFactory.getLog(UserActivityMonitorInterceptor.class);
 
     @Autowired
-    private RedisCommonService redisService;
+    private RedisCommonServiceImpl redisService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
