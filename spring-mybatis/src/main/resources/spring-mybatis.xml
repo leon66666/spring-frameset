@@ -21,7 +21,8 @@
         <context:exclude-filter type="annotation"
                                 expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
-
+    <import resource="spring-mybatis-config.xml"/>
+    <import resource="spring-redis.xml"/>
 
     <!-- 启用缓存注解功能 -->
     <cache:annotation-driven cache-manager="cacheManager"
@@ -43,6 +44,4 @@
             </set>
         </property>
     </bean>
-    <import resource="spring-mybatis-config.xml"/>
-    <import resource="spring-redis.xml"/>
 </beans>
