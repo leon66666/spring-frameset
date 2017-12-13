@@ -17,8 +17,6 @@ import java.util.Locale;
 
 /**
  * 在凌晨清算时暂停所有充值提现购买转让等更新金额的数据库的业务
- *
- * @author luzongwei
  */
 public class SuspendAutoRepayInterceptor implements MethodInterceptor {
 
