@@ -31,6 +31,8 @@ public class TestController extends BaseController {
         try {
             mm.addAttribute("message", "success");
             mm.addAttribute("status", "0");
+            mm.addAttribute("pageNumber", pageNumber);
+            mm.addAttribute("pageSize", pageSize);
         } catch (Exception e) {
             e.printStackTrace();
             mm.addAttribute("message", "failure");

@@ -12,7 +12,6 @@ import java.lang.reflect.Method;
 
 /**
  * 只读库选择
- * @author luzongwei
  */
 public class DatabaseInterceptor implements MethodInterceptor {
 
