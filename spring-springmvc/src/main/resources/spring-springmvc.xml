@@ -10,8 +10,12 @@
 	   http://www.springframework.org/schema/context
 	   http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- 指定使用cglib -->
-    <tx:annotation-driven proxy-target-class="true"/>
+    <context:component-scan base-package="wangzhongqiu.spring.springmvc.controller"/>
+    <import resource="spring-mybatis.xml"/>
+    <import resource="spring-redis.xml"/>
+    <!--<import resource="spring-security.xml"/>-->
+    <!--<import resource="spring-interceptor.xml"/>-->
+    <!--<import resource="spring-aop.xml"/>-->
 
     <!--使用Spring中的IoC功能来实现我们所开发项目系统的国际化-->
     <bean id="messageSource"

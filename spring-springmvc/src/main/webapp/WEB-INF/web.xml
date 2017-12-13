@@ -3,13 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>
-            classpath:spring-springmvc.xml
-        </param-value>
-    </context-param>
-
     <!-- 反恶意刷新 -->
     <filter>
         <filter-name>refresh</filter-name>
@@ -44,6 +37,7 @@
         <url-pattern>/login/login.action</url-pattern>
     </filter-mapping>
 
+    <!--解决post请求乱码问题  -->
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -94,19 +88,22 @@
     </filter-mapping>
 
     <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
     <listener>
         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener>
 
-    <!-- 7天过期 -->
-    <session-config>
-        <session-timeout>10080</session-timeout>
-    </session-config>
+    <!-- 加载spring配置文件 -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:spring-springmvc.xml
+        </param-value>
+    </context-param>
 
     <servlet>
         <servlet-name>ImageServlet</servlet-name>
