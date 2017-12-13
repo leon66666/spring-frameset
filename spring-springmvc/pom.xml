@@ -28,7 +28,11 @@
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectjweaver_version}</version>
         </dependency>
-        
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons_fileupload_version}</version>
+        </dependency>
         <!--二维码-->
         <dependency>
             <groupId>com.google.zxing</groupId>
