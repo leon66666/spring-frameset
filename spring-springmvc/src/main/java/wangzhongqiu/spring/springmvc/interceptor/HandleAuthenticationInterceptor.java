@@ -69,10 +69,6 @@ public class HandleAuthenticationInterceptor extends HandlerInterceptorAdapter {
             Object controller = method.getBean();
             if (controller instanceof BaseController) {
                 ((BaseController) controller).getUserId();
-                ((BaseController) method.getBean()).setUserId(null);
-                ((BaseController) method.getBean()).setIpAddress(null);
-                ((BaseController) method.getBean()).setUserAgent(null);
-                ((BaseController) method.getBean()).setPlatform(null);
                 log.info(Thread.currentThread().getName() + " del userId");
             }
         }
