@@ -18,17 +18,14 @@
     <mvc:annotation-driven/>
 
     <!-- 处理器映射器.启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
-    <!--    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
-            <property name="interceptors">
-                <list>
-                    <ref local="handlerAuthenticationInterceptor"/>
-                    <ref local="checkVersionInterceptor"/>
-                </list>
-            </property>
-        </bean>
-        <bean id="handlerAuthenticationInterceptor" class="wangzhongqiu.spring.springmvc.interceptor.HandleAuthenticationInterceptor"/>
-        <bean id="checkVersionInterceptor" class="wangzhongqiu.spring.springmvc.interceptor.CheckVersionInterceptor"/>
-        <bean id="userActivityMonitorInterceptor" class="wangzhongqiu.spring.springmvc.interceptor.UserActivityMonitorInterceptor"/>-->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref local="handlerAuthenticationInterceptor"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="handlerAuthenticationInterceptor" class="wangzhongqiu.spring.springmvc.interceptor.HandleAuthenticationInterceptor"/>
 
     <!--RequestMappingHandlerAdapter,处理器适配器-->
     <!--    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
