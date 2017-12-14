@@ -64,14 +64,14 @@ public class HandleAuthenticationInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        if (HandlerMethod.class.equals(handler.getClass())) {
+        /*if (HandlerMethod.class.equals(handler.getClass())) {
             HandlerMethod method = (HandlerMethod) handler;
             Object controller = method.getBean();
             if (controller instanceof BaseController) {
                 ((BaseController) controller).getUserId();
                 log.info(Thread.currentThread().getName() + " del userId");
             }
-        }
+        }*/
         super.afterCompletion(request, response, handler, ex);
     }
 }
