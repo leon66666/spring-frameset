@@ -10,7 +10,7 @@
 	                       http://www.springframework.org/schema/mvc
 	                       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan base-package="wangzhongqiu.spring.springmvc.controller"/>
+    <context:component-scan base-package="wangzhongqiu.spring.springmvc"/>
 
     <!-- annotation-driven:默认创建了多个对象：RequestMappingHandlerMapping，RequestMappingHandlerAdapter
     也就提供对json格式支持 -->
