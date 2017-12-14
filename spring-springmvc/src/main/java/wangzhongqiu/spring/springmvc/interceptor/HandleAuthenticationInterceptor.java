@@ -47,10 +47,10 @@ public class HandleAuthenticationInterceptor extends HandlerInterceptorAdapter {
                     ((BaseController) method.getBean()).setPlatform(platform);
                 }
                 if (StringUtil.isEmpty(userId) || "0".equals(userId)) {
-//                    log.error(Thread.currentThread().getName() + " userId not found");
+                    log.error(Thread.currentThread().getName() + " userId not found");
                 } else {
                     ((BaseController) method.getBean()).setUserId(Integer.parseInt(userId));
-//                    log.info(Thread.currentThread().getName() + " set userId:" + userId);
+                    log.info(Thread.currentThread().getName() + " set userId:" + userId);
                 }
             }
         }
@@ -68,11 +68,12 @@ public class HandleAuthenticationInterceptor extends HandlerInterceptorAdapter {
             HandlerMethod method = (HandlerMethod) handler;
             Object controller = method.getBean();
             if (controller instanceof BaseController) {
+                ((BaseController) controller).getUserId();
                 ((BaseController) method.getBean()).setUserId(null);
                 ((BaseController) method.getBean()).setIpAddress(null);
                 ((BaseController) method.getBean()).setUserAgent(null);
                 ((BaseController) method.getBean()).setPlatform(null);
-//                log.info(Thread.currentThread().getName() + " del userId");
+                log.info(Thread.currentThread().getName() + " del userId");
             }
         }
         super.afterCompletion(request, response, handler, ex);
