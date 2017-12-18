@@ -28,6 +28,17 @@
     </bean>
     <bean id="handlerAuthenticationInterceptor" class="wangzhongqiu.spring.springmvc.interceptor.HandleAuthenticationInterceptor"/>
 
+    <!--拦截器，实现功能等同于上面的interceptors，可以精确控制拦截的url -->
+    <!--多个拦截器,顺序执行 -->
+    <!--<mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/js/**"/>
+            <mvc:exclude-mapping path="/css/**"/>
+            <bean class="wangzhongqiu.spring.springmvc.interceptor.HandleAuthenticationInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>-->
+
     <!--RequestMappingHandlerAdapter,处理器适配器-->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
