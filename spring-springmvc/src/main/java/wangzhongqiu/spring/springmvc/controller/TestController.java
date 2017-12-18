@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import wangzhongqiu.spring.mybatis.annotation.ReadOnlyDataSource;
+import wangzhongqiu.spring.springmvc.annotation.EntityCheck;
 import wangzhongqiu.spring.springmvc.annotation.Maintain;
 
 /**
@@ -43,7 +44,7 @@ public class TestController extends BaseController {
 
     @RequestMapping(value = "/test")
     @ResponseBody
-    public ModelMap test() {
+    public ModelMap test(@EntityCheck String str) {
         ModelMap mm = new ModelMap();
         try {
             mm.addAttribute("message", "success");
