@@ -66,6 +66,9 @@
         </property>
     </bean>
 
+    <!--错误处理器-->
+    <bean id="exceptionHandler" class="wangzhongqiu.spring.springmvc.resolver.MobileExceptionHandler"/>
+
 
     <!--视图解析器，不能和freemarker的模板文件配置同时存在 -->
     <!-- 配置sprigmvc视图解析器：解析逻辑试图 后台返回逻辑试图：index 视图解析器解析出真正物理视图：前缀+逻辑试图+后缀====/WEB-INF/jsps/index.jsp -->

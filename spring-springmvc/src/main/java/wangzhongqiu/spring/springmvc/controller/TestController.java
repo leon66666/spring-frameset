@@ -16,7 +16,7 @@ import wangzhongqiu.spring.springmvc.annotation.Maintain;
  * @date 2017/12/11.
  */
 @Controller
-@RequestMapping(value = "/test")
+@RequestMapping(value = "/lend")
 public class TestController extends BaseController {
     private static Log logger = LogFactory.getLog(TestController.class);
 

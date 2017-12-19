@@ -45,5 +45,10 @@
             <artifactId>core</artifactId>
             <version>${com_google_zxing_version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>3.1.1.RELEASE</version>
+        </dependency>
     </dependencies>
 </project>
