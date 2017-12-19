@@ -56,4 +56,14 @@ public class TestController extends BaseController {
         }
         return mm;
     }
+
+    @RequestMapping(value = "/error")
+    @ResponseBody
+    public ModelMap error(@EntityCheck String str) {
+        ModelMap mm = new ModelMap();
+        String[] strings = {"111"};
+        mm.addAttribute("message", strings[1]);
+        mm.addAttribute("status", "0");
+        return mm;
+    }
 }
