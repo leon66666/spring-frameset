@@ -8,7 +8,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +31,7 @@ public class MobileExceptionHandler implements HandlerExceptionResolver {
         Map<String, Object> model = new HashMap();
         // 默认异常信息 “请求失败，请稍后再试”
         int status = DEFAULT_STATUS_CODE;
-        MappingJacksonJsonView view = new MappingJacksonJsonView();
+        MappingJackson2JsonView view = new MappingJackson2JsonView();
         try {
             // 必选参数丢失
             if (ex instanceof MissingServletRequestParameterException
