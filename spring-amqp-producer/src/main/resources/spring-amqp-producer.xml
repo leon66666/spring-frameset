@@ -26,7 +26,7 @@
     </bean>
 
     <!-- 连接配置 -->
-    <!--<rabbit:connection-factory id="mqConnectionFactory" host="${mq.host}"
+    <!--<rabbit:connection-factory id="mqConnectionFactory"
                                username="${mq.username}"
                                password="${mq.password}"
                                port="${mq.port}"
@@ -34,7 +34,6 @@
     <!--带有confirm的连接配置-->
     <bean id="mqConnectionFactory"
           class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
-        <property name="host" value="${mq.host}"/>
         <property name="port" value="${mq.port}"/>
         <property name="virtualHost" value="${mq.vhost}"/>
         <property name="username" value="${mq.username}"/>

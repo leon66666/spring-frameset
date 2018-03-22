@@ -70,7 +70,17 @@
             <artifactId>jackson-core</artifactId>
             <version>${jackson_core_version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson_core_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson_core_version}</version>
+        </dependency>
+        
         <!--log-->
         <dependency>
             <groupId>dom4j</groupId>
