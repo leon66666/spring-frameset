@@ -130,7 +130,7 @@
       auto-delete:队列使用完成自动删除
       durable：队列持久化
       exclusive：排他性,如果设置,其他用户看不见,但是此用户链接断开后，rabbitmq会删除此队列，无视是否持久化
-      x-message-ttl: 消息过期时间
+      x-message-ttl: 消息过期时间，毫秒单位
       x-dead-letter-exchange：死信队列,exchange
       x-dead-letter-routing-key:死信队列，routing-key
       x-max-priority：优先级队列，最大优先级的值
