@@ -87,17 +87,18 @@
     <!-- The acknowledge mode: "auto", "manual", or "none".-->
     <!--多个listener监听同一个队列，会均匀分配给各个监听者，prefetchCount设置均匀分配的个数-->
     <!--concurrency设置的是对每个listener在初始化的时候设置的并发消费者的个数-->
+    <!-- concurrency="1" prefetch="1"-->
     <!-- auto -->
     <rabbit:listener-container connection-factory="mqConnectionFactory"
-                               acknowledge="auto" concurrency="1"
-                               message-converter="jsonMessageConverter" prefetch="1">
+                               acknowledge="auto"
+                               message-converter="jsonMessageConverter">
         <!-- 一个监听器可以同时监听多个队列中的消息-->
         <rabbit:listener ref="aotuConsumer" queues="aa,bb,cc" method="onMessage"/>
     </rabbit:listener-container>
     <!-- manual -->
     <rabbit:listener-container connection-factory="mqConnectionFactory"
-                               acknowledge="manual" concurrency="1"
-                               message-converter="jsonMessageConverter" prefetch="1">
+                               acknowledge="manual"
+                               message-converter="jsonMessageConverter">
         <!-- 一个监听器可以同时监听多个队列中的消息-->
         <rabbit:listener ref="investerConsumer" queues="cc,dd,ee" method="onMessage"/>
     </rabbit:listener-container>
