@@ -21,7 +21,7 @@
     <import resource="classpath:spring-core.xml"/>
 
     <bean id="commonProducer" class="wangzhongqiu.spring.amqp.CommonProducer" name="commonProducer">
-        <property name="routingKey" value="topic.1"/>
+        <property name="routingKey" value="c.topic.1"/>
         <property name="baseAmqpTemplate" ref="directExChangeTemplate"/>
     </bean>
 
@@ -54,6 +54,7 @@
     <!-- confirm-callback：消息确认监听器-->
     <!-- return-callback：消息发送失败返回监听器-->
     <!-- mandatory-expression：标志位，和return-callback配合使用必须设置为true-->
+    <!--mandatory标志告诉服务器至少将该消息route到一个队列中，否则将消息返还给生产者-->
     <rabbit:template id="directExChangeTemplate"
                      exchange="direct-exchange"
                      connection-factory="mqConnectionFactory"
@@ -79,6 +80,8 @@
       durable：交换机持久化
     -->
     <!-- direct类型 交换机-->
+    <!--所有发送到Direct Exchange的消息被转发到RouteKey中指定的Queue。-->
+    <!--消息传递时，RouteKey必须完全匹配，才会被队列接收，否则该消息会被抛弃。-->
     <rabbit:direct-exchange id="direct-exchange" name="direct-exchange" auto-delete="false" durable="true">
         <rabbit:bindings>
             <!-- queue 可以指定队列名称 或者指定id的队列,指定名称更为清晰-->
@@ -91,20 +94,21 @@
         </rabbit:bindings>
     </rabbit:direct-exchange>
 
-    <!-- topic类型 交换机-->
+    <!-- topic类型 交换机,使用非常灵活-->
+    <!--Exchange 将RouteKey 和某Topic 进行模糊匹配。此时队列需要绑定一个Topic。可以使用通配符进行模糊匹配-->
     <rabbit:topic-exchange id="topic-exchange" name="topic-exchange" durable="true" auto-delete="false">
         <rabbit:bindings>
             <!-- 消息发送时的routingKey与pattern做模糊匹配
                *表示一个内容 不多不少,
                #表示0个或多个内容: topic.# 可以匹配topic.,topic.a,topic.b.c
                -->
-            <rabbit:binding queue="cc" pattern="*.topic.*"></rabbit:binding>
-            <rabbit:binding queue="dd" pattern="topic.#"></rabbit:binding>
-            <rabbit:binding queue="ee" pattern="*.topic"></rabbit:binding>
+            <rabbit:binding queue="cc" pattern="c.topic.*"></rabbit:binding>
+            <rabbit:binding queue="dd" pattern="d.topic.#"></rabbit:binding>
+            <rabbit:binding queue="ee" pattern="e.topic"></rabbit:binding>
         </rabbit:bindings>
     </rabbit:topic-exchange>
 
-    <!-- fanout 类型 交换机 -->
+    <!-- fanout 类型 交换机，类似子网广播，转发消息是最快的 -->
     <!-- 消息直接发送到所有绑定此交换机的队列中 -->
     <rabbit:fanout-exchange name="fanout-exchange" auto-delete="false" durable="true">
         <rabbit:bindings>
@@ -150,24 +154,8 @@
             <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
         </rabbit:queue-arguments>
     </rabbit:queue>
-    <rabbit:queue durable="true" auto-delete="false" name="cc" exclusive="false">
-        <rabbit:queue-arguments>
-            <entry key="x-message-ttl">
-                <value type="java.lang.Long">10000</value>
-            </entry>
-            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
-            <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
-        </rabbit:queue-arguments>
-    </rabbit:queue>
-    <rabbit:queue durable="true" auto-delete="false" name="dd" exclusive="false">
-        <rabbit:queue-arguments>
-            <entry key="x-message-ttl">
-                <value type="java.lang.Long">10000</value>
-            </entry>
-            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
-            <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
-        </rabbit:queue-arguments>
-    </rabbit:queue>
+    <rabbit:queue durable="true" auto-delete="false" name="cc" exclusive="false"></rabbit:queue>
+    <rabbit:queue durable="true" auto-delete="false" name="dd" exclusive="false"></rabbit:queue>
     <!--优先级队列,队列的未被消费的消息，按照优先级高级先后被消费-->
     <rabbit:queue durable="true" auto-delete="false" name="ee" exclusive="false">
         <rabbit:queue-arguments>

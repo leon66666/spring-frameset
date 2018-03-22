@@ -99,6 +99,6 @@
                                acknowledge="manual" concurrency="1"
                                message-converter="jsonMessageConverter" prefetch="1">
         <!-- 一个监听器可以同时监听多个队列中的消息-->
-        <rabbit:listener ref="investerConsumer" queues="dd,ee" method="onMessage"/>
+        <rabbit:listener ref="investerConsumer" queues="cc,dd,ee" method="onMessage"/>
     </rabbit:listener-container>
 </beans>

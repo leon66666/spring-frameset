@@ -13,7 +13,7 @@ import wangzhongqiu.spring.core.amqp.ConsumerMessageDTO;
  */
 
 public class InvesterConsumer extends BaseConsumer {
-    public static int num = 0;
+    public volatile static int num = 0;
 
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
