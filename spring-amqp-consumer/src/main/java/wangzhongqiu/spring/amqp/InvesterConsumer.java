@@ -17,7 +17,7 @@ public class InvesterConsumer extends BaseConsumer {
 
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
-//        Thread.sleep(1000 * 10);
+        Thread.sleep(1000 * 1000);
         String msg = new String(message.getBody(), "UTF-8");
         ConsumerMessageDTO consumerMessageDTO = JSONObject.parseObject(msg, ConsumerMessageDTO.class);
         System.out.println(consumerMessageDTO.getJsonStr());

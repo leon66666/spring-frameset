@@ -14,7 +14,7 @@ public class AotuConsumer implements MessageListener {
     @Override
     public void onMessage(Message message) {
         try {
-            Thread.sleep(1000 * 10);
+            Thread.sleep(1000 * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
