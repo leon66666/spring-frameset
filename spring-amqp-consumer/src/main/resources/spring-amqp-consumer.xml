@@ -23,7 +23,7 @@
     <rabbit:connection-factory id="mqConnectionFactory"
                                username="${mq.username}"
                                password="${mq.password}"
-                               port="${mq.port}"
+                               addresses="${mq.addresses}"
                                virtual-host="${mq.vhost}"/>
     <rabbit:admin connection-factory="mqConnectionFactory"/>
 
