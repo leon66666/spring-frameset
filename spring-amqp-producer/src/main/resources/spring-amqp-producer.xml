@@ -22,7 +22,7 @@
 
     <bean id="commonProducer" class="wangzhongqiu.spring.amqp.CommonProducer" name="commonProducer">
         <property name="routingKey" value="all"/>
-        <property name="baseAmqpTemplate" ref="topicExChangeTemplate"/>
+        <property name="baseAmqpTemplate" ref="directExChangeTemplate"/>
     </bean>
 
     <!-- 连接配置 -->
