@@ -46,17 +46,6 @@
             <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
         </rabbit:queue-arguments>
     </rabbit:queue>
-    <rabbit:queue durable="true" auto-delete="false" name="bb" exclusive="false">
-        <rabbit:queue-arguments>
-            <entry key="x-message-ttl">
-                <value type="java.lang.Long">10000</value>
-            </entry>
-            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
-            <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
-        </rabbit:queue-arguments>
-    </rabbit:queue>
-    <rabbit:queue durable="true" auto-delete="false" name="cc" exclusive="false"></rabbit:queue>
-    <rabbit:queue durable="true" auto-delete="false" name="dd" exclusive="false"></rabbit:queue>
     <!--优先级队列,队列的未被消费的消息，按照优先级高级先后被消费-->
     <rabbit:queue durable="true" auto-delete="false" name="ee" exclusive="false">
         <rabbit:queue-arguments>
@@ -67,6 +56,9 @@
     </rabbit:queue>
     <rabbit:queue durable="true" auto-delete="false" name="dead-letter-queue" exclusive="false"/>
 
+    <rabbit:queue durable="true" auto-delete="false" name="all" exclusive="false"></rabbit:queue>
+    <rabbit:queue durable="true" auto-delete="false" name="exactly" exclusive="false"></rabbit:queue>
+    <rabbit:queue durable="true" auto-delete="false" name="nodes" exclusive="false"></rabbit:queue>
     <!-- 消费者 监听配置-->
     <!-- The acknowledge mode: "auto", "manual", or "none".-->
     <!--concurrency设置的是对每个listener在初始化的时候设置的并发消费者的个数-->
@@ -75,16 +67,16 @@
     <!-- concurrency="1" prefetch="1" -->
     <!-- auto -->
     <rabbit:listener-container connection-factory="mqConnectionFactory"
-                               acknowledge="auto" concurrency="1" prefetch="2"
+                               acknowledge="auto" concurrency="1" prefetch="1"
                                message-converter="jsonMessageConverter">
         <!-- 一个监听器可以同时监听多个队列中的消息-->
-        <rabbit:listener ref="aotuConsumer" queues="aa,bb" method="onMessage"/>
+        <rabbit:listener ref="aotuConsumer" queues="exactly" method="onMessage"/>
     </rabbit:listener-container>
     <!-- manual -->
     <rabbit:listener-container connection-factory="mqConnectionFactory"
-                               acknowledge="manual" concurrency="2" prefetch="1"
+                               acknowledge="manual" concurrency="1" prefetch="1"
                                message-converter="jsonMessageConverter">
         <!-- 一个监听器可以同时监听多个队列中的消息-->
-        <rabbit:listener ref="investerConsumer" queues="cc,dd,ee" method="onMessage"/>
+        <rabbit:listener ref="investerConsumer" queues="all" method="onMessage"/>
     </rabbit:listener-container>
 </beans>

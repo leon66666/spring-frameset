@@ -21,7 +21,7 @@
     <import resource="classpath:spring-core.xml"/>
 
     <bean id="commonProducer" class="wangzhongqiu.spring.amqp.CommonProducer" name="commonProducer">
-        <property name="routingKey" value="c.topic.1"/>
+        <property name="routingKey" value="all"/>
         <property name="baseAmqpTemplate" ref="topicExChangeTemplate"/>
     </bean>
 
@@ -86,10 +86,10 @@
             <!-- queue 可以指定队列名称 或者指定id的队列,指定名称更为清晰-->
             <!-- 消息发送时的routingKey与key值做完全匹配-->
             <!--<rabbit:binding queue="queue1" key="zf_direct_queue"></rabbit:binding>-->
-            <rabbit:binding queue="aa" key="auto_direct_queue"></rabbit:binding>
+            <rabbit:binding queue="all" key="all"></rabbit:binding>
             <!-- 一个交换机绑定多个队列，key可以相同,可以不同-->
-            <rabbit:binding queue="dd" key="manual_direct_queue"></rabbit:binding>
-            <rabbit:binding queue="ee" key="manual_direct_queue_2"></rabbit:binding>
+            <rabbit:binding queue="exactly" key="exactly"></rabbit:binding>
+            <rabbit:binding queue="nodes" key="nodes"></rabbit:binding>
         </rabbit:bindings>
     </rabbit:direct-exchange>
 
@@ -101,9 +101,9 @@
                *表示一个内容 不多不少,
                #表示0个或多个内容: topic.# 可以匹配topic.,topic.a,topic.b.c
                -->
-            <rabbit:binding queue="cc" pattern="c.topic.*"></rabbit:binding>
-            <rabbit:binding queue="dd" pattern="d.topic.#"></rabbit:binding>
-            <rabbit:binding queue="ee" pattern="e.topic"></rabbit:binding>
+            <rabbit:binding queue="all" pattern="all.#"></rabbit:binding>
+            <rabbit:binding queue="exactly" pattern="exactly.#"></rabbit:binding>
+            <rabbit:binding queue="nodes" pattern="nodes.#"></rabbit:binding>
         </rabbit:bindings>
     </rabbit:topic-exchange>
 
@@ -111,9 +111,9 @@
     <!-- 消息直接发送到所有绑定此交换机的队列中 -->
     <rabbit:fanout-exchange name="fanout-exchange" auto-delete="false" durable="true">
         <rabbit:bindings>
-            <rabbit:binding queue="aa"></rabbit:binding>
-            <rabbit:binding queue="bb"></rabbit:binding>
-            <rabbit:binding queue="ee"></rabbit:binding>
+            <rabbit:binding queue="all"></rabbit:binding>
+            <rabbit:binding queue="exactly"></rabbit:binding>
+            <rabbit:binding queue="nodes"></rabbit:binding>
         </rabbit:bindings>
     </rabbit:fanout-exchange>
 
@@ -134,8 +134,9 @@
       x-dead-letter-exchange：死信队列,exchange
       x-dead-letter-routing-key:死信队列，routing-key
       x-max-priority：优先级队列，最大优先级的值
+      <entry key="x-ha-policy" value="all"/> 配置集群同步策略
      -->
-    <rabbit:queue durable="true" auto-delete="false" name="aa" exclusive="false">
+    <rabbit:queue durable="true" auto-delete="false" name="demo1" exclusive="false">
         <rabbit:queue-arguments>
             <entry key="x-message-ttl">
                 <value type="java.lang.Long">10000</value>
@@ -144,19 +145,8 @@
             <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
         </rabbit:queue-arguments>
     </rabbit:queue>
-    <rabbit:queue durable="true" auto-delete="false" name="bb" exclusive="false">
-        <rabbit:queue-arguments>
-            <entry key="x-message-ttl">
-                <value type="java.lang.Long">10000</value>
-            </entry>
-            <entry key="x-dead-letter-exchange" value="dead-letter-exchange"/>
-            <entry key="x-dead-letter-routing-key" value="dead-letter-queue"/>
-        </rabbit:queue-arguments>
-    </rabbit:queue>
-    <rabbit:queue durable="true" auto-delete="false" name="cc" exclusive="false"></rabbit:queue>
-    <rabbit:queue durable="true" auto-delete="false" name="dd" exclusive="false"></rabbit:queue>
     <!--优先级队列,队列的未被消费的消息，按照优先级高级先后被消费-->
-    <rabbit:queue durable="true" auto-delete="false" name="ee" exclusive="false">
+    <rabbit:queue durable="true" auto-delete="false" name="demo2" exclusive="false">
         <rabbit:queue-arguments>
             <entry key="x-max-priority">
                 <value type="java.lang.Integer">10</value>
@@ -164,4 +154,8 @@
         </rabbit:queue-arguments>
     </rabbit:queue>
     <rabbit:queue durable="true" auto-delete="false" name="dead-letter-queue" exclusive="false"/>
+
+    <rabbit:queue durable="true" auto-delete="false" name="all" exclusive="false"></rabbit:queue>
+    <rabbit:queue durable="true" auto-delete="false" name="exactly" exclusive="false"></rabbit:queue>
+    <rabbit:queue durable="true" auto-delete="false" name="nodes" exclusive="false"></rabbit:queue>
 </beans>
