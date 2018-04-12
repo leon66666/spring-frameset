@@ -5,9 +5,6 @@ import wangzhongqiu.spring.mybatis.entity.LearnResouce;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by tengj on 2017/4/7.
- */
 
 public interface LearnService {
     int add(LearnResouce learnResouce);

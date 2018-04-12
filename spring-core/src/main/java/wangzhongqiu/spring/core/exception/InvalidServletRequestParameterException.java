@@ -13,8 +13,9 @@ public class InvalidServletRequestParameterException extends ServletRequestBindi
     private final String parameterName;
 
     private final String parameterType;
-    
-    private final String invalidText;//错误提示文本
+
+    //错误提示文本
+    private final String invalidText;
 
 
     /**

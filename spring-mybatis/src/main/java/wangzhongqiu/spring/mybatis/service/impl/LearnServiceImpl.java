@@ -10,9 +10,6 @@ import wangzhongqiu.spring.mybatis.service.LearnService;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by tengj on 2017/4/7.
- */
 @Service
 @Transactional
 public class LearnServiceImpl implements LearnService {

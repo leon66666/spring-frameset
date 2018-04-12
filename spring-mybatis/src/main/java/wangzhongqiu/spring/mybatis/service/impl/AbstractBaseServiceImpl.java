@@ -4,21 +4,6 @@ import org.apache.log4j.Logger;
 import wangzhongqiu.spring.mybatis.dao.BaseDao;
 import wangzhongqiu.spring.mybatis.service.BaseService;
 
-/**
- * 
- * 
- *
- * Description:服务层基础实现
- *
- * @author tianye
- * @version V1.0
- * <pre>
- * Modification History: 
- * Date         Author      Version     Description 
- * ------------------------------------------------------------------ 
- * 2016年8月29日下午3:07:28    Administrator       V1.0        
- * </pre>
- */
 public abstract class AbstractBaseServiceImpl<T> implements BaseService<T> {
 
 	protected BaseDao<T> baseDao;

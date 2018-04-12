@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by tengj on 2017/4/22.
  * Component注解不添加也没事，只是不加service那边引入LearnMapper会有错误提示，但不影响
  */
 @Component

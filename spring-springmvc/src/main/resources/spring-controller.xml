@@ -17,7 +17,7 @@
     也就提供对json格式支持。会使下面自定义的映射器和适配器失效 -->
     <!--<mvc:annotation-driven/>-->
 
-    <!-- 处理器映射器.启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+    <!-- 处理器映射器 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
         <property name="interceptors">
             <list>
@@ -25,10 +25,14 @@
             </list>
         </property>
     </bean>
-    <bean id="handlerAuthenticationInterceptor" class="wangzhongqiu.spring.springmvc.interceptor.HandleAuthenticationInterceptor"/>
+    <!--HandlerInterceptorAdapter，可以在拦截器内部利用正则表达式对url进行匹配，从而更细粒度的进行拦截-->
+    <!--通过String url=request.getRequestURL().toString()获取url-->
+    <bean id="handlerAuthenticationInterceptor" class="wangzhongqiu.spring.springmvc.interceptor.HandleAuthenticationInterceptor">
+    </bean>
 
     <!--拦截器，实现功能等同于上面的interceptors，可以精确控制拦截的url -->
     <!--多个拦截器,顺序执行 -->
+    <!--会为每一个HandlerMapping，注入一个拦截器。-->
     <!--<mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>

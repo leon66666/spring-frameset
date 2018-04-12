@@ -10,11 +10,6 @@ import wangzhongqiu.spring.mybatis.service.UserService;
 
 import javax.annotation.PostConstruct;
 
-/**
- * @author zhengdongwen
- * Created on 2017/11/17.
- * @description:
- */
 @Service
 public class UserServiceImpl extends AbstractBaseServiceImpl<User> implements UserService {
     @Autowired
